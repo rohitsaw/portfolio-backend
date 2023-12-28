@@ -4,7 +4,7 @@ import { getAllCertificates, getAllProjects } from "./routes/routes.js";
 const addRoutes = (app) => {
   app.use(
     cors({
-      origin: ["https://portfolio-rsaw409.onrender.com/", "localhost:3000"],
+      origin: ["https://portfolio-rsaw409.onrender.com/", "http://localhost:3000"],
     })
   );
 
