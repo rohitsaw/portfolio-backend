@@ -5,7 +5,9 @@ import createCertificateModel from "./models/certificate.js";
 import createProjectModel from "./models/project.js";
 
 let psql = null;
-let postgresConnStr = process.env.postgresConnStr;
+let postgresConnStr =
+  process.env.postgresConnStr ??
+  "postgres://ujqzvgnn:IbmD0En7OwliTsOOqZfZbDavj-c0mY9P@otto.db.elephantsql.com/ujqzvgnn";
 
 async function initModels({ logging }) {
   try {
