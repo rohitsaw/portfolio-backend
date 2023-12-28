@@ -1,0 +1,14 @@
+# General
+.DS_Store
+.editorconfig
+.env
+.vscode
+.vs
+.logs
+.tmp
+.gradle
+build
+
+# Node.js
+node_modules/
+.eslintcache
