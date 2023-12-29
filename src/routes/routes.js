@@ -1,6 +1,9 @@
 import {
   getAllCertificates as getAllCertificatesFromDb,
   getAllProjects as getAllProjectsFromDb,
+  getAllEducations as getAllEducationsFromDb,
+  getAllExperiences as getAllExperiencesFromDb,
+  getAllSkills as getAllSkillsFromDb,
 } from "../db/query.js";
 
 const getAllCertificates = async (req, res) => {
@@ -21,4 +24,37 @@ const getAllProjects = async (req, res) => {
   }
 };
 
-export { getAllCertificates, getAllProjects };
+const getAllEducations = async (req, res) => {
+  try {
+    const educations = await getAllEducationsFromDb();
+    return res.status(200).send(educations);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+const getAllExperiences = async (req, res) => {
+  try {
+    const experiences = await getAllExperiencesFromDb();
+    return res.status(200).send(experiences);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+const getAllSkills = async (req, res) => {
+  try {
+    const skills = await getAllSkillsFromDb();
+    return res.status(200).send(skills);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+export {
+  getAllCertificates,
+  getAllProjects,
+  getAllEducations,
+  getAllExperiences,
+  getAllSkills,
+};

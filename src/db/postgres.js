@@ -5,6 +5,8 @@ import createCertificateModel from "./models/certificate.js";
 import createProjectModel from "./models/project.js";
 import createWorkExperienceModel from "./models/work-experience.js";
 import createEducationModel from "./models/education.js";
+import createSkillModel from "./models/skill.js";
+
 
 let psql = null;
 let postgresConnStr = process.env.postgresConnStr;
@@ -23,6 +25,7 @@ async function initModels({ logging }) {
       createCertificateModel(psql);
       createWorkExperienceModel(psql);
       createEducationModel(psql);
+      createSkillModel(psql);
 
       await psql.sync({ alter: true });
       console.log("Table has been sync successfully.");

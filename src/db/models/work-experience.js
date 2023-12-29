@@ -9,7 +9,7 @@ const createWorkExperienceModel = (sequelize) => {
       designation: { type: DataTypes.STRING },
 
       start_date: { type: DataTypes.DATEONLY },
-      leave_data: { type: DataTypes.DATEONLY },
+      end_date: { type: DataTypes.DATEONLY },
 
       details: { type: DataTypes.TEXT },
     },

@@ -9,7 +9,7 @@ const createEducationModel = (sequelize) => {
       degree_name: { type: DataTypes.STRING, allowNull: false },
 
       start_date: { type: DataTypes.DATEONLY, allowNull: false },
-      leave_data: { type: DataTypes.DATEONLY },
+      end_date: { type: DataTypes.DATEONLY },
 
       score: { type: DataTypes.INTEGER },
     },

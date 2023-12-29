@@ -1,5 +1,11 @@
 import cors from "cors";
-import { getAllCertificates, getAllProjects } from "./routes/routes.js";
+import {
+  getAllCertificates,
+  getAllProjects,
+  getAllEducations,
+  getAllExperiences,
+  getAllSkills,
+} from "./routes/routes.js";
 
 const addRoutes = (app) => {
   app.use(
@@ -16,6 +22,11 @@ const addRoutes = (app) => {
 
   app.get("/projects", getAllProjects);
 
+  app.get("/educations", getAllEducations);
+
+  app.get("/experiences", getAllExperiences);
+
+  app.get("/skills", getAllSkills);
 };
 
 export { addRoutes };
