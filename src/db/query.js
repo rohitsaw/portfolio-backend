@@ -1,7 +1,7 @@
 import { psql } from "./postgres.js";
 
 const getAllCertificates = async () => {
-  const query = `select * from certificates`;
+  const query = `select * from certificates order by certification_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
   });
