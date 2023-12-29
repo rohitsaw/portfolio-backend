@@ -5,6 +5,7 @@ import {
   getAllEducations,
   getAllExperiences,
   getAllSkills,
+  getuser
 } from "./routes/routes.js";
 
 const addRoutes = (app) => {
@@ -27,6 +28,8 @@ const addRoutes = (app) => {
   app.get("/experiences", getAllExperiences);
 
   app.get("/skills", getAllSkills);
+
+  app.get("/user", getuser);
 };
 
 export { addRoutes };

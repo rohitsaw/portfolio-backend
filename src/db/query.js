@@ -40,10 +40,20 @@ const getAllSkills = async () => {
   return res;
 };
 
+const getuser = async (email = "rsaw409@gmail.com") => {
+  const query = `select * from users where user_email = :email`;
+  const res = await psql.query(query, {
+    type: psql.QueryTypes.SELECT,
+    replacements: { email: email },
+  });
+  return res;
+};
+
 export {
   getAllCertificates,
   getAllProjects,
   getAllEducations,
   getAllExperiences,
   getAllSkills,
+  getuser,
 };
