@@ -11,7 +11,7 @@ const createEducationModel = (sequelize) => {
       start_date: { type: DataTypes.DATEONLY, allowNull: false },
       end_date: { type: DataTypes.DATEONLY },
 
-      score: { type: DataTypes.INTEGER },
+      score: { type: DataTypes.DOUBLE },
     },
     {
       timestamps: false,
