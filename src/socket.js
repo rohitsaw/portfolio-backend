@@ -1,7 +1,7 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
 
-const PORT = 3001;
+const PORT = 3000;
 
 const addSocket = (app) => {
   const http = createServer(app);
