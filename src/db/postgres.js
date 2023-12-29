@@ -6,6 +6,7 @@ import createProjectModel from "./models/project.js";
 import createWorkExperienceModel from "./models/work-experience.js";
 import createEducationModel from "./models/education.js";
 import createSkillModel from "./models/skill.js";
+import createUserModel from "./models/user.js";
 
 
 let psql = null;
@@ -26,6 +27,7 @@ async function initModels({ logging }) {
       createWorkExperienceModel(psql);
       createEducationModel(psql);
       createSkillModel(psql);
+      createUserModel(psql);
 
       await psql.sync({ alter: true });
       console.log("Table has been sync successfully.");
