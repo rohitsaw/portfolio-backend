@@ -8,7 +8,6 @@ import createEducationModel from "./models/education.js";
 import createSkillModel from "./models/skill.js";
 import createUserModel from "./models/user.js";
 
-
 let psql = null;
 let postgresConnStr = process.env.postgresConnStr;
 async function initModels({ logging }) {
@@ -16,6 +15,11 @@ async function initModels({ logging }) {
     if (psql === null) {
       psql = new Sequelize(postgresConnStr, {
         logging: logging,
+        pool: {
+          max: 3,
+          min: 0,
+          idle: 10000,
+        },
         dialectModule: pg,
       });
 
