@@ -26,6 +26,15 @@ const createUserModel = (sequelize) => {
       linkedin_url: {
         type: DataTypes.STRING,
       },
+      blog_url: {
+        type: DataTypes.STRING,
+      },
+      twitter_url: {
+        type: DataTypes.STRING,
+      },
+      stackoverflow_url: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,
