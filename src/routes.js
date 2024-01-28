@@ -5,8 +5,8 @@ import {
   getAllEducations,
   getAllExperiences,
   getAllSkills,
-  getuser
-} from "./routes/routes.js";
+  getuser,
+} from "./controller.js";
 
 const addRoutes = (app) => {
   app.use(
