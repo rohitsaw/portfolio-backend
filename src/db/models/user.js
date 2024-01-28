@@ -5,6 +5,11 @@ const createUserModel = (sequelize) => {
   return sequelize.define(
     "users",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       user_name: { type: DataTypes.STRING, allowNull: false },
       user_email: {
         type: DataTypes.STRING,

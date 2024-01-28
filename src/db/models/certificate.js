@@ -5,6 +5,11 @@ const createCertificateModel = (sequelize) => {
   return sequelize.define(
     "certificates",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       certificates_name: { type: DataTypes.STRING, allowNull: false },
       certificates_description: { type: DataTypes.STRING, defaultValue: "N/A" },
 

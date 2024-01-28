@@ -5,6 +5,11 @@ const createWorkExperienceModel = (sequelize) => {
   return sequelize.define(
     "work_experiences",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       company_name: { type: DataTypes.STRING, allowNull: false },
       designation: { type: DataTypes.STRING },
 

@@ -5,6 +5,11 @@ const createProjectModel = (sequelize) => {
   return sequelize.define(
     "projects",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       project_name: { type: DataTypes.STRING, allowNull: false },
       project_description: { type: DataTypes.STRING, defaultValue: "N/A" },
 

@@ -55,7 +55,7 @@ const addSkills = async (skills) => {
   }
   return Promise.all(
     skills.map(async (skill) => {
-      // return psql.models.skills.upsert(skill, { returning: true });
+      return psql.models.skills.create(skill);
     })
   );
 };
@@ -66,9 +66,7 @@ const addExperiences = async (experiences) => {
   }
   return Promise.all(
     experiences.map((experience) => {
-      // return psql.models.work_experiences.upsert(experience, {
-      //   returning: true,
-      // });
+      return psql.models.work_experiences.create(experience);
     })
   );
 };
@@ -77,36 +75,33 @@ const addCertificates = async (certificates) => {
   if (!Array.isArray(certificates)) {
     certificates = [certificates];
   }
-  return Promise
-    .all
-    // certificates.map((certificate) => {
-    //   return psql.models.certificates.upsert(certificate, { returning: true });
-    // })
-    ();
+  return Promise.all(
+    certificates.map((certificate) => {
+      return psql.models.certificates.create(certificate);
+    })
+  );
 };
 
 const addEducations = async (educations) => {
   if (!Array.isArray(educations)) {
     educations = [educations];
   }
-  return Promise
-    .all
-    // educations.map((education) => {
-    //   return psql.models.education.upsert(education, { returning: true });
-    // })
-    ();
+  return Promise.all(
+    educations.map((education) => {
+      return psql.models.education.create(education);
+    })
+  );
 };
 
 const addProjects = async (projects) => {
   if (!Array.isArray(projects)) {
     projects = [projects];
   }
-  return Promise
-    .all
-    // projects.map((project) => {
-    //   return psql.models.projects.upsert(project, { returning: true });
-    // })
-    ();
+  return Promise.all(
+    projects.map((project) => {
+      return psql.models.projects.create(project);
+    })
+  );
 };
 
 export {

@@ -5,6 +5,11 @@ const createEducationModel = (sequelize) => {
   return sequelize.define(
     "education",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       institute_name: { type: DataTypes.STRING, allowNull: false },
       degree_name: { type: DataTypes.STRING, allowNull: false },
 
