@@ -5,6 +5,11 @@ import {
   addCertificates,
   addExperiences,
   addSkills,
+  deleteProjects,
+  deleteEducations,
+  deleteCertificates,
+  deleteExperiences,
+  deleteSkills,
 } from "./controller.js";
 
 import { body } from "express-validator";
@@ -43,6 +48,13 @@ const addRoutes = (app) => {
     addProjects
   );
 
+  app.delete(
+    "/projects",
+    body("projects").isArray(),
+    body("projects.*").isNumeric(),
+    deleteProjects
+  );
+
   app.post(
     "/certificates",
     body("certificates").isArray(),
@@ -51,6 +63,13 @@ const addRoutes = (app) => {
     body("certificates.*.certification_authority").notEmpty(),
     body("certificates.*.certification_date").notEmpty(),
     addCertificates
+  );
+
+  app.delete(
+    "/certificates",
+    body("certificates").isArray(),
+    body("certificates.*").isNumeric(),
+    deleteCertificates
   );
 
   app.post(
@@ -64,6 +83,13 @@ const addRoutes = (app) => {
     addEducations
   );
 
+  app.delete(
+    "/educations",
+    body("educations").isArray(),
+    body("educations.*").isNumeric(),
+    deleteEducations
+  );
+
   app.post(
     "/experiences",
     body("work_experiences").isArray(),
@@ -75,12 +101,26 @@ const addRoutes = (app) => {
     addExperiences
   );
 
+  app.delete(
+    "/experiences",
+    body("work_experiences").isArray(),
+    body("work_experiences.*").isNumeric(),
+    deleteExperiences
+  );
+
   app.post(
     "/skills",
     body("skills").isArray(),
     body("skills.*").isObject(),
     body("skills.*.skill_name").notEmpty(),
     addSkills
+  );
+
+  app.delete(
+    "/skills",
+    body("skills").isArray(),
+    body("skills.*").isNumeric(),
+    deleteSkills
   );
 };
 

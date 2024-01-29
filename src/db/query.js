@@ -55,7 +55,22 @@ const addSkills = async (skills) => {
   }
   return Promise.all(
     skills.map(async (skill) => {
-      return psql.models.skills.create(skill);
+      if (skill.id) {
+        return psql.models.skills.update(skill, { where: { id: skill.id } });
+      } else {
+        return psql.models.skills.create(skill);
+      }
+    })
+  );
+};
+
+const deleteSkills = async (skills) => {
+  if (!Array.isArray(skills)) {
+    skills = [skills];
+  }
+  return Promise.all(
+    skills.map(async (id) => {
+      return psql.models.skills.destroy({ where: { id: id } });
     })
   );
 };
@@ -66,7 +81,24 @@ const addExperiences = async (experiences) => {
   }
   return Promise.all(
     experiences.map((experience) => {
-      return psql.models.work_experiences.create(experience);
+      if (experience.id) {
+        return psql.models.work_experiences.update(experience, {
+          where: { id: experience.id },
+        });
+      } else {
+        return psql.models.work_experiences.create(experience);
+      }
+    })
+  );
+};
+
+const deleteExperiences = async (experiences) => {
+  if (!Array.isArray(experiences)) {
+    experiences = [experiences];
+  }
+  return Promise.all(
+    experiences.map(async (id) => {
+      return psql.models.work_experiences.destroy({ where: { id: id } });
     })
   );
 };
@@ -77,7 +109,24 @@ const addCertificates = async (certificates) => {
   }
   return Promise.all(
     certificates.map((certificate) => {
-      return psql.models.certificates.create(certificate);
+      if (certificate.id) {
+        return psql.models.certificates.update(certificate, {
+          where: { id: certificate.id },
+        });
+      } else {
+        return psql.models.certificates.create(certificate);
+      }
+    })
+  );
+};
+
+const deleteCertificates = async (certificates) => {
+  if (!Array.isArray(certificates)) {
+    certificates = [certificates];
+  }
+  return Promise.all(
+    certificates.map(async (id) => {
+      return psql.models.certificates.destroy({ where: { id: id } });
     })
   );
 };
@@ -88,7 +137,24 @@ const addEducations = async (educations) => {
   }
   return Promise.all(
     educations.map((education) => {
-      return psql.models.education.create(education);
+      if (education.id) {
+        return psql.models.education.update(education, {
+          where: { id: education.id },
+        });
+      } else {
+        return psql.models.education.create(education);
+      }
+    })
+  );
+};
+
+const deleteEducations = async (educations) => {
+  if (!Array.isArray(educations)) {
+    educations = [educations];
+  }
+  return Promise.all(
+    educations.map(async (id) => {
+      return psql.models.educations.destroy({ where: { id: id } });
     })
   );
 };
@@ -99,7 +165,24 @@ const addProjects = async (projects) => {
   }
   return Promise.all(
     projects.map((project) => {
-      return psql.models.projects.create(project);
+      if (project.id) {
+        return psql.models.projects.update(project, {
+          where: { id: project.id },
+        });
+      } else {
+        return psql.models.projects.create(project);
+      }
+    })
+  );
+};
+
+const deleteProjects = async (projects) => {
+  if (!Array.isArray(projects)) {
+    projects = [projects];
+  }
+  return Promise.all(
+    projects.map(async (id) => {
+      return psql.models.projects.destroy({ where: { id: id } });
     })
   );
 };
@@ -118,4 +201,11 @@ export {
   addCertificates,
   addEducations,
   addProjects,
+
+  //delete Query
+  deleteSkills,
+  deleteExperiences,
+  deleteCertificates,
+  deleteEducations,
+  deleteProjects,
 };

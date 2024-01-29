@@ -10,6 +10,11 @@ import {
   addCertificates as addCertificatesInDb,
   addEducations as addEducationsInDb,
   addProjects as addProjectsInDb,
+  deleteProjects as deleteProjectsInDb,
+  deleteCertificates as deleteCertificatesInDb,
+  deleteEducations as deleteEducationsInDb,
+  deleteExperiences as deleteExperiencesInDb,
+  deleteSkills as deleteSkillsInDb,
 } from "./db/query.js";
 
 import { validationResult } from "express-validator";
@@ -84,6 +89,22 @@ const addProjects = async (req, res) => {
   }
 };
 
+const deleteProjects = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
+    }
+
+    const result = await deleteProjectsInDb(req.body.projects);
+
+    return res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
 const addSkills = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -100,6 +121,22 @@ const addSkills = async (req, res) => {
   }
 };
 
+const deleteSkills = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
+    }
+
+    const result = await deleteSkillsInDb(req.body.skills);
+
+    return res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
 const addCertificates = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -109,6 +146,22 @@ const addCertificates = async (req, res) => {
     }
 
     const result = await addCertificatesInDb(req.body.certificates);
+
+    return res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+const deleteCertificates = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
+    }
+
+    const result = await deleteCertificatesInDb(req.body.certificates);
 
     return res.status(200).send(result);
   } catch (error) {
@@ -131,6 +184,22 @@ const addEducations = async (req, res) => {
   }
 };
 
+const deleteEducations = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
+    }
+
+    const result = await deleteEducationsInDb(req.body.educations);
+
+    return res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
 const addExperiences = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -146,6 +215,22 @@ const addExperiences = async (req, res) => {
   }
 };
 
+const deleteExperiences = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
+    }
+
+    const result = await deleteExperiencesInDb(req.body.work_experiences);
+
+    return res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
 export {
   getAllCertificates,
   getAllProjects,
@@ -153,9 +238,18 @@ export {
   getAllExperiences,
   getAllSkills,
   getuser,
+
+  // Add Controllers
   addProjects,
   addSkills,
   addCertificates,
   addEducations,
   addExperiences,
+
+  // Delete Controllers
+  deleteProjects,
+  deleteSkills,
+  deleteCertificates,
+  deleteEducations,
+  deleteExperiences,
 };
