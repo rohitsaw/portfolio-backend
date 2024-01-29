@@ -33,7 +33,7 @@ const getAllExperiences = async () => {
 };
 
 const getAllSkills = async () => {
-  const query = `select skill_category, json_agg(json_build_object('skill_name', skill_name, 'skill_proficiency', COALESCE(skill_proficiency,0))) as skills from skills group by skill_category`;
+  const query = `select skill_category, json_agg(json_build_object('id', id, 'skill_name', skill_name, 'skill_proficiency', COALESCE(skill_proficiency,0))) as skills from skills group by skill_category`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
   });
