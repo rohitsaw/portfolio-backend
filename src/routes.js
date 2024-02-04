@@ -14,7 +14,7 @@ const addRoutes = (app) => {
       origin: [
         "https://portfolio-rsaw409.onrender.com",
         "https://tictoe-rsaw409.onrender.com",
-        "http://localhost:3000",
+        "http://localhost:3001",
       ],
     })
   );

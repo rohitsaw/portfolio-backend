@@ -29,6 +29,8 @@ const main = async () => {
   addSocket(app);
 
   await connectToPostgres({ logging: true });
+
+  console.log("Server is Ready.");
 };
 
 main();
