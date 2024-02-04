@@ -131,8 +131,9 @@ const deleteSkills = async (req, res) => {
 
     const result = await deleteSkillsInDb(req.body);
 
-    return res.status(200).send(result);
+    return res.status(200).send({message : result});
   } catch (error) {
+    console.log("error", error);
     res.status(400).send({ message: error.message });
   }
 };

@@ -21,7 +21,7 @@ const main = async () => {
   app.use((err, req, res, next) => {
     console.log(err);
     return res
-      .status(err.status)
+      .status(err.status || 400) 
       .send({ message: err.message ?? "something went wrong" });
   });
 
