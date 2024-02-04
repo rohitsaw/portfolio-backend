@@ -117,6 +117,7 @@ const addSkills = async (req, res) => {
 
     return res.status(200).send(result);
   } catch (error) {
+    console.log(error);
     res.status(500).send({ message: error.message });
   }
 };
@@ -131,7 +132,7 @@ const deleteSkills = async (req, res) => {
 
     const result = await deleteSkillsInDb(req.body);
 
-    return res.status(200).send({message : result});
+    return res.status(200).send({ message: result });
   } catch (error) {
     console.log("error", error);
     res.status(400).send({ message: error.message });

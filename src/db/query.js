@@ -33,7 +33,8 @@ const getAllExperiences = async () => {
 };
 
 const getAllSkills = async () => {
-  const query = `select skill_category, json_agg(json_build_object('id', id, 'skill_name', skill_name, 'skill_proficiency', COALESCE(skill_proficiency,0))) as skills from skills group by skill_category`;
+  const query = `select * from skills order by skill_name;`;
+  // skill_category, json_agg(json_build_object('id', id, 'skill_name', skill_name, 'skill_proficiency', COALESCE(skill_proficiency,0))) as skills from skills group by skill_category`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
   });
@@ -51,15 +52,21 @@ const getuser = async (email = "rsaw409@gmail.com") => {
 
 const addSkills = async (skill) => {
   if (skill.id) {
-    let [success, rows] = psql.models.skills.update(skill, {
-      where: { id: skill.id },
-      returning: true,
+    const query = `
+    INSERT INTO skills (id, skill_name, skill_category, skill_proficiency)
+    VALUES (:id, :skill_name, :skill_category, :skill_proficiency)
+    ON CONFLICT(id) 
+    DO UPDATE SET
+    skill_name = EXCLUDED.skill_name,
+    skill_proficiency = EXCLUDED.skill_proficiency;`;
+    return psql.query(query, {
+      replacements: {
+        id: skill.id,
+        skill_name: skill.skill_name,
+        skill_category: skill.skill_category,
+        skill_proficiency: skill.skill_proficiency,
+      },
     });
-    if (success === 1) {
-      return rows.at(0);
-    } else {
-      throw new Error("No Record Found.");
-    }
   } else {
     return psql.models.skills.create(skill);
   }
