@@ -113,7 +113,7 @@ const addSkills = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addSkillsInDb(req.body.skills);
+    const result = await addSkillsInDb(req.body);
 
     return res.status(200).send(result);
   } catch (error) {
@@ -129,7 +129,7 @@ const deleteSkills = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteSkillsInDb(req.body.skills);
+    const result = await deleteSkillsInDb(req.body);
 
     return res.status(200).send(result);
   } catch (error) {

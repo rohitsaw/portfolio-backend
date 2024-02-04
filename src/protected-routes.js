@@ -108,20 +108,9 @@ const addRoutes = (app) => {
     deleteExperiences
   );
 
-  app.post(
-    "/skills",
-    body("skills").isArray(),
-    body("skills.*").isObject(),
-    body("skills.*.skill_name").notEmpty(),
-    addSkills
-  );
+  app.post("/skills", body("skill_name").notEmpty(), addSkills);
 
-  app.delete(
-    "/skills",
-    body("skills").isArray(),
-    body("skills.*").isNumeric(),
-    deleteSkills
-  );
+  app.delete("/skills", body("id").isNumeric(), deleteSkills);
 };
 
 export { addRoutes };

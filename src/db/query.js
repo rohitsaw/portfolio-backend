@@ -49,30 +49,24 @@ const getuser = async (email = "rsaw409@gmail.com") => {
   return res;
 };
 
-const addSkills = async (skills) => {
-  if (!Array.isArray(skills)) {
-    skills = [skills];
+const addSkills = async (skill) => {
+  if (skill.id) {
+    let [success, rows] = psql.models.skills.update(skill, {
+      where: { id: skill.id },
+      returning: true,
+    });
+    if (success === 1) {
+      return rows.at(0);
+    } else {
+      throw new Error("No Record Found.");
+    }
+  } else {
+    return psql.models.skills.create(skill);
   }
-  return Promise.all(
-    skills.map(async (skill) => {
-      if (skill.id) {
-        return psql.models.skills.update(skill, { where: { id: skill.id } });
-      } else {
-        return psql.models.skills.create(skill);
-      }
-    })
-  );
 };
 
-const deleteSkills = async (skills) => {
-  if (!Array.isArray(skills)) {
-    skills = [skills];
-  }
-  return Promise.all(
-    skills.map(async (id) => {
-      return psql.models.skills.destroy({ where: { id: id } });
-    })
-  );
+const deleteSkills = async (skill) => {
+  return psql.models.skills.destroy({ where: { id: skill.id } });
 };
 
 const addExperiences = async (experiences) => {
