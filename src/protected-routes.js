@@ -41,7 +41,16 @@ const addRoutes = (app) => {
 
   const checkAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
-      return next();
+      if (
+        req.user.emails[0]?.verified &&
+        req.user.emails[0]?.value === "rsaw409@gmail.com"
+      ) {
+        return next();
+      } else {
+        res
+          .status(403)
+          .send({ message: "you do not have permission to edit details." });
+      }
     }
     res.status(403).send({ message: "Authnetication Failed." });
   };
