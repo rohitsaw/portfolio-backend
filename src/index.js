@@ -62,9 +62,9 @@ const main = async () => {
   // Backend for https://portfolio-rsaw409.onrender.com/
   addRoutes(app);
 
-  app.use(authRoute);
-
   addProtectedRouted(app);
+
+  app.use(authRoute);
 
   app.use((err, req, res, next) => {
     return res
