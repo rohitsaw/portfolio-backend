@@ -49,7 +49,7 @@ const main = async () => {
       origin: [
         "https://portfolio-rsaw409.onrender.com",
         "https://tictoe-rsaw409.onrender.com",
-        process.env.CLiENT_ADDRESS,
+        process.env.CLIENT_ADDRESS,
       ],
       methods: "GET,POST,PUT,DELETE",
       credentials: true,

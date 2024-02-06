@@ -25,7 +25,7 @@ app.get("/logout", (req, res) => {
     if (err) {
       return next(err);
     }
-    res.redirect(process.env.CLiENT_ADDRESS);
+    res.redirect(process.env.CLIENT_ADDRESS);
   });
 });
 
@@ -37,7 +37,7 @@ app.get(
 app.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: process.env.CLiENT_ADDRESS,
+    successRedirect: process.env.CLIENT_ADDRESS,
     failureRedirect: "/login/failed",
   })
 );
