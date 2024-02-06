@@ -21,7 +21,6 @@ const main = async () => {
       name: "session",
       keys: ["openreplay"],
       maxAge: 24 * 60 * 60 * 100,
-      httpOnly: false,
     })
   );
 
