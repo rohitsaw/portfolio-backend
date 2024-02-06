@@ -26,7 +26,7 @@ const addRoutes = (app) => {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: "/google/callback",
-        promt: "consent",
+        prompt: "consent",
         scope: ["email", "profile"],
       },
       function (accessToken, refreshToken, profile, done) {
