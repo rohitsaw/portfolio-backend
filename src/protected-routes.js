@@ -54,7 +54,7 @@ const addRoutes = (app) => {
           .send({ message: "you do not have permission to edit details." });
       }
     }
-    res.status(403).send({ message: "Authnetication Failed." });
+    res.status(403).send({ message: "Authentication Failed." });
   };
 
   app.post(
