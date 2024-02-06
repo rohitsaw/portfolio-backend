@@ -109,6 +109,8 @@ const addSkills = async (req, res) => {
   try {
     const errors = validationResult(req);
 
+    console.log("User", req.user);
+
     if (!errors.isEmpty()) {
       return res.status(400).send({ errors: errors.array() });
     }

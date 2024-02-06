@@ -9,16 +9,6 @@ import {
 } from "./controller.js";
 
 const addRoutes = (app) => {
-  app.use(
-    cors({
-      origin: [
-        "https://portfolio-rsaw409.onrender.com",
-        "https://tictoe-rsaw409.onrender.com",
-        "http://localhost:3001",
-      ],
-    })
-  );
-
   app.get("/certificates", getAllCertificates);
 
   app.get("/projects", getAllProjects);

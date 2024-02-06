@@ -1,4 +1,3 @@
-import { OAuth2Client } from "google-auth-library";
 import {
   addProjects,
   addEducations,
@@ -14,31 +13,38 @@ import {
 
 import { body } from "express-validator";
 
-const CLIENT_ID =
-  "601173186872-r5hm82k8q0gtigeg8aj5jtbb2l2ui7gm.apps.googleusercontent.com";
-const client = new OAuth2Client();
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import passport from "passport";
 
-async function verifyToken(token) {
-  const tokenInfo = await client.getTokenInfo(token);
-  console.log("tokeninfo", tokenInfo);
-  return tokenInfo.email === "rsaw409@gmail.com" && tokenInfo.email_verified;
-}
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 const addRoutes = (app) => {
-  // Authentication middleware
-  app.use(async (req, res, next) => {
-    if (!req.headers.authorization) {
-      return res.status(403).json({ error: "Authentication Required" });
-    }
-    try {
-      const token = req.headers.authorization?.split(" ")?.at(1);
-      const isAuthenticated = await verifyToken(token);
-      if (isAuthenticated) next();
-      else res.status(403).json({ error: "Authentication failed." });
-    } catch (error) {
-      next(error);
-    }
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: "/google/callback",
+      },
+      function (accessToken, refreshToken, profile, done) {
+        done(null, profile);
+      }
+    )
+  );
+  passport.serializeUser((user, done) => {
+    done(null, user);
   });
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
+
+  const checkAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.status(403).send({ message: "Authnetication Failed." });
+  };
 
   app.post(
     "/projects",
@@ -108,9 +114,19 @@ const addRoutes = (app) => {
     deleteExperiences
   );
 
-  app.post("/skills", body("skill_name").notEmpty(), addSkills);
+  app.post(
+    "/skills",
+    checkAuthenticated,
+    body("skill_name").notEmpty(),
+    addSkills
+  );
 
-  app.delete("/skills", body("id").isNumeric(), deleteSkills);
+  app.delete(
+    "/skills",
+    checkAuthenticated,
+    body("id").isNumeric(),
+    deleteSkills
+  );
 };
 
 export { addRoutes };
