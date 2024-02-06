@@ -10,6 +10,8 @@ app.get("/login/success", (req, res) => {
       message: "successful",
       user: req.user,
     });
+  } else {
+    res.status(400).send({ message: "SignIn Required." });
   }
 });
 
