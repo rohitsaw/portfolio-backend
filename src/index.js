@@ -36,9 +36,7 @@ const main = async () => {
       name: "session",
       secret: "secret",
       maxAge: 60 * 60 * 1000,
-      httpOnly: false,
       sameSite: "None",
-      secure: true,
     })
   );
 
