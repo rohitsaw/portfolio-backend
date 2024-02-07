@@ -37,6 +37,7 @@ const main = async () => {
       keys: ["secretToSign"],
       maxAge: 60 * 60 * 1000,
       httpOnly: false,
+      sameSite: 'None'
     })
   );
 
