@@ -36,7 +36,9 @@ const main = async () => {
       name: "session",
       secret: "secret",
       maxAge: 60 * 60 * 1000,
-      sameSite: "None",
+
+      // This prevant saving cookies in frontend
+      // sameSite: "None",
     })
   );
 
