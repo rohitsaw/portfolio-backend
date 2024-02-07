@@ -15,6 +15,18 @@ import authRoute from "./auth-routes.js";
 const main = async () => {
   const app = express();
 
+  app.use(
+    cors({
+      origin: [
+        "https://portfolio-rsaw409.onrender.com",
+        "https://tictoe-rsaw409.onrender.com",
+        process.env.CLIENT_ADDRESS,
+      ],
+      methods: "GET,POST,PUT,DELETE",
+      credentials: true,
+    })
+  );
+
   app.use(cookieParser());
 
   app.use(bodyParser.json());
@@ -46,18 +58,6 @@ const main = async () => {
   app.use(passport.initialize());
 
   app.use(passport.session());
-
-  app.use(
-    cors({
-      origin: [
-        "https://portfolio-rsaw409.onrender.com",
-        "https://tictoe-rsaw409.onrender.com",
-        process.env.CLIENT_ADDRESS,
-      ],
-      methods: "GET,POST,PUT,DELETE",
-      credentials: true,
-    })
-  );
 
   app.use("/health", (req, res) =>
     res.status(200).send({ message: "Server is Running." })
