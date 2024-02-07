@@ -8,19 +8,22 @@ import { addSocket } from "./socket.js";
 import passport from "passport";
 import cookieSession from "cookie-session";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import authRoute from "./auth-routes.js";
 
 const main = async () => {
   const app = express();
 
+  app.use(cookieParser());
+
   app.use(bodyParser.json());
 
   app.use(
     cookieSession({
       name: "session",
-      keys: ["openreplay"],
-      maxAge: 24 * 60 * 60 * 100,
+      keys: ["secretToSign"],
+      maxAge: 60 * 60 * 1000,
     })
   );
 
