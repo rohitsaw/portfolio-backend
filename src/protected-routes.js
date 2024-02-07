@@ -36,9 +36,11 @@ const addRoutes = (app) => {
     )
   );
   passport.serializeUser((user, done) => {
+    console.log("serializing user", user);
     done(null, user);
   });
   passport.deserializeUser((user, done) => {
+    console.log("deserializing user", user);
     done(null, user);
   });
 
