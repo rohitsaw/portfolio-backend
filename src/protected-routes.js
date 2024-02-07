@@ -30,6 +30,7 @@ const addRoutes = (app) => {
         scope: ["email", "profile"],
       },
       function (accessToken, refreshToken, profile, done) {
+        console.log("profile", profile);
         done(null, profile);
       }
     )
