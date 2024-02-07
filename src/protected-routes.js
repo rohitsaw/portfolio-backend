@@ -43,9 +43,9 @@ const addRoutes = (app) => {
   });
 
   const checkAuthenticated = (req, res, next) => {
-    console.log("req.isAuthenticated", eq.isAuthenticated());
+    console.log("req.isAuthenticated", req.isAuthenticated());
     console.log("req.user", req.user);
-    
+
     if (req.isAuthenticated()) {
       if (
         req.user.emails[0]?.verified &&
