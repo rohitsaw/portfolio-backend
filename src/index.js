@@ -34,10 +34,11 @@ const main = async () => {
   app.use(
     cookieSession({
       name: "session",
-      keys: ["secretToSign"],
+      secret: "secret",
       maxAge: 60 * 60 * 1000,
       httpOnly: false,
-      sameSite: 'None'
+      sameSite: "None",
+      secure: true,
     })
   );
 
