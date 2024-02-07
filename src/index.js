@@ -35,7 +35,6 @@ const main = async () => {
     cookieSession({
       name: "session",
       keys: ["secretToSign"],
-      sameSite: "None",
       maxAge: 60 * 60 * 1000,
     })
   );
