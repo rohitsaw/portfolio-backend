@@ -15,6 +15,8 @@ import authRoute from "./auth-routes.js";
 const main = async () => {
   const app = express();
 
+  app.set("trust proxy", 1);
+
   app.use(
     cors({
       origin: [
@@ -37,8 +39,11 @@ const main = async () => {
       secret: "secret",
       maxAge: 60 * 60 * 1000,
 
+      httpOnly: false,
+
       // This prevant saving cookies in frontend
-      // sameSite: "None",
+      sameSite: "None",
+      secure: true,
     })
   );
 
