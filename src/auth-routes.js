@@ -39,10 +39,11 @@ app.get(
 );
 
 app.get("/google/callback", function (req, res, next) {
+  console.log("referrer", req.headers.referer);
   passport.authenticate("google", {
     successRedirect: req.headers.referer?.includes("onrender")
       ? process.env.CLIENT_ADDRESS1
-      : process.env.CLIENT_ADDRESS2,
+      : process.env.CLIENT_ADDRESS1,
     failureRedirect: "/login/failed",
   })(req, res, next);
 });
