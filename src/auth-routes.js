@@ -25,8 +25,7 @@ app.get("/logout", (req, res) => {
     if (err) {
       return next(err);
     }
-    const origin = req.header("origin");
-    console.log("origin", origin);
+    console.log("referer", req.headers.referer);
     res.redirect(process.env.CLIENT_ADDRESS1);
   });
 });
