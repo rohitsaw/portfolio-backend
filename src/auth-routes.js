@@ -25,8 +25,11 @@ app.get("/logout", (req, res) => {
     if (err) {
       return next(err);
     }
-    console.log("referer", req.headers.referer);
-    res.redirect(process.env.CLIENT_ADDRESS1);
+    if (req.headers.referer?.includes("onrender")) {
+      res.redirect(process.env.CLIENT_ADDRESS1);
+    } else {
+      res.redirect(process.env.CLIENT_ADDRESS2);
+    }
   });
 });
 
@@ -35,12 +38,13 @@ app.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-app.get(
-  "/google/callback",
+app.get("/google/callback", function (req, res, next) {
   passport.authenticate("google", {
-    successRedirect: process.env.CLIENT_ADDRESS1,
+    successRedirect: req.headers.referer?.includes("onrender")
+      ? process.env.CLIENT_ADDRESS1
+      : process.env.CLIENT_ADDRESS2,
     failureRedirect: "/login/failed",
-  })
-);
+  })(req, res, next);
+});
 
 export default app;
