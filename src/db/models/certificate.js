@@ -10,8 +10,12 @@ const createCertificateModel = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      certificates_name: { type: DataTypes.STRING, allowNull: false },
-      certificates_description: { type: DataTypes.STRING, defaultValue: "N/A" },
+      certificate_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      certificate_description: { type: DataTypes.STRING, defaultValue: "N/A" },
 
       certification_authority: { type: DataTypes.STRING },
 
@@ -20,8 +24,8 @@ const createCertificateModel = (sequelize) => {
 
       verification_url: { type: DataTypes.STRING },
 
-      // comma separated values. eg- AWS, Javascript
-      technologies_tags: { type: DataTypes.STRING },
+      // eg values. eg- AWS, Javascript
+      technology_tags: { type: DataTypes.ARRAY(DataTypes.STRING) },
     },
     {
       timestamps: false,

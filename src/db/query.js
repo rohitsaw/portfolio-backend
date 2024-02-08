@@ -50,32 +50,6 @@ const getuser = async (email = "rsaw409@gmail.com") => {
   return res;
 };
 
-const addSkills = async (skill) => {
-  if (skill.id) {
-    const query = `
-    INSERT INTO skills (id, skill_name, skill_category, skill_proficiency)
-    VALUES (:id, :skill_name, :skill_category, :skill_proficiency)
-    ON CONFLICT(id) 
-    DO UPDATE SET
-    skill_name = EXCLUDED.skill_name,
-    skill_proficiency = EXCLUDED.skill_proficiency;`;
-    return psql.query(query, {
-      replacements: {
-        id: skill.id,
-        skill_name: skill.skill_name,
-        skill_category: skill.skill_category,
-        skill_proficiency: skill.skill_proficiency,
-      },
-    });
-  } else {
-    return psql.models.skills.create(skill);
-  }
-};
-
-const deleteSkills = async (skill) => {
-  return psql.models.skills.destroy({ where: { id: skill.id } });
-};
-
 const addExperiences = async (experiences) => {
   if (!Array.isArray(experiences)) {
     experiences = [experiences];
@@ -100,34 +74,6 @@ const deleteExperiences = async (experiences) => {
   return Promise.all(
     experiences.map(async (id) => {
       return psql.models.work_experiences.destroy({ where: { id: id } });
-    })
-  );
-};
-
-const addCertificates = async (certificates) => {
-  if (!Array.isArray(certificates)) {
-    certificates = [certificates];
-  }
-  return Promise.all(
-    certificates.map((certificate) => {
-      if (certificate.id) {
-        return psql.models.certificates.update(certificate, {
-          where: { id: certificate.id },
-        });
-      } else {
-        return psql.models.certificates.create(certificate);
-      }
-    })
-  );
-};
-
-const deleteCertificates = async (certificates) => {
-  if (!Array.isArray(certificates)) {
-    certificates = [certificates];
-  }
-  return Promise.all(
-    certificates.map(async (id) => {
-      return psql.models.certificates.destroy({ where: { id: id } });
     })
   );
 };
@@ -186,6 +132,68 @@ const deleteProjects = async (projects) => {
       return psql.models.projects.destroy({ where: { id: id } });
     })
   );
+};
+
+const addSkills = async (skill) => {
+  if (skill.id) {
+    const query = `
+    INSERT INTO skills (id, skill_name, skill_category, skill_proficiency)
+    VALUES (:id, :skill_name, :skill_category, :skill_proficiency)
+    ON CONFLICT(id) 
+    DO UPDATE SET
+    skill_name = EXCLUDED.skill_name,
+    skill_proficiency = EXCLUDED.skill_proficiency;`;
+    return psql.query(query, {
+      replacements: {
+        id: skill.id,
+        skill_name: skill.skill_name,
+        skill_category: skill.skill_category,
+        skill_proficiency: skill.skill_proficiency,
+      },
+    });
+  } else {
+    return psql.models.skills.create(skill);
+  }
+};
+
+const deleteSkills = async (skill) => {
+  return psql.models.skills.destroy({ where: { id: skill.id } });
+};
+
+const addCertificates = async (certificate) => {
+  if (certificate.id) {
+    const query = `
+    INSERT INTO certificates (id, certificate_name, certificates_description, certification_authority, certification_date, certification_expiry, verification_url, technologies_tags)
+    VALUES (:id, :certificate_name, :certificates_description, :certification_authority, :certification_date, :certification_expiry, :verification_url, :technologies_tags)
+    ON CONFLICT(id) 
+    DO UPDATE SET
+    certificate_name = EXCLUDED.certificate_name,
+    certificates_description = EXCLUDED.certificates_description,
+    certification_authority = EXCLUDED.certification_authority,
+    certification_date = EXCLUDED.certification_date,
+    certification_expiry  = EXCLUDED.certification_expiry,
+    verification_url  = EXCLUDED.verification_url,
+    technologies_tags = EXCLUDED.technologies_tags
+    ;`;
+    return psql.query(query, {
+      replacements: {
+        id: certificate.id,
+        certificate_name: certificate.certificate_name,
+        certificates_description: certificate.certificates_description,
+        certification_authority: certificate.certification_authority,
+        certification_date: certificate.certification_date,
+        certification_expiry: certificate.certification_expiry,
+        verification_url: certificate.verification_url,
+        technologies_tags: certificate.technologies_tags,
+      },
+    });
+  } else {
+    return psql.models.certificates.create(certificate);
+  }
+};
+
+const deleteCertificates = async (certificate) => {
+  return psql.models.certificates.destroy({ where: { id: certificate.id } });
 };
 
 export {

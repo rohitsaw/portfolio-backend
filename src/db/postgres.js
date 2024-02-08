@@ -33,7 +33,7 @@ async function initModels({ logging }) {
       createSkillModel(psql);
       createUserModel(psql);
 
-      await psql.sync();
+      await psql.sync({ alter: true });
       console.log("Table has been sync successfully.");
     }
   } catch (error) {

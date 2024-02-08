@@ -149,7 +149,7 @@ const addCertificates = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addCertificatesInDb(req.body.certificates);
+    const result = await addCertificatesInDb(req.body);
 
     return res.status(200).send(result);
   } catch (error) {
@@ -165,7 +165,7 @@ const deleteCertificates = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteCertificatesInDb(req.body.certificates);
+    const result = await deleteCertificatesInDb(req.body);
 
     return res.status(200).send(result);
   } catch (error) {

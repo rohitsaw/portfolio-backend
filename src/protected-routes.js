@@ -79,23 +79,6 @@ const addRoutes = (app) => {
   );
 
   app.post(
-    "/certificates",
-    body("certificates").isArray(),
-    body("certificates.*").isObject(),
-    body("certificates.*.certificates_name").notEmpty(),
-    body("certificates.*.certification_authority").notEmpty(),
-    body("certificates.*.certification_date").notEmpty(),
-    addCertificates
-  );
-
-  app.delete(
-    "/certificates",
-    body("certificates").isArray(),
-    body("certificates.*").isNumeric(),
-    deleteCertificates
-  );
-
-  app.post(
     "/educations",
     body("educations").isArray(),
     body("educations.*").isObject(),
@@ -129,6 +112,22 @@ const addRoutes = (app) => {
     body("work_experiences").isArray(),
     body("work_experiences.*").isNumeric(),
     deleteExperiences
+  );
+
+  app.post(
+    "/certificates",
+    checkAuthenticated,
+    body("certificates_name").notEmpty(),
+    body("certification_authority").notEmpty(),
+    body("certification_date").notEmpty(),
+    addCertificates
+  );
+
+  app.delete(
+    "/certificates",
+    checkAuthenticated,
+    body("id").isNumeric(),
+    deleteCertificates
   );
 
   app.post(
