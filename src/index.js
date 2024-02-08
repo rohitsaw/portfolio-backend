@@ -20,9 +20,9 @@ const main = async () => {
   app.use(
     cors({
       origin: [
-        "https://portfolio-rsaw409.onrender.com",
         "https://tictoe-rsaw409.onrender.com",
-        process.env.CLIENT_ADDRESS,
+        process.env.CLIENT_ADDRESS1,
+        process.env.CLIENT_ADDRESS2,
       ],
       methods: "GET,POST,PUT,DELETE",
       credentials: true,
@@ -40,8 +40,6 @@ const main = async () => {
       maxAge: 60 * 60 * 1000,
 
       httpOnly: false,
-
-      // This prevant saving cookies in frontend
       sameSite: "None",
       secure: true,
     })
