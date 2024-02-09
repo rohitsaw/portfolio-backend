@@ -117,7 +117,7 @@ const addRoutes = (app) => {
   app.post(
     "/certificates",
     checkAuthenticated,
-    body("certificates_name").notEmpty(),
+    body("certificate_name").notEmpty(),
     body("certification_authority").notEmpty(),
     body("certification_date").notEmpty(),
     addCertificates
