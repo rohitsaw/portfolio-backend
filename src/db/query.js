@@ -79,34 +79,6 @@ const deleteExperiences = async (experiences) => {
   );
 };
 
-const addEducations = async (educations) => {
-  if (!Array.isArray(educations)) {
-    educations = [educations];
-  }
-  return Promise.all(
-    educations.map((education) => {
-      if (education.id) {
-        return psql.models.education.update(education, {
-          where: { id: education.id },
-        });
-      } else {
-        return psql.models.education.create(education);
-      }
-    })
-  );
-};
-
-const deleteEducations = async (educations) => {
-  if (!Array.isArray(educations)) {
-    educations = [educations];
-  }
-  return Promise.all(
-    educations.map(async (id) => {
-      return psql.models.educations.destroy({ where: { id: id } });
-    })
-  );
-};
-
 const addProjects = async (projects) => {
   if (!Array.isArray(projects)) {
     projects = [projects];
@@ -199,6 +171,38 @@ const addCertificates = async (certificate) => {
 
 const deleteCertificates = async (certificate) => {
   return psql.models.certificates.destroy({ where: { id: certificate.id } });
+};
+
+const addEducations = async (education) => {
+  if (education.id) {
+    const query = `
+    INSERT INTO education (id, institute_name, degree_name, start_date, end_date, score)
+    VALUES (:id, :institute_name, :degree_name, :start_date, :end_date, :score)
+    ON CONFLICT(id) 
+    DO UPDATE SET
+    institute_name = EXCLUDED.institute_name,
+    degree_name = EXCLUDED.degree_name,
+    start_date = EXCLUDED.start_date,
+    end_date = EXCLUDED.end_date,
+    score  = EXCLUDED.score
+    ;`;
+    return psql.query(query, {
+      replacements: {
+        id: education.id,
+        institute_name: education.institute_name,
+        degree_name: education.degree_name,
+        start_date: education.start_date,
+        end_date: education.end_date,
+        score: education.score,
+      },
+    });
+  } else {
+    return psql.models.education.create(education);
+  }
+};
+
+const deleteEducations = async (education) => {
+  return psql.models.education.destroy({ where: { id: education.id } });
 };
 
 export {

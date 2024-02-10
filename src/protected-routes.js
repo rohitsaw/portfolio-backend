@@ -80,21 +80,15 @@ const addRoutes = (app) => {
 
   app.post(
     "/educations",
-    body("educations").isArray(),
-    body("educations.*").isObject(),
-    body("educations.*.institute_name").notEmpty(),
-    body("educations.*.degree_name").notEmpty(),
-    body("educations.*.start_date").notEmpty(),
-    body("educations.*.end_date").notEmpty(),
+    body("institute_name").notEmpty(),
+    body("degree_name").notEmpty(),
+    body("start_date").notEmpty(),
+    body("end_date").notEmpty(),
+    body("score").notEmpty(),
     addEducations
   );
 
-  app.delete(
-    "/educations",
-    body("educations").isArray(),
-    body("educations.*").isNumeric(),
-    deleteEducations
-  );
+  app.delete("/educations", body("id").isNumeric(), deleteEducations);
 
   app.post(
     "/experiences",

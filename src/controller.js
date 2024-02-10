@@ -180,7 +180,7 @@ const addEducations = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).send({ errors: errors.array() });
     }
-    const result = await addEducationsInDb(req.body.educations);
+    const result = await addEducationsInDb(req.body);
 
     return res.status(200).send(result);
   } catch (error) {
@@ -196,9 +196,9 @@ const deleteEducations = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteEducationsInDb(req.body.educations);
+    const result = await deleteEducationsInDb(req.body);
 
-    return res.status(200).send(result);
+    return res.status(200).send({ message: result });
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
