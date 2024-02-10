@@ -80,6 +80,7 @@ const addRoutes = (app) => {
 
   app.post(
     "/educations",
+    checkAuthenticated,
     body("institute_name").notEmpty(),
     body("degree_name").notEmpty(),
     body("start_date").notEmpty(),
@@ -88,23 +89,27 @@ const addRoutes = (app) => {
     addEducations
   );
 
-  app.delete("/educations", body("id").isNumeric(), deleteEducations);
+  app.delete(
+    "/educations",
+    checkAuthenticated,
+    body("id").isNumeric(),
+    deleteEducations
+  );
 
   app.post(
     "/experiences",
-    body("work_experiences").isArray(),
-    body("work_experiences.*").isObject(),
-    body("work_experiences.*.company_name").notEmpty(),
-    body("work_experiences.*.designation").notEmpty(),
-    body("work_experiences.*.start_date").notEmpty(),
-    body("work_experiences.*.end_date").notEmpty(),
+    checkAuthenticated,
+    body("company_name").notEmpty(),
+    body("designation").notEmpty(),
+    body("start_date").notEmpty(),
+    body("end_date").notEmpty(),
     addExperiences
   );
 
   app.delete(
     "/experiences",
-    body("work_experiences").isArray(),
-    body("work_experiences.*").isNumeric(),
+    checkAuthenticated,
+    body("id").isNumeric(),
     deleteExperiences
   );
 

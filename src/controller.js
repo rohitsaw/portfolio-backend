@@ -211,9 +211,9 @@ const addExperiences = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).send({ errors: errors.array() });
     }
-    const result = await addExperiencesInDb(req.body.work_experiences);
+    const result = await addExperiencesInDb(req.body);
 
-    return res.status(200).send(result);
+    return res.status(200).send({ message: result });
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
@@ -227,9 +227,9 @@ const deleteExperiences = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteExperiencesInDb(req.body.work_experiences);
+    const result = await deleteExperiencesInDb(req.body);
 
-    return res.status(200).send(result);
+    return res.status(200).send({ message: result });
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
