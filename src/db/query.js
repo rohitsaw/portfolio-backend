@@ -75,7 +75,7 @@ const addExperiences = async (experience) => {
       },
     });
   } else {
-    return psql.models.work_experiences.create(experience.id);
+    return psql.models.work_experiences.create(experience);
   }
 };
 
