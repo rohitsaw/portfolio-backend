@@ -165,7 +165,7 @@ const addCertificates = async (certificate) => {
   if (certificate.id) {
     const query = `
     INSERT INTO certificates (id, certificate_name, certificate_description, certification_authority, certification_date, certification_expiry, verification_url, technology_tags)
-    VALUES (:id, :certificate_name, :certificate_description, :certification_authority, :certification_date, :certification_expiry, :verification_url, :technology_tags)
+    VALUES (:id, :certificate_name, :certificate_description, :certification_authority, :certification_date, :certification_expiry, :verification_url, ARRAY[:technology_tags])
     ON CONFLICT(id) 
     DO UPDATE SET
     certificate_name = EXCLUDED.certificate_name,
@@ -187,7 +187,9 @@ const addCertificates = async (certificate) => {
         ),
         certification_expiry: certificate.certification_expiry,
         verification_url: certificate.verification_url,
-        technology_tags: null,
+        technology_tags: Array.isArray(certificate.technology_tags)
+          ? certificate.technology_tags
+          : certificate.technology_tags?.split(","),
       },
     });
   } else {
