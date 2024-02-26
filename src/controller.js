@@ -81,7 +81,7 @@ const addProjects = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addProjectsInDb(req.body.projects);
+    const result = await addProjectsInDb(req.body);
 
     return res.status(200).send(result);
   } catch (error) {
@@ -97,7 +97,7 @@ const deleteProjects = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteProjectsInDb(req.body.projects);
+    const result = await deleteProjectsInDb(req.body);
 
     return res.status(200).send(result);
   } catch (error) {

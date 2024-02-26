@@ -14,6 +14,7 @@ const getAllProjects = async () => {
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
   });
+
   return res;
 };
 
@@ -56,7 +57,7 @@ const addExperiences = async (experience) => {
     const query = `
     INSERT INTO work_experiences (id, company_name, designation, start_date, end_date, details)
     VALUES (:id, :company_name, :designation, :start_date, :end_date, :details)
-    ON CONFLICT(id) 
+    ON CONFLICT(id)
     DO UPDATE SET
     company_name = EXCLUDED.company_name,
     designation = EXCLUDED.designation,
@@ -83,32 +84,18 @@ const deleteExperiences = async (experience) => {
   return psql.models.work_experiences.destroy({ where: { id: experience.id } });
 };
 
-const addProjects = async (projects) => {
-  if (!Array.isArray(projects)) {
-    projects = [projects];
+const addProjects = async (project) => {
+  if (project.id) {
+    return psql.models.projects.update(project, {
+      where: { id: project.id },
+    });
+  } else {
+    return psql.models.projects.create(project);
   }
-  return Promise.all(
-    projects.map((project) => {
-      if (project.id) {
-        return psql.models.projects.update(project, {
-          where: { id: project.id },
-        });
-      } else {
-        return psql.models.projects.create(project);
-      }
-    })
-  );
 };
 
-const deleteProjects = async (projects) => {
-  if (!Array.isArray(projects)) {
-    projects = [projects];
-  }
-  return Promise.all(
-    projects.map(async (id) => {
-      return psql.models.projects.destroy({ where: { id: id } });
-    })
-  );
+const deleteProjects = async (project) => {
+  return psql.models.projects.destroy({ where: { id: project.id } });
 };
 
 const addSkills = async (skill) => {
@@ -116,7 +103,7 @@ const addSkills = async (skill) => {
     const query = `
     INSERT INTO skills (id, skill_name, skill_category, skill_proficiency)
     VALUES (:id, :skill_name, :skill_category, :skill_proficiency)
-    ON CONFLICT(id) 
+    ON CONFLICT(id)
     DO UPDATE SET
     skill_name = EXCLUDED.skill_name,
     skill_proficiency = EXCLUDED.skill_proficiency;`;
@@ -142,7 +129,7 @@ const addCertificates = async (certificate) => {
     const query = `
     INSERT INTO certificates (id, certificate_name, certificate_description, certification_authority, certification_date, certification_expiry, verification_url, technology_tags)
     VALUES (:id, :certificate_name, :certificate_description, :certification_authority, :certification_date, :certification_expiry, :verification_url, ARRAY[:technology_tags])
-    ON CONFLICT(id) 
+    ON CONFLICT(id)
     DO UPDATE SET
     certificate_name = EXCLUDED.certificate_name,
     certificate_description = EXCLUDED.certificate_description,
@@ -159,7 +146,7 @@ const addCertificates = async (certificate) => {
         certificate_description: certificate.certificate_description,
         certification_authority: certificate.certification_authority,
         certification_date: dayjs(certificate.certification_date).format(
-          "YYYY-MM-DD"
+          "YYYY-MM-DD",
         ),
         certification_expiry: certificate.certification_expiry,
         verification_url: certificate.verification_url,
@@ -182,7 +169,7 @@ const addEducations = async (education) => {
     const query = `
     INSERT INTO education (id, institute_name, degree_name, start_date, end_date, score)
     VALUES (:id, :institute_name, :degree_name, :start_date, :end_date, :score)
-    ON CONFLICT(id) 
+    ON CONFLICT(id)
     DO UPDATE SET
     institute_name = EXCLUDED.institute_name,
     degree_name = EXCLUDED.degree_name,
