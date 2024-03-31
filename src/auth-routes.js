@@ -14,6 +14,7 @@ app.get("/login/success", (req, res) => {
     res.status(400).json({
       success: false,
       message: "failed",
+      user: null,
     });
   }
 });
