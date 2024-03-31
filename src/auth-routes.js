@@ -10,6 +10,11 @@ app.get("/login/success", (req, res) => {
       message: "successful",
       user: req.user,
     });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "failed",
+    });
   }
 });
 

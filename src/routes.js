@@ -1,4 +1,3 @@
-import cors from "cors";
 import {
   getAllCertificates,
   getAllProjects,
