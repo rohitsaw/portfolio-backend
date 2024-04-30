@@ -17,8 +17,8 @@ const createProjectModel = (sequelize) => {
       web_url: { type: DataTypes.STRING },
       play_store_url: { type: DataTypes.STRING },
 
-      // comma separated values. eg- Node.js, React.js, Flutter
-      technologies_tags: { type: DataTypes.STRING },
+      // values. eg- Node.js, React.js, Flutter
+      technology_tags: { type: DataTypes.ARRAY(DataTypes.STRING) },
     },
     {
       timestamps: false,
