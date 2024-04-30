@@ -86,8 +86,28 @@ const deleteExperiences = async (experience) => {
 
 const addProjects = async (project) => {
   if (project.id) {
-    return psql.models.projects.update(project, {
-      where: { id: project.id },
+    const query = `
+    update projects set
+    project_name = :project_name,
+    project_description = :project_description,
+    github_url = :github_url,
+    web_url = :web_url,
+    play_store_url = :play_store_url,
+    technology_tags = ARRAY[:technology_tags]
+    where id = :id;
+    `;
+    return psql.query(query, {
+      replacements: {
+        id: project.id,
+        project_name: project.project_name,
+        project_description: project.project_description,
+        github_url: project.github_url,
+        web_url: project.web_url,
+        play_store_url: project.play_store_url,
+        technology_tags: Array.isArray(project.technology_tags)
+          ? project.technology_tags
+          : project.technology_tags?.split(","),
+      },
     });
   } else {
     return psql.models.projects.create(project);
@@ -146,7 +166,7 @@ const addCertificates = async (certificate) => {
         certificate_description: certificate.certificate_description,
         certification_authority: certificate.certification_authority,
         certification_date: dayjs(certificate.certification_date).format(
-          "YYYY-MM-DD",
+          "YYYY-MM-DD"
         ),
         certification_expiry: certificate.certification_expiry,
         verification_url: certificate.verification_url,
