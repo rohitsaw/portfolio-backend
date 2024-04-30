@@ -25,21 +25,6 @@ const createUserModel = (sequelize) => {
       social_links: {
         type: DataTypes.JSONB,
       },
-      // linkedin_url: {
-      //   type: DataTypes.STRING,
-      // },
-      // github_url: {
-      //   type: DataTypes.STRING,
-      // },
-      // blog_url: {
-      //   type: DataTypes.STRING,
-      // },
-      // twitter_url: {
-      //   type: DataTypes.STRING,
-      // },
-      // stackoverflow_url: {
-      //   type: DataTypes.STRING,
-      // },
     },
     {
       timestamps: false,
