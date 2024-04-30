@@ -83,7 +83,7 @@ const addProjects = async (req, res) => {
 
     const result = await addProjectsInDb(req.body);
 
-    return res.status(200).send(result);
+    return res.status(200).send({ message: result });
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
