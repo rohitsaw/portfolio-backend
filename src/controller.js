@@ -5,6 +5,7 @@ import {
   getAllExperiences as getAllExperiencesFromDb,
   getAllSkills as getAllSkillsFromDb,
   getuser as getuserFromDb,
+  addOrUpdateUser as addOrUpdateUserInDB,
   addSkills as addSkillsInDb,
   addExperiences as addExperiencesInDb,
   addCertificates as addCertificatesInDb,
@@ -66,7 +67,10 @@ const getAllSkills = async (req, res) => {
 
 const getuser = async (req, res) => {
   try {
-    const user = await getuserFromDb();
+    if (!req.query.user_email) {
+      throw new Error("Email Id required.");
+    }
+    const user = await getuserFromDb(req.query.user_email);
     return res.status(200).send(user);
   } catch (error) {
     res.status(400).send({ message: error.message });
@@ -235,6 +239,20 @@ const deleteExperiences = async (req, res) => {
   }
 };
 
+const addOrUpdateUser = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
+    }
+    const result = await addOrUpdateUserInDB(req.body);
+    return res.status(200).send({ message: result });
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
 export {
   getAllCertificates,
   getAllProjects,
@@ -249,6 +267,7 @@ export {
   addCertificates,
   addEducations,
   addExperiences,
+  addOrUpdateUser,
 
   // Delete Controllers
   deleteProjects,
