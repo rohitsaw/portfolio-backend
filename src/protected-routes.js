@@ -12,6 +12,8 @@ import {
   addOrUpdateUser,
 } from "./controller.js";
 
+import { getUserIdFromEmail } from "./db/queries/user.js";
+
 import { body } from "express-validator";
 
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
@@ -45,16 +47,14 @@ const addRoutes = (app) => {
     done(null, user);
   });
 
-  const checkAuthenticated = (req, res, next) => {
+  const checkAuthenticated = async (req, res, next) => {
     console.log("req.isAuthenticated", req.isAuthenticated());
     console.log("req.user", req.user);
 
     if (req.isAuthenticated()) {
       // Authorization Check for POST & Delete apis
-      if (
-        req.user.emails[0]?.verified &&
-        req.user.emails[0]?.value === req.query.user_email
-      ) {
+      const userId = await getUserIdFromEmail(req.user.emails[0]?.value);
+      if (req.user.emails[0]?.verified && userId == req.query.user_id) {
         return next();
       } else {
         res
