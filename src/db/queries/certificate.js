@@ -1,29 +1,29 @@
 import { psql } from "../postgres.js";
 import dayjs from "dayjs";
 
-const getAllCertificates = async () => {
-  const query = `select * from certificates order by certification_date desc`;
+const getAllCertificates = async (user_id = 1) => {
+  const query = `select * from certificates where user_id = :user_id order by certification_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
+    replacements: {
+      user_id,
+    },
   });
   return res;
 };
 
-const addCertificates = async (certificate) => {
+const addCertificates = async (certificate, user_id = 1) => {
   if (certificate.id) {
     const query = `
-      INSERT INTO certificates (id, certificate_name, certificate_description, certification_authority, certification_date, certification_expiry, verification_url, technology_tags)
-      VALUES (:id, :certificate_name, :certificate_description, :certification_authority, :certification_date, :certification_expiry, :verification_url, ARRAY[:technology_tags])
-      ON CONFLICT(id)
-      DO UPDATE SET
-      certificate_name = EXCLUDED.certificate_name,
-      certificate_description = EXCLUDED.certificate_description,
-      certification_authority = EXCLUDED.certification_authority,
-      certification_date = EXCLUDED.certification_date,
-      certification_expiry  = EXCLUDED.certification_expiry,
-      verification_url  = EXCLUDED.verification_url,
-      technology_tags = EXCLUDED.technology_tags
-      ;`;
+      update certificates set
+      certificate_name = :certificate_name,
+      certificate_description = :certificate_description,
+      certification_authority = :certification_authority,
+      certification_date = :certification_date,
+      certification_expiry  = :certification_expiry,
+      verification_url  = :verification_url,
+      technology_tags = ARRAY[:technology_tags]
+      where id = :id and user_id = :user_id;`;
     return psql.query(query, {
       replacements: {
         id: certificate.id,
@@ -38,6 +38,7 @@ const addCertificates = async (certificate) => {
         technology_tags: Array.isArray(certificate.technology_tags)
           ? certificate.technology_tags
           : certificate.technology_tags?.split(","),
+        user_id: user_id,
       },
     });
   } else {
@@ -45,8 +46,10 @@ const addCertificates = async (certificate) => {
   }
 };
 
-const deleteCertificates = async (certificate) => {
-  return psql.models.certificates.destroy({ where: { id: certificate.id } });
+const deleteCertificates = async (certificate, user_id = 1) => {
+  return psql.models.certificates.destroy({
+    where: { id: certificate.id, user_id },
+  });
 };
 
 export { getAllCertificates, addCertificates, deleteCertificates };

@@ -10,6 +10,14 @@ const createSkillModel = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+      },
       skill_name: { type: DataTypes.STRING, allowNull: false, unique: true },
       skill_category: { type: DataTypes.STRING, defaultValue: "Misc" },
       skill_proficiency: {

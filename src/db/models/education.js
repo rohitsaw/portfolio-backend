@@ -10,6 +10,14 @@ const createEducationModel = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+      },
       institute_name: { type: DataTypes.STRING, allowNull: false },
       degree_name: { type: DataTypes.STRING, allowNull: false },
 

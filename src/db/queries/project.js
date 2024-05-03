@@ -1,15 +1,18 @@
 import { psql } from "../postgres.js";
 
-const getAllProjects = async () => {
-  const query = `select * from projects`;
+const getAllProjects = async (user_id = 1) => {
+  const query = `select * from projects where user_id = :user_id`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
+    replacements: {
+      user_id,
+    },
   });
 
   return res;
 };
 
-const addProjects = async (project) => {
+const addProjects = async (project, user_id = 1) => {
   if (project.id) {
     const query = `
       update projects set
@@ -19,7 +22,7 @@ const addProjects = async (project) => {
       web_url = :web_url,
       play_store_url = :play_store_url,
       technology_tags = ARRAY[:technology_tags]
-      where id = :id;
+      where id = :id and user_id = :user_id;
       `;
     return psql.query(query, {
       replacements: {
@@ -32,6 +35,7 @@ const addProjects = async (project) => {
         technology_tags: Array.isArray(project.technology_tags)
           ? project.technology_tags
           : project.technology_tags?.split(","),
+        user_id: user_id,
       },
     });
   } else {
@@ -39,8 +43,10 @@ const addProjects = async (project) => {
   }
 };
 
-const deleteProjects = async (project) => {
-  return psql.models.projects.destroy({ where: { id: project.id } });
+const deleteProjects = async (project, user_id = 1) => {
+  return psql.models.projects.destroy({
+    where: { id: project.id, user_id: user_id },
+  });
 };
 
 export { getAllProjects, addProjects, deleteProjects };

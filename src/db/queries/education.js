@@ -1,26 +1,26 @@
 import { psql } from "../postgres.js";
 
-
-const getAllEducations = async () => {
-  const query = `select * from education order by end_date desc`;
+const getAllEducations = async (user_id = 1) => {
+  const query = `select * from education where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
+    replacements: {
+      user_id: user_id,
+    },
   });
   return res;
 };
 
-const addEducations = async (education) => {
+const addEducations = async (education, user_id = 1) => {
   if (education.id) {
     const query = `
-      INSERT INTO education (id, institute_name, degree_name, start_date, end_date, score)
-      VALUES (:id, :institute_name, :degree_name, :start_date, :end_date, :score)
-      ON CONFLICT(id)
-      DO UPDATE SET
-      institute_name = EXCLUDED.institute_name,
-      degree_name = EXCLUDED.degree_name,
-      start_date = EXCLUDED.start_date,
-      end_date = EXCLUDED.end_date,
-      score  = EXCLUDED.score
+      update education set
+      institute_name = :institute_name,
+      degree_name = :degree_name,
+      start_date = :start_date,
+      end_date = :end_date,
+      score  = :score
+      where id = :id and user_id = :user_id
       ;`;
     return psql.query(query, {
       replacements: {
@@ -30,6 +30,7 @@ const addEducations = async (education) => {
         start_date: education.start_date,
         end_date: education.end_date,
         score: education.score,
+        user_id: user_id,
       },
     });
   } else {
@@ -37,8 +38,10 @@ const addEducations = async (education) => {
   }
 };
 
-const deleteEducations = async (education) => {
-  return psql.models.education.destroy({ where: { id: education.id } });
+const deleteEducations = async (education, user_id = 1) => {
+  return psql.models.education.destroy({
+    where: { id: education.id, user_id: user_id },
+  });
 };
 
 export { getAllEducations, addEducations, deleteEducations };

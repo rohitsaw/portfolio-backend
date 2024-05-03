@@ -10,6 +10,14 @@ const createWorkExperienceModel = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+      },
       company_name: { type: DataTypes.STRING, allowNull: false },
       designation: { type: DataTypes.STRING },
 
