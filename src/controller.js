@@ -1,22 +1,32 @@
 import {
   getAllCertificates as getAllCertificatesFromDb,
-  getAllProjects as getAllProjectsFromDb,
+  addCertificates as addCertificatesInDb,
+  deleteCertificates as deleteCertificatesInDb,
+} from "./db/queries/certificate.js";
+import {
   getAllEducations as getAllEducationsFromDb,
-  getAllExperiences as getAllExperiencesFromDb,
+  addEducations as addEducationsInDb,
+  deleteEducations as deleteEducationsInDb,
+} from "./db/queries/education.js";
+import {
+  getAllProjects as getAllProjectsFromDb,
+  deleteProjects as deleteProjectsInDb,
+  addProjects as addProjectsInDb,
+} from "./db/queries/project.js";
+import {
   getAllSkills as getAllSkillsFromDb,
+  addSkills as addSkillsInDb,
+  deleteSkills as deleteSkillsInDb,
+} from "./db/queries/skill.js";
+import {
   getuser as getuserFromDb,
   addOrUpdateUser as addOrUpdateUserInDB,
-  addSkills as addSkillsInDb,
+} from "./db/queries/user.js";
+import {
+  getAllExperiences as getAllExperiencesFromDb,
   addExperiences as addExperiencesInDb,
-  addCertificates as addCertificatesInDb,
-  addEducations as addEducationsInDb,
-  addProjects as addProjectsInDb,
-  deleteProjects as deleteProjectsInDb,
-  deleteCertificates as deleteCertificatesInDb,
-  deleteEducations as deleteEducationsInDb,
   deleteExperiences as deleteExperiencesInDb,
-  deleteSkills as deleteSkillsInDb,
-} from "./db/query.js";
+} from "./db/queries/work-experience.js";
 
 import { validationResult } from "express-validator";
 
