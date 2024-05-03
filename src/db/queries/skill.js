@@ -29,7 +29,7 @@ const addSkills = async (skill, user_id = 1) => {
       },
     });
   } else {
-    return psql.models.skills.create(skill);
+    return psql.models.skills.create({ ...skill, user_id });
   }
 };
 

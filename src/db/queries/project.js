@@ -39,7 +39,7 @@ const addProjects = async (project, user_id = 1) => {
       },
     });
   } else {
-    return psql.models.projects.create(project);
+    return psql.models.projects.create({ ...project, user_id });
   }
 };
 

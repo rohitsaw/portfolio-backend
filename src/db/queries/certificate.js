@@ -42,7 +42,7 @@ const addCertificates = async (certificate, user_id = 1) => {
       },
     });
   } else {
-    return psql.models.certificates.create(certificate);
+    return psql.models.certificates.create({ ...certificate, user_id });
   }
 };
 

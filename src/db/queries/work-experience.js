@@ -33,7 +33,7 @@ const addExperiences = async (experience, user_id = 1) => {
       },
     });
   } else {
-    return psql.models.work_experiences.create(experience);
+    return psql.models.work_experiences.create({ ...experience, user_id });
   }
 };
 

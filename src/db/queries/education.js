@@ -34,7 +34,7 @@ const addEducations = async (education, user_id = 1) => {
       },
     });
   } else {
-    return psql.models.education.create(education);
+    return psql.models.education.create({ ...education, user_id });
   }
 };
 
