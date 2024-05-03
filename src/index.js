@@ -71,10 +71,10 @@ const main = async () => {
   // GET APIS
   addRoutes(app);
 
+  app.use(authRoute);
+
   // POST APIS
   addProtectedRouted(app);
-
-  app.use(authRoute);
 
   app.use((err, req, res, next) => {
     return res
