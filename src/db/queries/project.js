@@ -1,6 +1,6 @@
 import { psql } from "../postgres.js";
 
-const getAllProjects = async (user_id = 1) => {
+const getAllProjects = async (user_id) => {
   const query = `select * from projects where user_id = :user_id`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
@@ -12,7 +12,7 @@ const getAllProjects = async (user_id = 1) => {
   return res;
 };
 
-const addProjects = async (project, user_id = 1) => {
+const addProjects = async (project, user_id) => {
   if (project.id) {
     const query = `
       update projects set
@@ -43,7 +43,7 @@ const addProjects = async (project, user_id = 1) => {
   }
 };
 
-const deleteProjects = async (project, user_id = 1) => {
+const deleteProjects = async (project, user_id) => {
   return psql.models.projects.destroy({
     where: { id: project.id, user_id: user_id },
   });

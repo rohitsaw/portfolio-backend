@@ -1,6 +1,6 @@
 import { psql } from "../postgres.js";
 
-const getAllEducations = async (user_id = 1) => {
+const getAllEducations = async (user_id) => {
   const query = `select * from education where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
@@ -11,7 +11,7 @@ const getAllEducations = async (user_id = 1) => {
   return res;
 };
 
-const addEducations = async (education, user_id = 1) => {
+const addEducations = async (education, user_id) => {
   if (education.id) {
     const query = `
       update education set
@@ -38,7 +38,7 @@ const addEducations = async (education, user_id = 1) => {
   }
 };
 
-const deleteEducations = async (education, user_id = 1) => {
+const deleteEducations = async (education, user_id) => {
   return psql.models.education.destroy({
     where: { id: education.id, user_id: user_id },
   });

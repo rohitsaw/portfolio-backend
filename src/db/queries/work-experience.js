@@ -1,6 +1,6 @@
 import { psql } from "../postgres.js";
 
-const getAllExperiences = async (user_id = 1) => {
+const getAllExperiences = async (user_id) => {
   const query = `select * from work_experiences order by end_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
@@ -11,7 +11,7 @@ const getAllExperiences = async (user_id = 1) => {
   return res;
 };
 
-const addExperiences = async (experience, user_id = 1) => {
+const addExperiences = async (experience, user_id) => {
   if (experience.id) {
     const query = `
     update work_experiences set
@@ -37,7 +37,7 @@ const addExperiences = async (experience, user_id = 1) => {
   }
 };
 
-const deleteExperiences = async (experience, user_id = 1) => {
+const deleteExperiences = async (experience, user_id) => {
   return psql.models.work_experiences.destroy({
     where: { id: experience.id, user_id },
   });

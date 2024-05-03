@@ -24,4 +24,14 @@ const addOrUpdateUser = async ({ user_email, name, about, social_links }) => {
   return res;
 };
 
-export { getuser, addOrUpdateUser };
+const getUserIdFromEmail = async (email) => {
+  const query = `select id from users where user_email = :email`;
+  const res = await psql.query(query, {
+    type: psql.QueryTypes.SELECT,
+    replacements: { email },
+    raw: true,
+  });
+  return res[0]?.id;
+};
+
+export { getuser, addOrUpdateUser, getUserIdFromEmail };

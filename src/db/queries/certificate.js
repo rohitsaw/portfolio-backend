@@ -1,7 +1,7 @@
 import { psql } from "../postgres.js";
 import dayjs from "dayjs";
 
-const getAllCertificates = async (user_id = 1) => {
+const getAllCertificates = async (user_id) => {
   const query = `select * from certificates where user_id = :user_id order by certification_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
@@ -12,7 +12,7 @@ const getAllCertificates = async (user_id = 1) => {
   return res;
 };
 
-const addCertificates = async (certificate, user_id = 1) => {
+const addCertificates = async (certificate, user_id) => {
   if (certificate.id) {
     const query = `
       update certificates set
@@ -46,7 +46,7 @@ const addCertificates = async (certificate, user_id = 1) => {
   }
 };
 
-const deleteCertificates = async (certificate, user_id = 1) => {
+const deleteCertificates = async (certificate, user_id) => {
   return psql.models.certificates.destroy({
     where: { id: certificate.id, user_id },
   });

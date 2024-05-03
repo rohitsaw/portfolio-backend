@@ -9,7 +9,7 @@ import {
   deleteCertificates,
   deleteExperiences,
   deleteSkills,
-  addOrUpdateUser
+  addOrUpdateUser,
 } from "./controller.js";
 
 import { body } from "express-validator";
@@ -50,10 +50,10 @@ const addRoutes = (app) => {
     console.log("req.user", req.user);
 
     if (req.isAuthenticated()) {
-      // Authorization Check
+      // Authorization Check for POST & Delete apis
       if (
         req.user.emails[0]?.verified &&
-        req.user.emails[0]?.value === "rsaw409@gmail.com"
+        req.user.emails[0]?.value === req.query.user_email
       ) {
         return next();
       } else {
@@ -65,23 +65,14 @@ const addRoutes = (app) => {
     res.status(403).send({ message: "Authentication Failed." });
   };
 
-  app.post(
-    "/projects",
-    checkAuthenticated,
-    body("project_name").notEmpty(),
-    addProjects
-  );
+  app.use(checkAuthenticated);
 
-  app.delete(
-    "/projects",
-    checkAuthenticated,
-    body("id").isNumeric(),
-    deleteProjects
-  );
+  app.post("/projects", body("project_name").notEmpty(), addProjects);
+
+  app.delete("/projects", body("id").isNumeric(), deleteProjects);
 
   app.post(
     "/educations",
-    checkAuthenticated,
     body("institute_name").notEmpty(),
     body("degree_name").notEmpty(),
     body("start_date").notEmpty(),
@@ -90,16 +81,10 @@ const addRoutes = (app) => {
     addEducations
   );
 
-  app.delete(
-    "/educations",
-    checkAuthenticated,
-    body("id").isNumeric(),
-    deleteEducations
-  );
+  app.delete("/educations", body("id").isNumeric(), deleteEducations);
 
   app.post(
     "/experiences",
-    checkAuthenticated,
     body("company_name").notEmpty(),
     body("designation").notEmpty(),
     body("start_date").notEmpty(),
@@ -107,44 +92,23 @@ const addRoutes = (app) => {
     addExperiences
   );
 
-  app.delete(
-    "/experiences",
-    checkAuthenticated,
-    body("id").isNumeric(),
-    deleteExperiences
-  );
+  app.delete("/experiences", body("id").isNumeric(), deleteExperiences);
 
   app.post(
     "/certificates",
-    checkAuthenticated,
     body("certificate_name").notEmpty(),
     body("certification_authority").notEmpty(),
     body("certification_date").notEmpty(),
     addCertificates
   );
 
-  app.delete(
-    "/certificates",
-    checkAuthenticated,
-    body("id").isNumeric(),
-    deleteCertificates
-  );
+  app.delete("/certificates", body("id").isNumeric(), deleteCertificates);
 
-  app.post(
-    "/skills",
-    checkAuthenticated,
-    body("skill_name").notEmpty(),
-    addSkills
-  );
+  app.post("/skills", body("skill_name").notEmpty(), addSkills);
 
-  app.delete(
-    "/skills",
-    checkAuthenticated,
-    body("id").isNumeric(),
-    deleteSkills
-  );
+  app.delete("/skills", body("id").isNumeric(), deleteSkills);
 
-  app.post("/user", checkAuthenticated, body("user_email"), addOrUpdateUser);
+  app.post("/user", body("user_email"), addOrUpdateUser);
 };
 
 export { addRoutes };

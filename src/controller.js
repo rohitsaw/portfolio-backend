@@ -32,7 +32,7 @@ import { validationResult } from "express-validator";
 
 const getAllCertificates = async (req, res) => {
   try {
-    const certificates = await getAllCertificatesFromDb();
+    const certificates = await getAllCertificatesFromDb(req.query.user_id);
     return res.status(200).send(certificates);
   } catch (error) {
     res.status(400).send({ message: error.message });
@@ -41,7 +41,7 @@ const getAllCertificates = async (req, res) => {
 
 const getAllProjects = async (req, res) => {
   try {
-    const projects = await getAllProjectsFromDb();
+    const projects = await getAllProjectsFromDb(req.query.user_id);
     return res.status(200).send(projects);
   } catch (error) {
     res.status(400).send({ message: error.message });
@@ -50,7 +50,7 @@ const getAllProjects = async (req, res) => {
 
 const getAllEducations = async (req, res) => {
   try {
-    const educations = await getAllEducationsFromDb();
+    const educations = await getAllEducationsFromDb(req.query.user_id);
     return res.status(200).send(educations);
   } catch (error) {
     res.status(400).send({ message: error.message });
@@ -59,7 +59,7 @@ const getAllEducations = async (req, res) => {
 
 const getAllExperiences = async (req, res) => {
   try {
-    const experiences = await getAllExperiencesFromDb();
+    const experiences = await getAllExperiencesFromDb(req.query.user_id);
     return res.status(200).send(experiences);
   } catch (error) {
     res.status(400).send({ message: error.message });
@@ -68,7 +68,7 @@ const getAllExperiences = async (req, res) => {
 
 const getAllSkills = async (req, res) => {
   try {
-    const skills = await getAllSkillsFromDb();
+    const skills = await getAllSkillsFromDb(req.query.user_id);
     return res.status(200).send(skills);
   } catch (error) {
     res.status(400).send({ message: error.message });
@@ -95,7 +95,7 @@ const addProjects = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addProjectsInDb(req.body);
+    const result = await addProjectsInDb(req.body, req.query.user_id);
 
     return res.status(200).send({ message: result });
   } catch (error) {
@@ -111,7 +111,7 @@ const deleteProjects = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteProjectsInDb(req.body);
+    const result = await deleteProjectsInDb(req.body, req.query.user_id);
 
     return res.status(200).send({ message: result });
   } catch (error) {
@@ -129,7 +129,7 @@ const addSkills = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addSkillsInDb(req.body);
+    const result = await addSkillsInDb(req.body, req.query.user_id);
 
     return res.status(200).send(result);
   } catch (error) {
@@ -146,7 +146,7 @@ const deleteSkills = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteSkillsInDb(req.body);
+    const result = await deleteSkillsInDb(req.body, req.query.user_id);
 
     return res.status(200).send({ message: result });
   } catch (error) {
@@ -163,7 +163,7 @@ const addCertificates = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addCertificatesInDb(req.body);
+    const result = await addCertificatesInDb(req.body, req.query.user_id);
 
     return res.status(200).send(result);
   } catch (error) {
@@ -179,7 +179,7 @@ const deleteCertificates = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteCertificatesInDb(req.body);
+    const result = await deleteCertificatesInDb(req.body, req.query.user_id);
 
     return res.status(200).send({ message: result });
   } catch (error) {
@@ -194,7 +194,7 @@ const addEducations = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).send({ errors: errors.array() });
     }
-    const result = await addEducationsInDb(req.body);
+    const result = await addEducationsInDb(req.body, req.query.user_id);
 
     return res.status(200).send(result);
   } catch (error) {
@@ -210,7 +210,7 @@ const deleteEducations = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteEducationsInDb(req.body);
+    const result = await deleteEducationsInDb(req.body, req.query.user_id);
 
     return res.status(200).send({ message: result });
   } catch (error) {
@@ -225,7 +225,7 @@ const addExperiences = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).send({ errors: errors.array() });
     }
-    const result = await addExperiencesInDb(req.body);
+    const result = await addExperiencesInDb(req.body, req.query.user_id);
 
     return res.status(200).send({ message: result });
   } catch (error) {
@@ -241,7 +241,7 @@ const deleteExperiences = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteExperiencesInDb(req.body);
+    const result = await deleteExperiencesInDb(req.body, req.query.user_id);
 
     return res.status(200).send({ message: result });
   } catch (error) {
@@ -256,7 +256,7 @@ const addOrUpdateUser = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).send({ errors: errors.array() });
     }
-    const result = await addOrUpdateUserInDB(req.body);
+    const result = await addOrUpdateUserInDB(req.body, req.query.user_id);
     return res.status(200).send({ message: result });
   } catch (error) {
     res.status(400).send({ message: error.message });
