@@ -1,7 +1,7 @@
 import { psql } from "../postgres.js";
 
 const getAllExperiences = async (user_id) => {
-  const query = `select * from work_experiences order by end_date desc`;
+  const query = `select * from work_experiences where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
     replacements: {
