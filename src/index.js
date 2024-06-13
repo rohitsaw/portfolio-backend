@@ -3,7 +3,8 @@ import bodyParser from "body-parser";
 import connectToPostgres from "../src/db/postgres.js";
 import { addRoutes } from "./routes.js";
 import { addRoutes as addProtectedRouted } from "./protected-routes.js";
-import { addSocket } from "./socket.js";
+// import { addSocket } from "./tic-toe-backend/socket.js";
+import { addSocket } from "./tic-toe-backend/socket1.js";
 
 import passport from "passport";
 import cookieSession from "cookie-session";

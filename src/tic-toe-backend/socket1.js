@@ -1,0 +1,84 @@
+import { createServer } from "http";
+import { Server } from "socket.io";
+
+import Player from "./Player.js";
+import GameList from "./GameList.js";
+import Game from "./Game.js";
+
+const PORT = 3001;
+
+const addSocket = (app) => {
+  const http = createServer(app);
+
+  const games = {};
+
+  app.use("/currentGames", (req, res) => {
+    res.status(200).send({ games: games });
+  });
+
+  const io = new Server(http, {
+    cors: {
+      origin:
+        process.env.NODE_ENV === "production"
+          ? "https://tictoe-rsaw409.onrender.com"
+          : "http://localhost:3000",
+      methods: ["GET", "POST"],
+    },
+  });
+
+  io.on("connection", function (socket) {
+    socket.on("joinGame", (data) => {
+      const player = new Player(socket.id, data.userName);
+      const game = GameList.addGamesIfNotExist(data.gameId);
+
+      if (game.isReady) {
+        io.sockets.in(game.gameId).emit("users", game.users);
+      } else {
+        socket.join(game.gameId);
+        game.addPlayer(player);
+
+        console.log(
+          `${player.userName} - ${player.playerId} has joined game with id ${game.gameId}`
+        );
+      }
+    });
+
+    socket.on("madeMove", (data) => {
+      socket.to(data.gameId).emit("receivedFromServer", data);
+    });
+
+    socket.on("RestartGame", (data) => {
+      socket.to(data.gameId).emit("userRestartedGame", data);
+    });
+
+    socket.on("LeftGame", (data) => {
+      GameList.playerLeft(data.gameId, data.userId);
+
+      socket.to(data.gameId).emit("userLeftGame", data);
+
+      socket.leave(data.gameId);
+    });
+
+    socket.on("disconnecting", (reason) => {
+      const userId = socket.id;
+
+      const { gameId, userName } = GameList.findGameIdFromPlayerId(userId);
+      if (gameId && userName) {
+        socket.to(gameId).emit("userDisconnected", userName);
+      }
+    });
+  });
+
+  http.listen(PORT, (error) => {
+    if (!error) {
+      console.log(
+        "Socket Server is Successfully Running, and App is listening on port " +
+          PORT
+      );
+    } else {
+      console.log("Error occurred, server can't start", error);
+    }
+  });
+};
+
+export { addSocket };
