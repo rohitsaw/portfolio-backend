@@ -72,8 +72,6 @@ const main = async (app) => {
       .status(err.status || 400)
       .send({ message: err.message ?? "something went wrong" });
   });
-
-  console.log("Portfolio Server is Ready.");
 };
 
 export default main;

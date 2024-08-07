@@ -48,9 +48,6 @@ const addRoutes = (app) => {
   });
 
   const checkAuthenticated = async (req, res, next) => {
-    console.log("req.isAuthenticated", req.isAuthenticated());
-    console.log("req.user", req.user);
-
     if (req.isAuthenticated()) {
       // Authorization Check for POST & Delete apis
       const userId = await getUserIdFromEmail(req.user.emails[0]?.value);

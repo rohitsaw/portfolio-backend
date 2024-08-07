@@ -21,7 +21,7 @@ const main = async () => {
   await connectToPostgres();
 
   app.use("/health", (req, res) => {
-    res.status(200).send({ message: "looks good." });
+    res.status(200).send({ message: "Server is Running." });
   });
 
   http.listen(PORT, (error) => {
