@@ -9,7 +9,7 @@ import createSkillModel from "./models/skill.js";
 import createUserModel from "./models/user.js";
 
 let psql = null;
-let postgresConnStr = process.env.postgresDevConnStr;
+let postgresConnStr = process.env.postgresConnStr;
 async function initModels({ logging }) {
   try {
     if (psql === null) {
