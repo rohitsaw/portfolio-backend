@@ -19,6 +19,8 @@ const addSocket = (http) => {
       const player = new Player(socket.id, data.userName);
       const game = GameList.addGamesIfNotExist(data.gameId);
 
+      console.log("game", game, game.users);
+
       if (game.isReady) {
         io.sockets.in(game.gameId).emit("users", game.users);
       } else {
