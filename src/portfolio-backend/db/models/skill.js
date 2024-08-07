@@ -31,7 +31,6 @@ const createSkillModel = (sequelize, schema) => {
     {
       schema,
       timestamps: false,
-      indexes: [{ unique: true, fields: ["skill_name"] }],
     }
   );
 };

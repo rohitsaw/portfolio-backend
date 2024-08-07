@@ -37,7 +37,6 @@ const createCertificateModel = (sequelize, schema) => {
     {
       schema,
       timestamps: false,
-      indexes: [{ unique: true, fields: ["certificate_name"] }],
     }
   );
 };

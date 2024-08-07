@@ -6,7 +6,7 @@ import splitMain from "./split-backend/index.js";
 
 import connectToPostgres from "./postgres.js";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const main = async () => {
   const app = express();

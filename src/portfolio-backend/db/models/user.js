@@ -28,7 +28,6 @@ const createUserModel = (sequelize, schema) => {
     {
       schema,
       timestamps: false,
-      indexes: [{ unique: true, fields: ["user_email"] }],
     }
   );
 };
