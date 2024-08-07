@@ -32,14 +32,17 @@ const addSocket = (http) => {
     });
 
     socket.on("madeMove", (data) => {
+      console.log("madeMove", data);
       socket.to(data.gameId).emit("receivedFromServer", data);
     });
 
     socket.on("RestartGame", (data) => {
+      console.log("RestartGame", data);
       socket.to(data.gameId).emit("userRestartedGame", data);
     });
 
     socket.on("LeftGame", (data) => {
+      console.log("LeftGame", data);
       GameList.playerLeft(data.gameId, data.userId);
 
       socket.to(data.gameId).emit("userLeftGame", data);
@@ -49,7 +52,6 @@ const addSocket = (http) => {
 
     socket.on("disconnecting", (reason) => {
       const userId = socket.id;
-
       const { gameId, userName } = GameList.findGameIdFromPlayerId(userId);
       if (gameId && userName) {
         socket.to(gameId).emit("userDisconnected", userName);
