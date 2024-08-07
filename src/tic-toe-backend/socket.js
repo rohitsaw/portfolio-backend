@@ -4,10 +4,6 @@ import Player from "./Player.js";
 import GameList from "./GameList.js";
 
 const addSocket = (http) => {
-  // app.use("/currentGames", (req, res) => {
-  //   res.status(200).send({ games: games });
-  // });
-
   const io = new Server(http, {
     cors: {
       origin:

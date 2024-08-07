@@ -47,26 +47,19 @@ const addRoutes = (app) => {
     done(null, user);
   });
 
-  const checkAuthenticated = async (req, res, next) => {
-    if (req.isAuthenticated()) {
-      // Authorization Check for POST & Delete apis
-      const userId = await getUserIdFromEmail(req.user.emails[0]?.value);
-      if (req.user.emails[0]?.verified && userId == req.query.user_id) {
-        return next();
-      } else {
-        res
-          .status(403)
-          .send({ message: "you do not have permission to edit details." });
-      }
-    }
-    res.status(403).send({ message: "Authentication Failed." });
-  };
+  app.post(
+    "/projects",
+    checkAuthenticated,
+    body("project_name").notEmpty(),
+    addProjects
+  );
 
-  app.use(checkAuthenticated);
-
-  app.post("/projects", body("project_name").notEmpty(), addProjects);
-
-  app.delete("/projects", body("id").isNumeric(), deleteProjects);
+  app.delete(
+    "/projects",
+    checkAuthenticated,
+    body("id").isNumeric(),
+    deleteProjects
+  );
 
   app.post(
     "/educations",
@@ -78,7 +71,12 @@ const addRoutes = (app) => {
     addEducations
   );
 
-  app.delete("/educations", body("id").isNumeric(), deleteEducations);
+  app.delete(
+    "/educations",
+    checkAuthenticated,
+    body("id").isNumeric(),
+    deleteEducations
+  );
 
   app.post(
     "/experiences",
@@ -89,7 +87,12 @@ const addRoutes = (app) => {
     addExperiences
   );
 
-  app.delete("/experiences", body("id").isNumeric(), deleteExperiences);
+  app.delete(
+    "/experiences",
+    checkAuthenticated,
+    body("id").isNumeric(),
+    deleteExperiences
+  );
 
   app.post(
     "/certificates",
@@ -99,13 +102,43 @@ const addRoutes = (app) => {
     addCertificates
   );
 
-  app.delete("/certificates", body("id").isNumeric(), deleteCertificates);
+  app.delete(
+    "/certificates",
+    checkAuthenticated,
+    body("id").isNumeric(),
+    deleteCertificates
+  );
 
-  app.post("/skills", body("skill_name").notEmpty(), addSkills);
+  app.post(
+    "/skills",
+    checkAuthenticated,
+    body("skill_name").notEmpty(),
+    addSkills
+  );
 
-  app.delete("/skills", body("id").isNumeric(), deleteSkills);
+  app.delete(
+    "/skills",
+    checkAuthenticated,
+    body("id").isNumeric(),
+    deleteSkills
+  );
 
-  app.post("/user", body("user_email"), addOrUpdateUser);
+  app.post("/user", checkAuthenticated, body("user_email"), addOrUpdateUser);
+};
+
+const checkAuthenticated = async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    // Authorization Check for POST & Delete apis
+    const userId = await getUserIdFromEmail(req.user.emails[0]?.value);
+    if (req.user.emails[0]?.verified && userId == req.query.user_id) {
+      return next();
+    } else {
+      res
+        .status(403)
+        .send({ message: "you do not have permission to edit details." });
+    }
+  }
+  res.status(403).send({ message: "Authentication Failed." });
 };
 
 export { addRoutes };
