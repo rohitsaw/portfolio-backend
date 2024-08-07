@@ -16,9 +16,6 @@ async function initModels(psql, schemaname) {
     createWorkExperienceModel(psql, schemaname);
     createEducationModel(psql, schemaname);
     createSkillModel(psql, schemaname);
-
-    await psql.sync({ alter: true });
-    console.log("Portfolio Table has been sync successfully.");
   } catch (error) {
     console.log("something went wrong:", error);
   }

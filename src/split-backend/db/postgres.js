@@ -11,10 +11,6 @@ const initializeDB = async (sequelize, schemaname) => {
     await createUserModel(sequelize, schemaname);
     await createTransactionModel(sequelize, schemaname);
     await createTransactionPartModel(sequelize, schemaname);
-
-    await sequelize.sync({ alter: true });
-
-    console.log("Connection has been established successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }

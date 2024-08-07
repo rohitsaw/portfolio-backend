@@ -13,6 +13,7 @@ const connectToPostgres = async () => {
   await connectToPortfolioDB(sequelize, "portfolio_backend");
   await connectToSplitDB(sequelize, "split_backend");
 
+  sequelize.sync({ alter: true });
   console.log("Database Sync Done for all DB");
 };
 
