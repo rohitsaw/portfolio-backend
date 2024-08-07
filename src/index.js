@@ -1,96 +1,23 @@
 import express from "express";
-import bodyParser from "body-parser";
-import connectToPostgres from "../src/db/postgres.js";
-import { addRoutes } from "./routes.js";
-import { addRoutes as addProtectedRouted } from "./protected-routes.js";
-// import { addSocket } from "./tic-toe-backend/socket.js";
-import { addSocket } from "./tic-toe-backend/socket1.js";
+import { createServer } from "http";
+import portfolioMain from "./portfolio-backend/index.js";
+import ticToeMain from "./tic-toe-backend/index.js";
 
-import passport from "passport";
-import cookieSession from "cookie-session";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-
-import authRoute from "./auth-routes.js";
+const PORT = 3000;
 
 const main = async () => {
   const app = express();
+  const http = createServer(app);
 
-  // app.set("trust proxy", 1);
+  await portfolioMain(app);
 
-  app.use(
-    cors({
-      origin: [
-        "https://tictoe-rsaw409.onrender.com",
-        process.env.CLIENT_ADDRESS1,
-        process.env.CLIENT_ADDRESS2,
-      ],
-      methods: "GET,POST,PUT,DELETE",
-      credentials: true,
-    })
-  );
+  await ticToeMain(http);
 
-  app.use(cookieParser());
-
-  app.use(bodyParser.json());
-
-  app.use(
-    cookieSession({
-      name: "session",
-      secret: "secret",
-      maxAge: 60 * 60 * 1000,
-
-      httpOnly: false,
-    })
-  );
-
-  // register regenerate & save after the cookieSession middleware initialization
-  app.use(function (request, response, next) {
-    if (request.session && !request.session.regenerate) {
-      request.session.regenerate = (cb) => {
-        cb();
-      };
+  http.listen(PORT, (error) => {
+    if (error) {
+      console.log("Error occurred, server can't start", error);
     }
-    if (request.session && !request.session.save) {
-      request.session.save = (cb) => {
-        cb();
-      };
-    }
-    next();
   });
-
-  app.use(passport.initialize());
-
-  app.use(passport.session());
-
-  app.use("/health", (req, res) =>
-    res.status(200).send({ message: "Server is Running." })
-  );
-
-  /* Backend for https://portfolio-rsaw409.onrender.com/ */
-
-  // GET APIS
-  addRoutes(app);
-
-  app.use(authRoute);
-
-  // POST APIS
-  addProtectedRouted(app);
-
-  app.use((err, req, res, next) => {
-    return res
-      .status(err.status || 400)
-      .send({ message: err.message ?? "something went wrong" });
-  });
-
-  /*  ----------------------------------------------------   */
-
-  // Backend For https://tictoe-rsaw409.onrender.com
-  addSocket(app);
-
-  await connectToPostgres({ logging: true });
-
-  console.log("Server is Ready.");
 };
 
 main();

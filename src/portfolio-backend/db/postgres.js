@@ -9,7 +9,7 @@ import createSkillModel from "./models/skill.js";
 import createUserModel from "./models/user.js";
 
 let psql = null;
-let postgresConnStr = process.env.postgresConnStr;
+let postgresConnStr = process.env.postgresDevConnStr;
 async function initModels({ logging }) {
   try {
     if (psql === null) {
@@ -34,7 +34,7 @@ async function initModels({ logging }) {
       createUserModel(psql);
 
       await psql.sync({ alter: true });
-      console.log("Table has been sync successfully.");
+      console.log("Portfolio Table has been sync successfully.");
     }
   } catch (error) {
     console.log("something went wrong:", error);
