@@ -21,7 +21,6 @@ const createCertificateModel = (sequelize, schema) => {
       certificate_name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
       },
       certificate_description: { type: DataTypes.STRING, defaultValue: "N/A" },
 
@@ -38,6 +37,7 @@ const createCertificateModel = (sequelize, schema) => {
     {
       schema,
       timestamps: false,
+      indexes: [{ unique: true, fields: ["certificate_name"] }],
     }
   );
 };

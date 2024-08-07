@@ -18,7 +18,7 @@ const createSkillModel = (sequelize, schema) => {
           key: "id",
         },
       },
-      skill_name: { type: DataTypes.STRING, allowNull: false, unique: true },
+      skill_name: { type: DataTypes.STRING, allowNull: false },
       skill_category: { type: DataTypes.STRING, defaultValue: "Misc" },
       skill_proficiency: {
         type: DataTypes.INTEGER,
@@ -31,6 +31,7 @@ const createSkillModel = (sequelize, schema) => {
     {
       schema,
       timestamps: false,
+      indexes: [{ unique: true, fields: ["skill_name"] }],
     }
   );
 };

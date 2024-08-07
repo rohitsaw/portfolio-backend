@@ -14,7 +14,6 @@ const createUserModel = (sequelize, schema) => {
       user_email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
         validate: {
           isEmail: true,
         },
@@ -29,6 +28,7 @@ const createUserModel = (sequelize, schema) => {
     {
       schema,
       timestamps: false,
+      indexes: [{ unique: true, fields: ["user_email"] }],
     }
   );
 };
