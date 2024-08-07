@@ -1,4 +1,7 @@
-import { sequelize } from "../../../../src/postgres.js";
+import {
+  sequelize,
+  portfolio_backend as schemaname,
+} from "../../../../src/postgres.js";
 import { QueryTypes } from "sequelize";
 
 // example transaction payload
@@ -20,8 +23,6 @@ import { QueryTypes } from "sequelize";
 //     },
 //   ],
 // };
-
-const schemaname = "split_backend";
 
 const saveTransaction = async (payload) => {
   try {

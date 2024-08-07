@@ -1,6 +1,7 @@
-import { sequelize as psql } from "../../../../src/postgres.js";
-
-const schemaname = "portfolio_backend";
+import {
+  sequelize as psql,
+  portfolio_backend as schemaname,
+} from "../../../../src/postgres.js";
 
 const getuser = async (email) => {
   const query = `select * from ${schemaname}.users where user_email = :email`;

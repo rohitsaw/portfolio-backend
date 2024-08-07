@@ -1,7 +1,8 @@
 import { QueryTypes } from "sequelize";
-import { sequelize } from "../../../../src/postgres.js";
-
-const schemaname = "split_backend";
+import {
+  sequelize,
+  split_backend as schemaname,
+} from "../../../../src/postgres.js";
 
 const createGroup = async (payload) => {
   return sequelize.models.Group.create({ name: payload.name });

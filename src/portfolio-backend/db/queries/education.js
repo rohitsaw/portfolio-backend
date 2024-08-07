@@ -1,6 +1,7 @@
-import { sequelize as psql } from "../../../../src/postgres.js";
-
-const schemaname = "portfolio_backend";
+import {
+  sequelize as psql,
+  portfolio_backend as schemaname,
+} from "../../../../src/postgres.js";
 
 const getAllEducations = async (user_id) => {
   const query = `select * from ${schemaname}.education where user_id = :user_id order by end_date desc`;
