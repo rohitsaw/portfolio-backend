@@ -63,6 +63,7 @@ const addRoutes = (app) => {
 
   app.post(
     "/educations",
+    checkAuthenticated,
     body("institute_name").notEmpty(),
     body("degree_name").notEmpty(),
     body("start_date").notEmpty(),
@@ -80,6 +81,7 @@ const addRoutes = (app) => {
 
   app.post(
     "/experiences",
+    checkAuthenticated,
     body("company_name").notEmpty(),
     body("designation").notEmpty(),
     body("start_date").notEmpty(),
@@ -96,6 +98,7 @@ const addRoutes = (app) => {
 
   app.post(
     "/certificates",
+    checkAuthenticated,
     body("certificate_name").notEmpty(),
     body("certification_authority").notEmpty(),
     body("certification_date").notEmpty(),
