@@ -13,6 +13,10 @@ const main = async () => {
 
   await ticToeMain(http);
 
+  app.use("/health", (req, res) => {
+    res.status(200).send({ message: "looks good." });
+  });
+
   http.listen(PORT, (error) => {
     if (error) {
       console.log("Error occurred, server can't start", error);
