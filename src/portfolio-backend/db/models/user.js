@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-const createUserModel = (sequelize) => {
+const createUserModel = (sequelize, schema) => {
   const { DataTypes } = Sequelize;
   return sequelize.define(
     "users",
@@ -27,6 +27,7 @@ const createUserModel = (sequelize) => {
       },
     },
     {
+      schema,
       timestamps: false,
     }
   );

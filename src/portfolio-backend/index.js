@@ -1,5 +1,4 @@
 import bodyParser from "body-parser";
-import connectToPostgres from "./db/postgres.js";
 import { addRoutes } from "./routes.js";
 import { addRoutes as addProtectedRouted } from "./protected-routes.js";
 
@@ -73,8 +72,6 @@ const main = async (app) => {
       .status(err.status || 400)
       .send({ message: err.message ?? "something went wrong" });
   });
-
-  await connectToPostgres({ logging: true });
 
   console.log("Portfolio Server is Ready.");
 };

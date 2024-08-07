@@ -1,8 +1,10 @@
-import { psql } from "../postgres.js";
+import { sequelize as psql } from "../../../../src/postgres.js";
 import dayjs from "dayjs";
 
+const schemaname = "portfolio_backend";
+
 const getAllCertificates = async (user_id) => {
-  const query = `select * from certificates where user_id = :user_id order by certification_date desc`;
+  const query = `select * from ${schemaname}.certificates where user_id = :user_id order by certification_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
     replacements: {
@@ -15,7 +17,7 @@ const getAllCertificates = async (user_id) => {
 const addCertificates = async (certificate, user_id) => {
   if (certificate.id) {
     const query = `
-      update certificates set
+      update ${schemaname}.certificates set
       certificate_name = :certificate_name,
       certificate_description = :certificate_description,
       certification_authority = :certification_authority,

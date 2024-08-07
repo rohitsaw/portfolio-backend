@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-const createWorkExperienceModel = (sequelize) => {
+const createWorkExperienceModel = (sequelize, schema) => {
   const { DataTypes } = Sequelize;
   return sequelize.define(
     "work_experiences",
@@ -27,6 +27,7 @@ const createWorkExperienceModel = (sequelize) => {
       details: { type: DataTypes.TEXT },
     },
     {
+      schema,
       timestamps: false,
     }
   );

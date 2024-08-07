@@ -1,7 +1,9 @@
-import { psql } from "../postgres.js";
+import { sequelize as psql } from "../../../../src/postgres.js";
+
+const schemaname = "portfolio_backend";
 
 const getAllEducations = async (user_id) => {
-  const query = `select * from education where user_id = :user_id order by end_date desc`;
+  const query = `select * from ${schemaname}.education where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
     replacements: {
@@ -14,7 +16,7 @@ const getAllEducations = async (user_id) => {
 const addEducations = async (education, user_id) => {
   if (education.id) {
     const query = `
-      update education set
+      update ${schemaname}.education set
       institute_name = :institute_name,
       degree_name = :degree_name,
       start_date = :start_date,

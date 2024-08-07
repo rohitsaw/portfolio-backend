@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-const createProjectModel = (sequelize) => {
+const createProjectModel = (sequelize, schema) => {
   const { DataTypes } = Sequelize;
   return sequelize.define(
     "projects",
@@ -29,6 +29,7 @@ const createProjectModel = (sequelize) => {
       technology_tags: { type: DataTypes.ARRAY(DataTypes.STRING) },
     },
     {
+      schema,
       timestamps: false,
     }
   );

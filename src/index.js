@@ -2,6 +2,9 @@ import express from "express";
 import { createServer } from "http";
 import portfolioMain from "./portfolio-backend/index.js";
 import ticToeMain from "./tic-toe-backend/index.js";
+import splitMain from "./split-backend/index.js";
+
+import connectToPostgres from "./postgres.js";
 
 const PORT = 3000;
 
@@ -11,7 +14,11 @@ const main = async () => {
 
   await portfolioMain(app);
 
+  await splitMain(app);
+
   await ticToeMain(http);
+
+  await connectToPostgres();
 
   app.use("/health", (req, res) => {
     res.status(200).send({ message: "looks good." });

@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-const createCertificateModel = (sequelize) => {
+const createCertificateModel = (sequelize, schema) => {
   const { DataTypes } = Sequelize;
   return sequelize.define(
     "certificates",
@@ -36,6 +36,7 @@ const createCertificateModel = (sequelize) => {
       technology_tags: { type: DataTypes.ARRAY(DataTypes.STRING) },
     },
     {
+      schema,
       timestamps: false,
     }
   );

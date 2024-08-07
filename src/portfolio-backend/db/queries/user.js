@@ -1,7 +1,9 @@
-import { psql } from "../postgres.js";
+import { sequelize as psql } from "../../../../src/postgres.js";
+
+const schemaname = "portfolio_backend";
 
 const getuser = async (email) => {
-  const query = `select * from users where user_email = :email`;
+  const query = `select * from ${schemaname}.users where user_email = :email`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
     replacements: { email: email },
@@ -14,7 +16,7 @@ const addOrUpdateUser = async (
   user_id
 ) => {
   social_links = JSON.stringify(social_links);
-  const query = `update users set
+  const query = `update ${schemaname}.users set
     name = :name, 
     about = :about,
     social_links = :social_links
@@ -28,7 +30,7 @@ const addOrUpdateUser = async (
 };
 
 const getUserIdFromEmail = async (email) => {
-  const query = `select id from users where user_email = :email`;
+  const query = `select id from ${schemaname}.users where user_email = :email`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
     replacements: { email },

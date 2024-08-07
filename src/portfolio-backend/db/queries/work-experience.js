@@ -1,7 +1,9 @@
-import { psql } from "../postgres.js";
+import { sequelize as psql } from "../../../../src/postgres.js";
+
+const schemaname = "portfolio_backend";
 
 const getAllExperiences = async (user_id) => {
-  const query = `select * from work_experiences where user_id = :user_id order by end_date desc`;
+  const query = `select * from ${schemaname}.work_experiences where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
     replacements: {
@@ -14,7 +16,7 @@ const getAllExperiences = async (user_id) => {
 const addExperiences = async (experience, user_id) => {
   if (experience.id) {
     const query = `
-    update work_experiences set
+    update ${schemaname}.work_experiences set
     company_name = :company_name,
     designation = :designation,
     start_date = :start_date,

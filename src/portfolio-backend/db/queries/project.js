@@ -1,7 +1,9 @@
-import { psql } from "../postgres.js";
+import { sequelize as psql } from "../../../../src/postgres.js";
+
+const schemaname = "portfolio_backend";
 
 const getAllProjects = async (user_id) => {
-  const query = `select * from projects where user_id = :user_id`;
+  const query = `select * from ${schemaname}.projects where user_id = :user_id`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
     replacements: {
@@ -15,7 +17,7 @@ const getAllProjects = async (user_id) => {
 const addProjects = async (project, user_id) => {
   if (project.id) {
     const query = `
-      update projects set
+      update ${schemaname}.projects set
       project_name = :project_name,
       project_description = :project_description,
       github_url = :github_url,

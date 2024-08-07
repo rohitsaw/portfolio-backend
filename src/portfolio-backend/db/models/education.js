@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-const createEducationModel = (sequelize) => {
+const createEducationModel = (sequelize, schema) => {
   const { DataTypes } = Sequelize;
   return sequelize.define(
     "education",
@@ -27,6 +27,7 @@ const createEducationModel = (sequelize) => {
       score: { type: DataTypes.DOUBLE },
     },
     {
+      schema,
       timestamps: false,
     }
   );

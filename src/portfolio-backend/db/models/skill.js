@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-const createSkillModel = (sequelize) => {
+const createSkillModel = (sequelize, schema) => {
   const { DataTypes } = Sequelize;
   return sequelize.define(
     "skills",
@@ -29,6 +29,7 @@ const createSkillModel = (sequelize) => {
       },
     },
     {
+      schema,
       timestamps: false,
     }
   );
