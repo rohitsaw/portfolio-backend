@@ -59,17 +59,17 @@ const createUser = async (req, res) => {
 };
 const saveTransaction = async (req, res) => {
   try {
-    const requiredFields = ["by", "totalAmount", "transaction_part"];
+    const requiredFields = ["by", "title", "totalAmount", "transactionParts"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
 
-    if (!req.body.transaction_part.every((e) => e.user_id && e.amount)) {
+    if (!req.body.transactionParts.every((e) => e.user_id && e.amount)) {
       throw new Error(`distribution should be array of {userId, amount}`);
     }
 
     if (
-      req.body.transaction_part.reduce((sum, e) => sum + e.amount, 0) !=
+      req.body.transactionParts.reduce((sum, e) => sum + e.amount, 0) !=
       req.body.totalAmount
     ) {
       throw new Error(`distribution is not matching with totalAmount.`);

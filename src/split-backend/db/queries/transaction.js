@@ -7,8 +7,9 @@ import { QueryTypes } from "sequelize";
 // example transaction payload
 // const transaction = {
 //   by: 1,
+//   title : "expense",
 //   totalAmount: 500,
-//   transaction_part: [
+//   transactionParts: [
 //     {
 //       user_id: 1,
 //       amount: 100,
@@ -30,12 +31,13 @@ const saveTransaction = async (payload) => {
       const transaction = await sequelize.models.Transaction.create(
         {
           by: payload.by,
+          title: payload.title,
           amount: payload.totalAmount,
         },
         { transaction: t }
       );
 
-      const transaction_parts = payload.transaction_part.map((e) => {
+      const transaction_parts = payload.transactionParts.map((e) => {
         return {
           ...e,
           transaction_id: transaction.dataValues.id,
