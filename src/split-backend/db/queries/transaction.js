@@ -1,6 +1,6 @@
 import {
   sequelize,
-  portfolio_backend as schemaname,
+  split_backend as schemaname,
 } from "../../../../src/postgres.js";
 import { QueryTypes } from "sequelize";
 
@@ -66,7 +66,7 @@ const getAllTransactionInGroup = async ({ group_id, by, user_id }) => {
   }
 
   const query =
-    (user_id ? `select * from(` : ` `) +
+    (user_id ? `select * from( ` : ` `) +
     `select group_id, group_name, user_id, user_name, transaction_id, transaction_title, transaction_amount, transaction_date,
   jsonb_agg(jsonb_build_object('user_name' , distribution_name, 'user_id' , distribution_user_id, 'amount', distrubution_amount)) as distributions
   from (
@@ -85,7 +85,7 @@ const getAllTransactionInGroup = async ({ group_id, by, user_id }) => {
   join ${schemaname}.users C
   on A.user_id = C.id
   
-  join users D
+  join ${schemaname}.users D
   on B.by = D.id
   
   join ${schemaname}.groups E
@@ -93,17 +93,17 @@ const getAllTransactionInGroup = async ({ group_id, by, user_id }) => {
   
   where E.id = :group_id` +
     (by ? ` and B.by = :by` : ` `) +
-    `) 
+    `) F
   group by 1,2,3,4,5,6,7,8` +
     (user_id
-      ? `) where 
+      ? `) G where 
     EXISTS (
       SELECT 1
       FROM jsonb_array_elements(distributions) elem
       WHERE elem->>'user_id' = :user_id
   )`
       : ` `) +
-    `order by transaction_date desc `;
+    ` order by transaction_date desc `;
   return sequelize.query(query, {
     type: QueryTypes.SELECT,
     replacements: { group_id: group_id, by: by, user_id: `${user_id}` },
