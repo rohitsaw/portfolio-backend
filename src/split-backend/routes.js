@@ -1,5 +1,5 @@
 import {
-  getGroup,
+  joinGroup,
   createGroup,
   createUser,
   saveTransaction,
@@ -12,7 +12,7 @@ import {
 const addRoutes = (app) => {
   app.post("/createGroup", createGroup);
 
-  app.post("/getGroup", getGroup);
+  app.post("/joinGroup", joinGroup);
 
   app.post("/createUser", createUser);
 

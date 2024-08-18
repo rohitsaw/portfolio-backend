@@ -13,6 +13,8 @@ import {
   getOverviewDataInGroup as getOverviewDataInGroupFromDb,
 } from "./db/queries/group.js";
 
+import { encrypt, decrypt } from "./utils/crypto.js";
+
 const createGroup = async (req, res) => {
   try {
     const requiredFields = ["name"];
@@ -21,25 +23,34 @@ const createGroup = async (req, res) => {
     }
 
     const response = await createGroupInDB(req.body);
-    return res.status(200).send(response);
+    const inviteId = encrypt(`${response.id}`);
+    return res.status(200).send({ ...response.dataValues, inviteId });
   } catch (error) {
     return res.status(400).send({ message: error.message });
   }
 };
 
-const getGroup = async (req, res) => {
+const joinGroup = async (req, res) => {
   try {
-    const requiredFields = ["group_id"];
+    const requiredFields = ["invite_id"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
 
-    const response = await getGroupInDB(req.body);
+    console.log("inviteId", req.body.invite_id);
+    const group_id = decrypt(req.body.invite_id);
+
+    const response = await getGroupInDB({ group_id: group_id });
+
     if (response == null) {
       throw new Error("No Group Found");
     }
-    return res.status(200).send(response);
+
+    const inviteId = encrypt(`${response.id}`);
+
+    return res.status(200).send({ ...response, inviteId });
   } catch (error) {
+    console.log("error", error);
     return res.status(400).send({ message: error.message });
   }
 };
@@ -135,7 +146,7 @@ const getOverviewDataInGroup = async (req, res) => {
 };
 
 export {
-  getGroup,
+  joinGroup,
   createGroup,
   createUser,
   saveTransaction,
