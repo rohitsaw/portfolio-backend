@@ -17,7 +17,6 @@ async function initModels(psql, schemaname) {
     createEducationModel(psql, schemaname);
     createSkillModel(psql, schemaname);
 
-    await createIndexes(psql);
   } catch (error) {
     console.log("something went wrong:", error);
   }
