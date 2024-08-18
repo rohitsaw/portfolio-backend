@@ -5,11 +5,11 @@ import {
 } from "./db/queries/user.js";
 import {
   saveTransaction as saveTransactionInDB,
+  savePayment as savePaymentInDB,
   getAllTransactionInGroup as getAllTransactionInGroupFromDB,
 } from "./db/queries/transaction.js";
 import {
   getGroup as getGroupInDB,
-  getGroupView as getGroupViewFromDB,
   getOverviewDataInGroup as getOverviewDataInGroupFromDb,
 } from "./db/queries/group.js";
 
@@ -82,14 +82,13 @@ const saveTransaction = async (req, res) => {
   }
 };
 
-const getGroupView = async (req, res) => {
+const savePayment = async (req, res) => {
   try {
-    const requiredFields = ["group_id"];
+    const requiredFields = ["from", "to", "amount"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
-
-    const response = await getGroupViewFromDB(req.body);
+    const response = await savePaymentInDB(req.body);
     return res.status(200).send(response);
   } catch (error) {
     return res.status(400).send({ message: error.message });
@@ -137,10 +136,10 @@ const getOverviewDataInGroup = async (req, res) => {
 
 export {
   getGroup,
-  getGroupView,
   createGroup,
   createUser,
   saveTransaction,
+  savePayment,
   getAllUsersInGroup,
   getAllTransactionInGroup,
   getOverviewDataInGroup,

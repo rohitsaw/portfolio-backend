@@ -33,6 +33,7 @@ const saveTransaction = async (payload) => {
           by: payload.by,
           title: payload.title,
           amount: payload.totalAmount,
+          is_payment: false,
         },
         { transaction: t }
       );
@@ -57,7 +58,42 @@ const saveTransaction = async (payload) => {
   }
 };
 
-const getAllTransactionInGroup = async ({ group_id, by, user_id }) => {
+const savePayment = async (payload) => {
+  try {
+    return sequelize.transaction(async (t) => {
+      const transaction = await sequelize.models.Transaction.create(
+        {
+          by: payload.from,
+          title: "payment",
+          amount: payload.amount,
+          is_payment: true,
+        },
+        { transaction: t }
+      );
+
+      const response = await sequelize.models.TransactionPart.create(
+        {
+          user_id: payload.to,
+          amount: payload.amount,
+          transaction_id: transaction.dataValues.id,
+        },
+        { transaction: t }
+      );
+      return transaction;
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+};
+
+const getAllTransactionInGroup = async ({
+  group_id,
+  by,
+  user_id,
+  payments,
+}) => {
+  console.log("payments", typeof payments, payments);
   if (!by || by == "null") {
     by = undefined;
   }
@@ -92,7 +128,12 @@ const getAllTransactionInGroup = async ({ group_id, by, user_id }) => {
   on C.group_id = E.id
   
   where E.id = :group_id` +
-    (by ? ` and B.by = :by` : ` `) +
+    (by ? ` and B.by = :by ` : ` `) +
+    (payments !== null
+      ? payments
+        ? `and B.is_payment = true`
+        : `and B.is_payment = false`
+      : ``) +
     `) F
   group by 1,2,3,4,5,6,7,8` +
     (user_id
@@ -110,4 +151,4 @@ const getAllTransactionInGroup = async ({ group_id, by, user_id }) => {
   });
 };
 
-export { saveTransaction, getAllTransactionInGroup };
+export { saveTransaction, savePayment, getAllTransactionInGroup };

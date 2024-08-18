@@ -1,9 +1,9 @@
 import {
-  getGroupView,
   getGroup,
   createGroup,
   createUser,
   saveTransaction,
+  savePayment,
   getAllUsersInGroup,
   getAllTransactionInGroup,
   getOverviewDataInGroup,
@@ -18,7 +18,7 @@ const addRoutes = (app) => {
 
   app.post("/saveTransaction", saveTransaction);
 
-  app.post("/groupView", getGroupView);
+  app.post("/savePayment", savePayment);
 
   app.post("/getAllUsersInGroup", getAllUsersInGroup);
 

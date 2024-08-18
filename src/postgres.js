@@ -22,7 +22,7 @@ const connectToPostgres = async () => {
   console.log("Database Sync Done for all DB");
 };
 
-async function createIndexes(psql) {
+const createIndexes = async (psql) => {
   await psql.query(
     "create unique index if not exists users_user_email on portfolio_backend.users (user_email)"
   );
@@ -57,7 +57,7 @@ async function createIndexes(psql) {
   await psql.query(
     "create index if not exists transaction_parts_user_id on split_backend.transaction_parts (user_id)"
   );
-}
+};
 
 export default connectToPostgres;
 
