@@ -39,8 +39,10 @@ const joinGroup = async (req, res) => {
 
     console.log("inviteId", req.body.invite_id);
     const group_id = decrypt(req.body.invite_id);
+    console.log("decrypted group id", group_id);
 
     const response = await getGroupInDB({ group_id: group_id });
+    console.log("group response", response);
 
     if (response == null) {
       throw new Error("No Group Found");
