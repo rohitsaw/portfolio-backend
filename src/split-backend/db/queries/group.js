@@ -9,7 +9,7 @@ const createGroup = async (payload) => {
 };
 
 const getGroup = async ({ group_id }) => {
-  return sequelize.models.Group.findOne({ where: { id: group_id } });
+  return sequelize.models.Group.findOne({ where: { id: group_id }, raw: true });
 };
 
 const getOverviewDataInGroup = async ({ group_id }) => {
