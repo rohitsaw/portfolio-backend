@@ -12,12 +12,13 @@ const connectToPostgres = async () => {
   sequelize = new Sequelize(connStr, {
     logging: console.log,
   });
-  await createIndexes(sequelize);
 
   await connectToPortfolioDB(sequelize, portfolio_backend);
   await connectToSplitDB(sequelize, split_backend);
 
   await sequelize.sync({ alter: true });
+
+  await createIndexes(sequelize);
 
   console.log("Database Sync Done for all DB");
 };
