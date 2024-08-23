@@ -4,7 +4,7 @@ import {
 } from "../../../../src/postgres.js";
 
 const getAllProjects = async (user_id) => {
-  const query = `select * from ${schemaname}.projects where user_id = :user_id order by created_at desc`;
+  const query = `select * from ${schemaname}.projects where user_id = :user_id order by id desc`;
   const res = await psql.query(query, {
     type: psql.QueryTypes.SELECT,
     replacements: {
