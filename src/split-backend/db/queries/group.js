@@ -22,8 +22,8 @@ coalesce(number_of_benefits,0) as number_of_benefits
 from ${schemaname}.users A
 left join 
 (select by as user_id, sum(amount) as total_pos, 
-count(case when is_payment = false then by else null end) as number_of_transactions, 
-count(case when is_payment = true then by else null end) as number_of_payments 
+count(case when category != 'payment' then by else null end) as number_of_transactions, 
+count(case when category = 'payment' then by else null end) as number_of_payments 
 from ${schemaname}.transactions
 group by user_id) B
 on A.id = B.user_id

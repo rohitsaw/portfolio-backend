@@ -33,7 +33,6 @@ const saveTransaction = async (payload) => {
           by: payload.by,
           title: payload.title,
           amount: payload.totalAmount,
-          is_payment: false,
         },
         { transaction: t }
       );
@@ -65,7 +64,7 @@ const savePayment = async (payload) => {
           by: payload.from,
           title: "payment",
           amount: payload.amount,
-          is_payment: true,
+          category: "payment",
         },
         { transaction: t }
       );
@@ -96,7 +95,7 @@ const savePayments = async (payments) => {
             by: payment.from,
             title: "payment",
             amount: payment.amount,
-            is_payment: true,
+            category: "payment",
           },
           { transaction: t }
         );
@@ -160,8 +159,8 @@ const getAllTransactionInGroup = async ({
     (by ? ` and B.by = :by ` : ` `) +
     (payments !== null
       ? payments
-        ? `and B.is_payment = true`
-        : `and B.is_payment = false`
+        ? `and B.category = 'payment'`
+        : `and B.category != 'payment'`
       : ``) +
     `) F
   group by 1,2,3,4,5,6,7,8` +

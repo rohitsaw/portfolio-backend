@@ -20,9 +20,8 @@ const createTransactionModel = (sequelize, schema) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      is_payment: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+      category: {
+        type: DataTypes.STRING,
       },
     },
     {
