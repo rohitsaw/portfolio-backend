@@ -108,15 +108,16 @@ const savePayment = async (req, res) => {
 
 const savePayments = async (req, res) => {
   try {
-    console.log("req.body", req.body);
     const requiredFields = ["from", "to", "amount"];
-    if (
-      !req.body.every(
-        (each) =>
-          Object.keys(each).sort().join(",") == requiredFields.sort().join(",")
-      )
-    ) {
-      throw new Error(`Required Field missing ${requiredFields}`);
+
+    for (let each of req.body) {
+      if (
+        !Object.prototype.hasOwnProperty.call(each, "from") ||
+        !Object.prototype.hasOwnProperty.call(each, "to") ||
+        !Object.prototype.hasOwnProperty.call(each, "amount")
+      ) {
+        throw new Error(`Required Field missing ${requiredFields}`);
+      }
     }
     const response = await savePaymentsInDB(req.body);
     return res.status(200).send(response);
