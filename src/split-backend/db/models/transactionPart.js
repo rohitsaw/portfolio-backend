@@ -11,6 +11,7 @@ const createTransactionPartModel = (sequelize, schema) => {
           model: "users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       amount: {
         type: DataTypes.DOUBLE,
@@ -23,6 +24,7 @@ const createTransactionPartModel = (sequelize, schema) => {
           model: "transactions",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
     },
     {

@@ -11,6 +11,7 @@ const createTransactionModel = (sequelize, schema) => {
           model: "users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       amount: {
         type: DataTypes.DOUBLE,

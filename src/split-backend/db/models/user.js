@@ -14,6 +14,7 @@ const createUserModel = (sequelize, schema) => {
           model: "groups",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
     },
     {
