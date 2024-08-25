@@ -9,9 +9,7 @@ let split_backend = "split_backend";
 
 const connectToPostgres = async () => {
   const connStr = process.env.postgresConnStr;
-  sequelize = new Sequelize(connStr, {
-    logging: console.log,
-  });
+  sequelize = new Sequelize(connStr);
 
   await connectToPortfolioDB(sequelize, portfolio_backend);
   await connectToSplitDB(sequelize, split_backend);

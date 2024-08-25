@@ -7,6 +7,7 @@ import {
   getAllUsersInGroup,
   getAllTransactionInGroup,
   getOverviewDataInGroup,
+  savePayments,
 } from "./controller.js";
 
 const addRoutes = (app) => {
@@ -19,6 +20,8 @@ const addRoutes = (app) => {
   app.post("/saveTransaction", saveTransaction);
 
   app.post("/savePayment", savePayment);
+
+  app.post("/savePayments", savePayments);
 
   app.post("/getAllUsersInGroup", getAllUsersInGroup);
 

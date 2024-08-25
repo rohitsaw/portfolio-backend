@@ -1,7 +1,4 @@
-import {
-  sequelize,
-  portfolio_backend as schemaname,
-} from "../../../../src/postgres.js";
+import { sequelize } from "../../../../src/postgres.js";
 
 const getAllUsersInGroup = async ({ group_id }) => {
   return sequelize.models.User.findAll({

@@ -26,7 +26,8 @@ const addSocket = (http) => {
           `${userName} - ${userId} has joined game with id ${gameId}`
         );
 
-        if (!games.hasOwnProperty(gameId)) games[gameId] = {};
+        if (!Object.prototype.hasOwnProperty.call(games, gameId))
+          games[gameId] = {};
         games[gameId][userId] = userName;
       }
 
@@ -40,8 +41,8 @@ const addSocket = (http) => {
     socket.on("madeMove", (data) => {
       const gameId = data.gameId;
       const userName = data.userName;
-      const [i, j] = data.index;
-      const symbol = data.symbol;
+      // const [i, j] = data.index;
+      // const symbol = data.symbol;
       console.log(`${userName} has made his move.`);
       socket.to(gameId).emit("receivedFromServer", data);
     });
@@ -64,7 +65,7 @@ const addSocket = (http) => {
       socket.to(data.gameId).emit("userLeftGame", data);
     });
 
-    socket.on("disconnecting", (reason) => {
+    socket.on("disconnecting", () => {
       for (const room of socket.rooms) {
         if (room !== socket.id) {
           let userName = "";

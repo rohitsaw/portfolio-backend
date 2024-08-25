@@ -67,7 +67,7 @@ const main = async (app) => {
   // POST APIS
   addProtectedRouted(app);
 
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     return res
       .status(err.status || 400)
       .send({ message: err.message ?? "something went wrong" });

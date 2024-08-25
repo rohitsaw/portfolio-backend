@@ -45,10 +45,9 @@ const saveTransaction = async (payload) => {
         };
       });
 
-      const response = await sequelize.models.TransactionPart.bulkCreate(
-        transaction_parts,
-        { transaction: t }
-      );
+      await sequelize.models.TransactionPart.bulkCreate(transaction_parts, {
+        transaction: t,
+      });
 
       return transaction;
     });
@@ -71,7 +70,7 @@ const savePayment = async (payload) => {
         { transaction: t }
       );
 
-      const response = await sequelize.models.TransactionPart.create(
+      await sequelize.models.TransactionPart.create(
         {
           user_id: payload.to,
           amount: payload.amount,
@@ -87,13 +86,43 @@ const savePayment = async (payload) => {
   }
 };
 
+const savePayments = async (payments) => {
+  try {
+    return sequelize.transaction(async (t) => {
+      for (let i = 0; i < payments.length; i++) {
+        let payment = payments[i];
+        const transaction = await sequelize.models.Transaction.create(
+          {
+            by: payment.from,
+            title: "payment",
+            amount: payment.amount,
+            is_payment: true,
+          },
+          { transaction: t }
+        );
+
+        await sequelize.models.TransactionPart.create(
+          {
+            user_id: payment.to,
+            amount: payment.amount,
+            transaction_id: transaction.dataValues.id,
+          },
+          { transaction: t }
+        );
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+};
+
 const getAllTransactionInGroup = async ({
   group_id,
   by,
   user_id,
   payments,
 }) => {
-  console.log("payments", typeof payments, payments);
   if (!by || by == "null") {
     by = undefined;
   }
@@ -151,4 +180,4 @@ const getAllTransactionInGroup = async ({
   });
 };
 
-export { saveTransaction, savePayment, getAllTransactionInGroup };
+export { saveTransaction, savePayment, getAllTransactionInGroup, savePayments };

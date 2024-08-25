@@ -34,4 +34,6 @@ function decrypt(text) {
   return decrypted;
 }
 
+console.log("ENCRYPT", encrypt("1"));
+
 export { encrypt, decrypt };

@@ -6,6 +6,7 @@ import {
 import {
   saveTransaction as saveTransactionInDB,
   savePayment as savePaymentInDB,
+  savePayments as savePaymentsInDB,
   getAllTransactionInGroup as getAllTransactionInGroupFromDB,
 } from "./db/queries/transaction.js";
 import {
@@ -105,6 +106,23 @@ const savePayment = async (req, res) => {
   }
 };
 
+const savePayments = async (req, res) => {
+  try {
+    const requiredFields = ["from", "to", "amount"];
+    if (
+      !req.body.every(
+        (each) => Object.keys(each).sort() == requiredFields.sort()
+      )
+    ) {
+      throw new Error(`Required Field missing ${requiredFields}`);
+    }
+    const response = await savePaymentsInDB(req.body);
+    return res.status(200).send(response);
+  } catch (error) {
+    return res.status(400).send({ message: error.message });
+  }
+};
+
 const getAllUsersInGroup = async (req, res) => {
   try {
     const requiredFields = ["group_id"];
@@ -153,4 +171,5 @@ export {
   getAllUsersInGroup,
   getAllTransactionInGroup,
   getOverviewDataInGroup,
+  savePayments,
 };
