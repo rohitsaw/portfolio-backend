@@ -8,6 +8,9 @@ export default [
         ...globals.node, // Include Node.js globals
       },
     },
+    rules: {
+      "no-unused-vars": ["error", { argsIgnorePattern: "^next$" }], // Custom rule
+    },
   },
   pluginJs.configs.recommended,
 ];
