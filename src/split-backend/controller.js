@@ -108,10 +108,12 @@ const savePayment = async (req, res) => {
 
 const savePayments = async (req, res) => {
   try {
+    console.log("req.body", req.body);
     const requiredFields = ["from", "to", "amount"];
     if (
       !req.body.every(
-        (each) => Object.keys(each).sort() == requiredFields.sort()
+        (each) =>
+          Object.keys(each).sort().join(",") == requiredFields.sort().join(",")
       )
     ) {
       throw new Error(`Required Field missing ${requiredFields}`);
