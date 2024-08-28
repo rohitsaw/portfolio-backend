@@ -10,7 +10,6 @@ const send_push_notification = ({ groupName, headings, title }) => {
     },
     body: JSON.stringify({
       app_id: "e6cdb8fb-192b-4a0e-81e1-5762f7e0b630",
-      included_segments: ["All"],
       filters: [
         {
           field: "tag",
