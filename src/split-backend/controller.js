@@ -88,7 +88,11 @@ const saveTransaction = async (req, res) => {
     }
 
     const response = await saveTransactionInDB(req.body);
-    send_push_notification(response);
+    send_push_notification({
+      groupName: req.body.groupName,
+      headings: "New Expense",
+      title: req.body.title,
+    });
     return res.status(200).send(response);
   } catch (error) {
     return res.status(400).send({ message: error.message });
@@ -102,7 +106,11 @@ const savePayment = async (req, res) => {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
     const response = await savePaymentInDB(req.body);
-    send_push_notification(response);
+    send_push_notification({
+      groupName: req.body.groupName,
+      headings: "New Payment",
+      title: `INR ${req.body.amount}`,
+    });
     return res.status(200).send(response);
   } catch (error) {
     return res.status(400).send({ message: error.message });
@@ -123,7 +131,14 @@ const savePayments = async (req, res) => {
       }
     }
     const response = await savePaymentsInDB(req.body);
-    send_push_notification(response);
+
+    req.body.forEach((e) => {
+      send_push_notification({
+        groupName: e.groupName,
+        headings: "New Payment",
+        title: `INR ${e.amount}`,
+      });
+    });
     return res.status(200).send(response);
   } catch (error) {
     return res.status(400).send({ message: error.message });
