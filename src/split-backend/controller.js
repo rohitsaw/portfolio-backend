@@ -15,6 +15,7 @@ import {
 } from "./db/queries/group.js";
 
 import { encrypt, decrypt } from "./utils/crypto.js";
+import { send_push_notification } from "./utils/send_notification.js";
 
 const createGroup = async (req, res) => {
   try {
@@ -87,6 +88,7 @@ const saveTransaction = async (req, res) => {
     }
 
     const response = await saveTransactionInDB(req.body);
+    send_push_notification(response);
     return res.status(200).send(response);
   } catch (error) {
     return res.status(400).send({ message: error.message });
@@ -100,6 +102,7 @@ const savePayment = async (req, res) => {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
     const response = await savePaymentInDB(req.body);
+    send_push_notification(response);
     return res.status(200).send(response);
   } catch (error) {
     return res.status(400).send({ message: error.message });
@@ -120,6 +123,7 @@ const savePayments = async (req, res) => {
       }
     }
     const response = await savePaymentsInDB(req.body);
+    send_push_notification(response);
     return res.status(200).send(response);
   } catch (error) {
     return res.status(400).send({ message: error.message });

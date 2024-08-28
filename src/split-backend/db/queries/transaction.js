@@ -88,6 +88,7 @@ const savePayment = async (payload) => {
 const savePayments = async (payments) => {
   try {
     return sequelize.transaction(async (t) => {
+      const tmp = [];
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
         const transaction = await sequelize.models.Transaction.create(
@@ -108,7 +109,9 @@ const savePayments = async (payments) => {
           },
           { transaction: t }
         );
+        tmp.push(transaction);
       }
+      return tmp;
     });
   } catch (error) {
     console.error(error);
