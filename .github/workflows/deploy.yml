@@ -1,0 +1,34 @@
+name: Build and Deploy to Render
+
+on:
+  push:
+    branches:
+      - main # Change this to the branch you want to trigger deployments from
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20" # Specify the Node.js version you need
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }} # Store your Render API key in GitHub Secrets
+        run: |
+          curl -X POST https://api.render.com/v1/services/srv-cm6ldjnqd2ns73eul1dg/deploys \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"branch": "main"}' # Change branch if needed
