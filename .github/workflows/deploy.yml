@@ -29,6 +29,9 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      - name: Create a ZIP of build artifacts
+        run: zip -r build.zip ./dist
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -46,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/build.zip
+          asset_path: ./build.zip
           asset_name: build.zip
           asset_content_type: application/zip
 
