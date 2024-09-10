@@ -12,3 +12,6 @@ build
 # Node.js
 node_modules/
 .eslintcache
+
+# compile output
+dist/
