@@ -24,11 +24,37 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0
+          release_name: Release v1.0
+          draft: false
+          prerelease: false
+
+      - name: Upload build artifacts to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/build.zip
+          asset_name: build.zip
+          asset_content_type: application/zip
+
       - name: Deploy to Render
         env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }} # Store your Render API key in GitHub Secrets
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
         run: |
-          curl -X POST https://api.render.com/v1/services/srv-cm6ldjnqd2ns73eul1dg/deploys \
+          # Notify Render about the new deployment
+          curl -X POST https://api.render.com/v1/services/${{ env.RENDER_SERVICE_ID }}/deploys \
             -H "Authorization: Bearer $RENDER_API_KEY" \
             -H "Content-Type: application/json" \
-            -d '{"branch": "main"}' # Change branch if needed
+            -d '{
+              "branch": "main",
+              "artifact": "https://github.com/${{ github.repository }}/releases/download/v1.0/build.zip"
+            }'
