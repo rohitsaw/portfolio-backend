@@ -1,6 +1,6 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 
-const createTransactionPartModel = (sequelize, schema) => {
+const createTransactionPartModel = (sequelize: Sequelize, schema: string) => {
   const TransactionPart = sequelize.define(
     "TransactionPart",
     {

@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import { createGroup as createGroupInDB } from "./db/queries/group.js";
 import {
   createUser as createUserInDB,
@@ -16,32 +17,46 @@ import {
 
 import { encrypt, decrypt } from "./utils/crypto.js";
 import { send_push_notification } from "./utils/send_notification.js";
+import {
+  createGroupPayload,
+  createUserPayload,
+  getAllTransactionInGroupPayload,
+  joinGroupPayload,
+  savePaymentPayload,
+  saveTransactionPayload,
+} from "./utils/types.js";
 
-const createGroup = async (req, res) => {
+const createGroup = async (
+  req: Request<{}, {}, createGroupPayload>,
+  res: Response
+) => {
   try {
     const requiredFields = ["name"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
 
-    const response = await createGroupInDB(req.body);
+    const response: any = await createGroupInDB(req.body);
     const inviteId = encrypt(`${response.id}`);
     return res.status(200).send({ ...response.dataValues, inviteId });
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ message: error.message });
   }
 };
 
-const joinGroup = async (req, res) => {
+const joinGroup = async (
+  req: Request<{}, {}, joinGroupPayload>,
+  res: Response
+) => {
   try {
     const requiredFields = ["invite_id"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
 
-    const group_id = decrypt(req.body.invite_id);
+    const group_id: number = decrypt(req.body.invite_id) as unknown as number;
 
-    const response = await getGroupInDB({ group_id: group_id });
+    const response: any = await getGroupInDB({ group_id: group_id });
 
     if (response == null) {
       throw new Error("No Group Found");
@@ -50,13 +65,16 @@ const joinGroup = async (req, res) => {
     const inviteId = encrypt(`${response.id}`);
 
     return res.status(200).send({ ...response, inviteId });
-  } catch (error) {
-    console.log("error", error);
+  } catch (error: any) {
+    console.error("error", error);
     return res.status(400).send({ message: error.message });
   }
 };
 
-const createUser = async (req, res) => {
+const createUser = async (
+  req: Request<{}, {}, createUserPayload>,
+  res: Response
+) => {
   try {
     const requiredFields = ["name", "group_id"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
@@ -65,11 +83,14 @@ const createUser = async (req, res) => {
 
     const response = await createUserInDB(req.body);
     return res.status(200).send(response);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ message: error.message });
   }
 };
-const saveTransaction = async (req, res) => {
+const saveTransaction = async (
+  req: Request<{}, {}, saveTransactionPayload>,
+  res: Response
+) => {
   try {
     const requiredFields = ["by", "title", "totalAmount", "transactionParts"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
@@ -94,12 +115,15 @@ const saveTransaction = async (req, res) => {
       title: req.body.title,
     });
     return res.status(200).send(response);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ message: error.message });
   }
 };
 
-const savePayment = async (req, res) => {
+const savePayment = async (
+  req: Request<{}, {}, savePaymentPayload>,
+  res: Response
+) => {
   try {
     const requiredFields = ["from", "to", "amount"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
@@ -112,12 +136,15 @@ const savePayment = async (req, res) => {
       title: `INR ${req.body.amount}`,
     });
     return res.status(200).send(response);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ message: error.message });
   }
 };
 
-const savePayments = async (req, res) => {
+const savePayments = async (
+  req: Request<{}, {}, Array<savePaymentPayload>>,
+  res: Response
+) => {
   try {
     const requiredFields = ["from", "to", "amount"];
 
@@ -140,12 +167,15 @@ const savePayments = async (req, res) => {
       });
     });
     return res.status(200).send(response);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ message: error.message });
   }
 };
 
-const getAllUsersInGroup = async (req, res) => {
+const getAllUsersInGroup = async (
+  req: Request<{}, {}, { group_id: number }>,
+  res: Response
+) => {
   try {
     const requiredFields = ["group_id"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
@@ -153,12 +183,15 @@ const getAllUsersInGroup = async (req, res) => {
     }
     const response = await getAllUsersInGroupFromDB(req.body);
     return res.status(200).send(response);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ message: error.message });
   }
 };
 
-const getAllTransactionInGroup = async (req, res) => {
+const getAllTransactionInGroup = async (
+  req: Request<{}, {}, getAllTransactionInGroupPayload>,
+  res: Response
+) => {
   try {
     const requiredFields = ["group_id"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
@@ -166,12 +199,15 @@ const getAllTransactionInGroup = async (req, res) => {
     }
     const response = await getAllTransactionInGroupFromDB(req.body);
     return res.status(200).send(response);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ message: error.message });
   }
 };
 
-const getOverviewDataInGroup = async (req, res) => {
+const getOverviewDataInGroup = async (
+  req: Request<{}, {}, { group_id: number }>,
+  res: Response
+) => {
   try {
     const requiredFields = ["group_id"];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
@@ -179,7 +215,7 @@ const getOverviewDataInGroup = async (req, res) => {
     }
     const response = await getOverviewDataInGroupFromDb(req.body);
     return res.status(200).send(response);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).send({ message: error.message });
   }
 };

@@ -1,65 +1,55 @@
-import {
-  sequelize,
-  split_backend as schemaname,
-} from "../../../../src/postgres.js";
+import { sequelize, split_backend as schemaname } from "../../../postgres.js";
 import { QueryTypes } from "sequelize";
+import {
+  getAllTransactionInGroupPayload,
+  savePaymentPayload,
+  saveTransactionPayload,
+} from "../../utils/types.js";
 
-// example transaction payload
-// const transaction = {
-//   by: 1,
-//   title : "expense",
-//   totalAmount: 500,
-//   transactionParts: [
-//     {
-//       user_id: 1,
-//       amount: 100,
-//     },
-//     {
-//       user_id: 5,
-//       amount: 100,
-//     },
-//     {
-//       user_id: 3,
-//       amount: 300,
-//     },
-//   ],
-// };
-
-const saveTransaction = async (payload) => {
+const saveTransaction = async (payload: saveTransactionPayload) => {
   try {
-    return sequelize.transaction(async (t) => {
-      const transaction = await sequelize.models.Transaction.create(
-        {
-          by: payload.by,
-          title: payload.title,
-          amount: payload.totalAmount,
-        },
-        { transaction: t }
-      );
+    if (!sequelize) {
+      throw new Error("DB not initialized");
+    } else {
+      return sequelize.transaction(async (t) => {
+        const transaction = await sequelize!.models.Transaction.create(
+          {
+            by: payload.by,
+            title: payload.title,
+            amount: payload.totalAmount,
+          },
+          { transaction: t }
+        );
 
-      const transaction_parts = payload.transactionParts.map((e) => {
-        return {
-          ...e,
-          transaction_id: transaction.dataValues.id,
-        };
+        const transaction_parts = payload.transactionParts.map((e: any) => {
+          return {
+            ...e,
+            transaction_id: transaction.dataValues.id,
+          };
+        });
+
+        await sequelize!.models.TransactionPart.bulkCreate(transaction_parts, {
+          transaction: t,
+        });
+
+        return transaction;
       });
-
-      await sequelize.models.TransactionPart.bulkCreate(transaction_parts, {
-        transaction: t,
-      });
-
-      return transaction;
-    });
+    }
   } catch (error) {
     console.error(error);
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 };
 
-const savePayment = async (payload) => {
+const savePayment = async (payload: savePaymentPayload) => {
   try {
+    if (!sequelize) {
+      throw new Error("DB not initialized");
+    }
     return sequelize.transaction(async (t) => {
-      const transaction = await sequelize.models.Transaction.create(
+      const transaction = await sequelize!.models.Transaction.create(
         {
           by: payload.from,
           title: "payment",
@@ -69,7 +59,7 @@ const savePayment = async (payload) => {
         { transaction: t }
       );
 
-      await sequelize.models.TransactionPart.create(
+      await sequelize!.models.TransactionPart.create(
         {
           user_id: payload.to,
           amount: payload.amount,
@@ -81,17 +71,23 @@ const savePayment = async (payload) => {
     });
   } catch (error) {
     console.error(error);
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 };
 
-const savePayments = async (payments) => {
+const savePayments = async (payments: Array<savePaymentPayload>) => {
   try {
+    if (!sequelize) {
+      throw new Error("DB not initialized");
+    }
+
     return sequelize.transaction(async (t) => {
       const tmp = [];
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
-        const transaction = await sequelize.models.Transaction.create(
+        const transaction = await sequelize!.models.Transaction.create(
           {
             by: payment.from,
             title: "payment",
@@ -101,7 +97,7 @@ const savePayments = async (payments) => {
           { transaction: t }
         );
 
-        await sequelize.models.TransactionPart.create(
+        await sequelize!.models.TransactionPart.create(
           {
             user_id: payment.to,
             amount: payment.amount,
@@ -115,7 +111,9 @@ const savePayments = async (payments) => {
     });
   } catch (error) {
     console.error(error);
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 };
 
@@ -124,7 +122,11 @@ const getAllTransactionInGroup = async ({
   by,
   user_id,
   payments,
-}) => {
+}: getAllTransactionInGroupPayload) => {
+  if (!sequelize) {
+    throw new Error("DB not initialized");
+  }
+
   if (!by || by == "null") {
     by = undefined;
   }

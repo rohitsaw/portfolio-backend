@@ -1,18 +1,27 @@
 import { QueryTypes } from "sequelize";
-import {
-  sequelize,
-  split_backend as schemaname,
-} from "../../../../src/postgres.js";
+import { sequelize, split_backend as schemaname } from "../../../postgres.js";
+import { createGroupPayload } from "../../utils/types.js";
 
-const createGroup = async (payload) => {
-  return sequelize.models.Group.create({ name: payload.name });
+const createGroup = async (payload: createGroupPayload) => {
+  if (sequelize != null) {
+    return sequelize.models.Group.create({ name: payload.name });
+  } else {
+    throw new Error("DB not initialized");
+  }
 };
 
-const getGroup = async ({ group_id }) => {
-  return sequelize.models.Group.findOne({ where: { id: group_id }, raw: true });
+const getGroup = async ({ group_id }: { group_id: number }) => {
+  if (sequelize !== null) {
+    return sequelize.models.Group.findOne({
+      where: { id: group_id },
+      raw: true,
+    });
+  } else {
+    throw new Error("DB not initialized");
+  }
 };
 
-const getOverviewDataInGroup = async ({ group_id }) => {
+const getOverviewDataInGroup = async ({ group_id }: { group_id: number }) => {
   const query = `select A.name, A.id as user_id, 
 (coalesce(B.total_pos,0) - coalesce(C.total_neg,0)) as balances, 
 coalesce(number_of_transactions, 0) as number_of_transactions, 
@@ -32,10 +41,14 @@ left join
 group by user_id) C
 on A.id = C.user_id
 where A.group_id = :group_id`;
-  return sequelize.query(query, {
-    type: QueryTypes.SELECT,
-    replacements: { group_id: group_id },
-  });
+  if (sequelize !== null) {
+    return sequelize.query(query, {
+      type: QueryTypes.SELECT,
+      replacements: { group_id: group_id },
+    });
+  } else {
+    throw new Error("DB not initialized");
+  }
 };
 
 export { getGroup, createGroup, getOverviewDataInGroup };

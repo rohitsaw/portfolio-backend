@@ -3,12 +3,15 @@ import { Sequelize } from "sequelize";
 import connectToPortfolioDB from "./portfolio-backend/db/postgres.js";
 import connectToSplitDB from "./split-backend/db/postgres.js";
 
-let sequelize = null;
-let portfolio_backend = "portfolio_backend";
-let split_backend = "split_backend";
+let sequelize: Sequelize | null = null;
+let portfolio_backend: string = "portfolio_backend";
+let split_backend: string = "split_backend";
 
 const connectToPostgres = async () => {
-  const connStr = process.env.postgresConnStr;
+  if (typeof process.env.postgresConnStr !== "string") {
+    throw new Error("postgresConnStr not found in env variable.");
+  }
+  const connStr: string = process.env.postgresConnStr;
   sequelize = new Sequelize(connStr);
 
   await connectToPortfolioDB(sequelize, portfolio_backend);
@@ -21,7 +24,7 @@ const connectToPostgres = async () => {
   console.log("Database Sync Done for all DB");
 };
 
-const createIndexes = async (psql) => {
+const createIndexes = async (psql: Sequelize) => {
   await psql.query(
     "create unique index if not exists users_user_email on portfolio_backend.users (user_email)"
   );

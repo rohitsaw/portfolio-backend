@@ -2,12 +2,13 @@
   "name": "portfolio-backend",
   "version": "1.0.0",
   "description": "NodeJs Backend for http://portfolio-rsaw409.onrender.com",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
-    "dev": "PORT=3000 nodemon --env-file=.env src/index.js ",
+    "start": "node dist/index.js",
+    "dev": "PORT=3000 nodemon --env-file=.env dist/index.js ",
     "lint": "eslint . --fix"
   },
   "author": "",
@@ -28,8 +29,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.4",
+    "@types/sequelize": "^4.28.20",
     "eslint": "^9.9.1",
     "globals": "^15.9.0",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "typescript": "^5.6.2"
   }
 }

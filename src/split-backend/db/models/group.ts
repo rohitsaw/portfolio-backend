@@ -1,6 +1,6 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 
-const createGroupModel = (sequelize, schema) => {
+const createGroupModel = (sequelize: Sequelize, schema: string) => {
   const User = sequelize.define(
     "Group",
     {

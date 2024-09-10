@@ -1,6 +1,14 @@
 import fetch from "node-fetch";
 
-const send_push_notification = ({ groupName, headings, title }) => {
+const send_push_notification = ({
+  groupName,
+  headings,
+  title,
+}: {
+  groupName: string;
+  headings: string;
+  title: string;
+}) => {
   const url = "https://onesignal.com/api/v1/notifications";
   const options = {
     method: "POST",

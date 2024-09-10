@@ -1,13 +1,17 @@
-import { sequelize } from "../../../../src/postgres.js";
+import { sequelize } from "../../../postgres.js";
 
-const getAllUsersInGroup = async ({ group_id }) => {
+const getAllUsersInGroup = async ({ group_id }: any) => {
+  if (!sequelize) throw new Error("DB not initialized");
+
   return sequelize.models.User.findAll({
     where: { group_id: group_id },
     attributes: ["id", "group_id", "name"],
   });
 };
 
-const createUser = async (payload) => {
+const createUser = async (payload: any) => {
+  if (!sequelize) throw new Error("DB not initialized");
+
   const isAlreadyExist = await sequelize.models.User.findOne({
     where: { name: payload.name, group_id: payload.group_id },
   });

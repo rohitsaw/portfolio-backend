@@ -18,14 +18,14 @@ const iv = crypto
   .digest("base64")
   .substr(0, 16);
 
-function encrypt(text) {
+function encrypt(text: string): string {
   let cipher = crypto.createCipheriv(algorithm, key, iv);
   let encrypted = cipher.update(text, "utf8", "base64");
   encrypted += cipher.final("base64");
   return encrypted;
 }
 
-function decrypt(text) {
+function decrypt(text: string): string {
   let encryptedText = text;
 
   let decipher = crypto.createDecipheriv(algorithm, key, iv);

@@ -1,3 +1,4 @@
+import { Application } from "express";
 import {
   joinGroup,
   createGroup,
@@ -10,7 +11,7 @@ import {
   savePayments,
 } from "./controller.js";
 
-const addRoutes = (app) => {
+const addRoutes = (app: Application) => {
   app.post("/createGroup", createGroup);
 
   app.post("/joinGroup", joinGroup);
