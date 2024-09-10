@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true, // Allows JavaScript files to be compiled
     "checkJs": false, // Turns off type checking for JS files
-    "outDir": "./dist", // Output folder for compiled files
+    "outDir": "./dist/src", // Output folder for compiled files
     "module": "ESNext",
     "moduleResolution": "node",
     "target": "ES2020", // Target modern JavaScript
