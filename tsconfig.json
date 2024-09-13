@@ -1,19 +1,21 @@
 {
   "compilerOptions": {
+    "module": "ESNext",
+    "esModuleInterop": true, // Ensures compatibility with CommonJS modules
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext", // Target modern JavaScript
+    "moduleResolution": "node",
     "allowJs": true, // Allows JavaScript files to be compiled
     "checkJs": false, // Turns off type checking for JS files
-    "outDir": "./dist/src", // Output folder for compiled files
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "target": "ES2020", // Target modern JavaScript
-    "esModuleInterop": true, // Ensures compatibility with CommonJS modules
+    "outDir": "./dist", // Output folder for compiled files
+    "typeRoots": ["./src/types/", "./node_modules/@types"],
     "skipLibCheck": true, // Skips type checking for declaration files
     "strict": true, // Enables all strict type-checking options
     "forceConsistentCasingInFileNames": true, // Enforces consistent casing in import paths
+    "resolveJsonModule": true,
     "noEmit": false
   },
-  "include": ["src/**/*.ts", "src/**/*.js"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"],
-  "typeRoots": ["./node_modules/@types", "./types"],
   "types": ["node", "express"]
 }

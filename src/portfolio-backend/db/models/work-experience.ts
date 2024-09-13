@@ -1,9 +1,8 @@
-import Sequelize from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 
-const createEducationModel = (sequelize, schema) => {
-  const { DataTypes } = Sequelize;
+const createWorkExperienceModel = (sequelize: Sequelize, schema: string) => {
   return sequelize.define(
-    "education",
+    "work_experiences",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -18,13 +17,13 @@ const createEducationModel = (sequelize, schema) => {
           key: "id",
         },
       },
-      institute_name: { type: DataTypes.STRING, allowNull: false },
-      degree_name: { type: DataTypes.STRING, allowNull: false },
+      company_name: { type: DataTypes.STRING, allowNull: false },
+      designation: { type: DataTypes.STRING },
 
-      start_date: { type: DataTypes.DATEONLY, allowNull: false },
+      start_date: { type: DataTypes.DATEONLY },
       end_date: { type: DataTypes.DATEONLY },
 
-      score: { type: DataTypes.DOUBLE },
+      details: { type: DataTypes.TEXT },
     },
     {
       schema,
@@ -33,4 +32,4 @@ const createEducationModel = (sequelize, schema) => {
   );
 };
 
-export default createEducationModel;
+export default createWorkExperienceModel;

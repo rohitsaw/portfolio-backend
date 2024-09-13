@@ -32,6 +32,9 @@ import { validationResult } from "express-validator";
 
 const getAllCertificates = async (req, res) => {
   try {
+    if (!req.query.user_id) {
+      throw new Error("user_id is required in query params");
+    }
     const certificates = await getAllCertificatesFromDb(req.query.user_id);
     return res.status(200).send(certificates);
   } catch (error) {

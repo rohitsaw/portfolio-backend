@@ -1,7 +1,6 @@
-import Sequelize from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 
-const createSkillModel = (sequelize, schema) => {
-  const { DataTypes } = Sequelize;
+const createSkillModel = (sequelize: Sequelize, schema: string) => {
   return sequelize.define(
     "skills",
     {

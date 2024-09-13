@@ -1,12 +1,13 @@
+import { QueryTypes } from "sequelize";
 import {
   sequelize as psql,
   portfolio_backend as schemaname,
-} from "../../../../src/postgres.js";
+} from "../../../postgres.js";
 
-const getAllSkills = async (user_id) => {
+const getAllSkills = async (user_id: number) => {
   const query = `select * from ${schemaname}.skills where user_id = :user_id order by skill_name;`;
   const res = await psql.query(query, {
-    type: psql.QueryTypes.SELECT,
+    type: QueryTypes.SELECT,
     replacements: {
       user_id: user_id,
     },
@@ -14,7 +15,7 @@ const getAllSkills = async (user_id) => {
   return res;
 };
 
-const addSkills = async (skill, user_id) => {
+const addSkills = async (skill: any, user_id: number) => {
   if (skill.id) {
     const query = `
       update ${schemaname}.skills set
@@ -36,7 +37,7 @@ const addSkills = async (skill, user_id) => {
   }
 };
 
-const deleteSkills = async (skill, user_id) => {
+const deleteSkills = async (skill: any, user_id: number) => {
   return psql.models.skills.destroy({
     where: { id: skill.id, user_id: user_id },
   });

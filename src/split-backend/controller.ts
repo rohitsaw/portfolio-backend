@@ -24,7 +24,7 @@ import {
   joinGroupPayload,
   savePaymentPayload,
   saveTransactionPayload,
-} from "./utils/types.js";
+} from "../types/split";
 
 const createGroup = async (
   req: Request<{}, {}, createGroupPayload>,

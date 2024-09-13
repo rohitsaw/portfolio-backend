@@ -1,12 +1,13 @@
+import { QueryTypes } from "sequelize";
 import {
   sequelize as psql,
   portfolio_backend as schemaname,
-} from "../../../../src/postgres.js";
+} from "../../../postgres.js";
 
-const getAllExperiences = async (user_id) => {
+const getAllExperiences = async (user_id: number) => {
   const query = `select * from ${schemaname}.work_experiences where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
-    type: psql.QueryTypes.SELECT,
+    type: QueryTypes.SELECT,
     replacements: {
       user_id,
     },
@@ -14,7 +15,7 @@ const getAllExperiences = async (user_id) => {
   return res;
 };
 
-const addExperiences = async (experience, user_id) => {
+const addExperiences = async (experience: any, user_id: number) => {
   if (experience.id) {
     const query = `
     update ${schemaname}.work_experiences set
@@ -40,7 +41,7 @@ const addExperiences = async (experience, user_id) => {
   }
 };
 
-const deleteExperiences = async (experience, user_id) => {
+const deleteExperiences = async (experience: any, user_id: number) => {
   return psql.models.work_experiences.destroy({
     where: { id: experience.id, user_id },
   });

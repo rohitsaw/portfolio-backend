@@ -4,7 +4,7 @@ import {
   getAllTransactionInGroupPayload,
   savePaymentPayload,
   saveTransactionPayload,
-} from "../../utils/types.js";
+} from "../../../types/split";
 
 const saveTransaction = async (payload: saveTransactionPayload) => {
   try {

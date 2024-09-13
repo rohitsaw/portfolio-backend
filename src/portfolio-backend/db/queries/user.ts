@@ -1,22 +1,33 @@
+import { QueryTypes } from "sequelize";
 import {
   sequelize as psql,
   portfolio_backend as schemaname,
-} from "../../../../src/postgres.js";
+} from "../../../postgres.js";
 
-const getuser = async (email) => {
+const getuser = async (email: string) => {
   const query = `select * from ${schemaname}.users where user_email = :email`;
   const res = await psql.query(query, {
-    type: psql.QueryTypes.SELECT,
+    type: QueryTypes.SELECT,
     replacements: { email: email },
   });
   return res;
 };
 
 const addOrUpdateUser = async (
-  { user_email, name, about, social_links },
-  user_id
+  {
+    user_email,
+    name,
+    about,
+    social_links,
+  }: {
+    user_email: string;
+    name: string;
+    about: string;
+    social_links: Array<string>;
+  },
+  user_id: number
 ) => {
-  social_links = JSON.stringify(social_links);
+  let social_links_string = JSON.stringify(social_links);
   const query = `update ${schemaname}.users set
     name = :name, 
     about = :about,
@@ -24,16 +35,22 @@ const addOrUpdateUser = async (
     where user_email = :user_email and id = :user_id
     `;
   const res = await psql.query(query, {
-    type: psql.QueryTypes.SELECT,
-    replacements: { user_email, name, about, social_links, user_id },
+    type: QueryTypes.SELECT,
+    replacements: {
+      user_email,
+      name,
+      about,
+      social_links: social_links_string,
+      user_id,
+    },
   });
   return res;
 };
 
-const getUserIdFromEmail = async (email) => {
+const getUserIdFromEmail = async (email: string) => {
   const query = `select id from ${schemaname}.users where user_email = :email`;
-  const res = await psql.query(query, {
-    type: psql.QueryTypes.SELECT,
+  const res: Array<any> = await psql.query(query, {
+    type: QueryTypes.SELECT,
     replacements: { email },
     raw: true,
   });

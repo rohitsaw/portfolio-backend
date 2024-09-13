@@ -1,3 +1,4 @@
+import { Application } from "express";
 import {
   getAllCertificates,
   getAllProjects,
@@ -7,7 +8,7 @@ import {
   getuser,
 } from "./controller.js";
 
-const addRoutes = (app) => {
+const addRoutes = (app: Application) => {
   app.get("/certificates", getAllCertificates);
 
   app.get("/projects", getAllProjects);

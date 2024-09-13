@@ -1,8 +1,9 @@
+import { Sequelize } from "sequelize";
+
 import createGroupModel from "./models/group.js";
 import createUserModel from "./models/user.js";
 import createTransactionModel from "./models/transaction.js";
 import createTransactionPartModel from "./models/transactionPart.js";
-import { Sequelize } from "sequelize";
 
 const initializeDB = async (sequelize: Sequelize, schemaname: string) => {
   try {

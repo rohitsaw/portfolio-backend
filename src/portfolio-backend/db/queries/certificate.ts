@@ -1,13 +1,16 @@
+import { QueryTypes } from "sequelize";
+import dayjs from "dayjs";
+
 import {
   sequelize as psql,
   portfolio_backend as schemaname,
-} from "../../../../src/postgres.js";
-import dayjs from "dayjs";
+} from "../../../postgres.js";
 
-const getAllCertificates = async (user_id) => {
+
+const getAllCertificates = async (user_id: number) => {
   const query = `select * from ${schemaname}.certificates where user_id = :user_id order by certification_date desc`;
   const res = await psql.query(query, {
-    type: psql.QueryTypes.SELECT,
+    type: QueryTypes.SELECT,
     replacements: {
       user_id,
     },
@@ -15,7 +18,7 @@ const getAllCertificates = async (user_id) => {
   return res;
 };
 
-const addCertificates = async (certificate, user_id) => {
+const addCertificates = async (certificate: any, user_id: number) => {
   if (certificate.id) {
     const query = `
       update ${schemaname}.certificates set
@@ -49,7 +52,7 @@ const addCertificates = async (certificate, user_id) => {
   }
 };
 
-const deleteCertificates = async (certificate, user_id) => {
+const deleteCertificates = async (certificate: any, user_id: number) => {
   return psql.models.certificates.destroy({
     where: { id: certificate.id, user_id },
   });
