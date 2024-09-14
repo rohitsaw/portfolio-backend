@@ -4,6 +4,8 @@ import {
   portfolio_backend as schemaname,
 } from "../../../postgres.js";
 
+import { Education } from "../../../types/portfolio";
+
 const getAllEducations = async (user_id: number) => {
   const query = `select * from ${schemaname}.education where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
@@ -15,7 +17,7 @@ const getAllEducations = async (user_id: number) => {
   return res;
 };
 
-const addEducations = async (education: any, user_id: number) => {
+const addEducations = async (education: Education, user_id: number) => {
   if (education.id) {
     const query = `
       update ${schemaname}.education set
@@ -42,7 +44,7 @@ const addEducations = async (education: any, user_id: number) => {
   }
 };
 
-const deleteEducations = async (education: any, user_id: any) => {
+const deleteEducations = async (education: Education, user_id: number) => {
   return psql.models.education.destroy({
     where: { id: education.id, user_id: user_id },
   });

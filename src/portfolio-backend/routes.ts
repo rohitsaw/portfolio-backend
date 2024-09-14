@@ -7,19 +7,23 @@ import {
   getAllSkills,
   getuser,
 } from "./controller.js";
+import {
+  validateUserIdInQuery,
+  validateUserEmailInQuery,
+} from "./utils/validator.js";
 
 const addRoutes = (app: Application) => {
-  app.get("/certificates", getAllCertificates);
+  app.get("/certificates", validateUserIdInQuery, getAllCertificates);
 
-  app.get("/projects", getAllProjects);
+  app.get("/projects", validateUserIdInQuery, getAllProjects);
 
-  app.get("/educations", getAllEducations);
+  app.get("/educations", validateUserIdInQuery, getAllEducations);
 
-  app.get("/experiences", getAllExperiences);
+  app.get("/experiences", validateUserIdInQuery, getAllExperiences);
 
-  app.get("/skills", getAllSkills);
+  app.get("/skills", validateUserIdInQuery, getAllSkills);
 
-  app.get("/user", getuser);
+  app.get("/user", validateUserEmailInQuery, getuser);
 };
 
 export { addRoutes };

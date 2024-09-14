@@ -4,6 +4,8 @@ import {
   portfolio_backend as schemaname,
 } from "../../../postgres.js";
 
+import { Skill } from "../../../types/portfolio";
+
 const getAllSkills = async (user_id: number) => {
   const query = `select * from ${schemaname}.skills where user_id = :user_id order by skill_name;`;
   const res = await psql.query(query, {
@@ -15,7 +17,7 @@ const getAllSkills = async (user_id: number) => {
   return res;
 };
 
-const addSkills = async (skill: any, user_id: number) => {
+const addSkills = async (skill: Skill, user_id: number) => {
   if (skill.id) {
     const query = `
       update ${schemaname}.skills set
@@ -37,7 +39,7 @@ const addSkills = async (skill: any, user_id: number) => {
   }
 };
 
-const deleteSkills = async (skill: any, user_id: number) => {
+const deleteSkills = async (skill: Skill, user_id: number) => {
   return psql.models.skills.destroy({
     where: { id: skill.id, user_id: user_id },
   });

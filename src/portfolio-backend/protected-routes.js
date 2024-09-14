@@ -18,6 +18,12 @@ import {
 
 import { getUserIdFromEmail } from "./db/queries/user.js";
 
+import {
+  validateIdInBody,
+  validateUserIdInQuery,
+  validateUserEmailInBody,
+} from "./utils/validator.js";
+
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
@@ -53,12 +59,7 @@ const addRoutes = (app) => {
     addProjects
   );
 
-  app.delete(
-    "/projects",
-    checkAuthenticated,
-    body("id").isNumeric(),
-    deleteProjects
-  );
+  app.delete("/projects", checkAuthenticated, validateIdInBody, deleteProjects);
 
   app.post(
     "/educations",
@@ -74,7 +75,7 @@ const addRoutes = (app) => {
   app.delete(
     "/educations",
     checkAuthenticated,
-    body("id").isNumeric(),
+    validateIdInBody,
     deleteEducations
   );
 
@@ -91,7 +92,7 @@ const addRoutes = (app) => {
   app.delete(
     "/experiences",
     checkAuthenticated,
-    body("id").isNumeric(),
+    validateIdInBody,
     deleteExperiences
   );
 
@@ -107,7 +108,7 @@ const addRoutes = (app) => {
   app.delete(
     "/certificates",
     checkAuthenticated,
-    body("id").isNumeric(),
+    validateIdInBody,
     deleteCertificates
   );
 
@@ -118,14 +119,15 @@ const addRoutes = (app) => {
     addSkills
   );
 
-  app.delete(
-    "/skills",
-    checkAuthenticated,
-    body("id").isNumeric(),
-    deleteSkills
-  );
+  app.delete("/skills", checkAuthenticated, validateIdInBody, deleteSkills);
 
-  app.post("/user", checkAuthenticated, body("user_email"), addOrUpdateUser);
+  app.post(
+    "/user",
+    checkAuthenticated,
+    validateUserIdInQuery,
+    validateUserEmailInBody,
+    addOrUpdateUser
+  );
 };
 
 const checkAuthenticated = async (req, res, next) => {

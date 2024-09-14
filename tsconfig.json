@@ -13,7 +13,7 @@
     "strict": true, // Enables all strict type-checking options
     "forceConsistentCasingInFileNames": true, // Enforces consistent casing in import paths
     "resolveJsonModule": true,
-    "noEmit": false
+    "noEmit": false,
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"],

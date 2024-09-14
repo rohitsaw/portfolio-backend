@@ -6,6 +6,7 @@ import {
   portfolio_backend as schemaname,
 } from "../../../postgres.js";
 
+import { Certificate } from "../../../types/portfolio";
 
 const getAllCertificates = async (user_id: number) => {
   const query = `select * from ${schemaname}.certificates where user_id = :user_id order by certification_date desc`;
@@ -18,7 +19,7 @@ const getAllCertificates = async (user_id: number) => {
   return res;
 };
 
-const addCertificates = async (certificate: any, user_id: number) => {
+const addCertificates = async (certificate: Certificate, user_id: number) => {
   if (certificate.id) {
     const query = `
       update ${schemaname}.certificates set
@@ -52,7 +53,10 @@ const addCertificates = async (certificate: any, user_id: number) => {
   }
 };
 
-const deleteCertificates = async (certificate: any, user_id: number) => {
+const deleteCertificates = async (
+  certificate: Certificate,
+  user_id: number
+) => {
   return psql.models.certificates.destroy({
     where: { id: certificate.id, user_id },
   });

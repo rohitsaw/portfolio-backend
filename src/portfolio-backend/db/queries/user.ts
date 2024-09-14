@@ -4,6 +4,8 @@ import {
   portfolio_backend as schemaname,
 } from "../../../postgres.js";
 
+import { User } from "../../../types/portfolio";
+
 const getuser = async (email: string) => {
   const query = `select * from ${schemaname}.users where user_email = :email`;
   const res = await psql.query(query, {
@@ -14,17 +16,7 @@ const getuser = async (email: string) => {
 };
 
 const addOrUpdateUser = async (
-  {
-    user_email,
-    name,
-    about,
-    social_links,
-  }: {
-    user_email: string;
-    name: string;
-    about: string;
-    social_links: Array<string>;
-  },
+  { user_email, name, about, social_links }: User,
   user_id: number
 ) => {
   let social_links_string = JSON.stringify(social_links);
@@ -49,7 +41,7 @@ const addOrUpdateUser = async (
 
 const getUserIdFromEmail = async (email: string) => {
   const query = `select id from ${schemaname}.users where user_email = :email`;
-  const res: Array<any> = await psql.query(query, {
+  const res: Array<{ id: number }> = await psql.query(query, {
     type: QueryTypes.SELECT,
     replacements: { email },
     raw: true,

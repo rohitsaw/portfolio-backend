@@ -28,69 +28,77 @@ import {
   deleteExperiences as deleteExperiencesInDb,
 } from "./db/queries/work-experience.js";
 
+import { Request, Response } from "express";
+
 import { validationResult } from "express-validator";
 
-const getAllCertificates = async (req, res) => {
+const getAllCertificates = async (req: Request, res: Response) => {
   try {
-    if (!req.query.user_id) {
-      throw new Error("user_id is required in query params");
-    }
-    const certificates = await getAllCertificatesFromDb(req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+    const certificates = await getAllCertificatesFromDb(user_id);
+
     return res.status(200).send(certificates);
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const getAllProjects = async (req, res) => {
+const getAllProjects = async (req: Request, res: Response) => {
   try {
-    const projects = await getAllProjectsFromDb(req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+    const projects = await getAllProjectsFromDb(user_id);
+
     return res.status(200).send(projects);
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const getAllEducations = async (req, res) => {
+const getAllEducations = async (req: Request, res: Response) => {
   try {
-    const educations = await getAllEducationsFromDb(req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+    const educations = await getAllEducationsFromDb(user_id);
+
     return res.status(200).send(educations);
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const getAllExperiences = async (req, res) => {
+const getAllExperiences = async (req: Request, res: Response) => {
   try {
-    const experiences = await getAllExperiencesFromDb(req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+    const experiences = await getAllExperiencesFromDb(user_id);
+
     return res.status(200).send(experiences);
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const getAllSkills = async (req, res) => {
+const getAllSkills = async (req: Request, res: Response) => {
   try {
-    const skills = await getAllSkillsFromDb(req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+    const skills = await getAllSkillsFromDb(user_id);
+
     return res.status(200).send(skills);
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const getuser = async (req, res) => {
+const getuser = async (req: Request, res: Response) => {
   try {
-    if (!req.query.user_email) {
-      throw new Error("Email Id required.");
-    }
-    const user = await getuserFromDb(req.query.user_email);
+    const user_email: string = req.query.user_email as unknown as string;
+    const user = await getuserFromDb(user_email);
+
     return res.status(200).send(user);
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const addProjects = async (req, res) => {
+const addProjects = async (req: Request, res: Response) => {
   try {
     const errors = validationResult(req);
 
@@ -98,31 +106,30 @@ const addProjects = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addProjectsInDb(req.body, req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+
+    const result = await addProjectsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const deleteProjects = async (req, res) => {
+const deleteProjects = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
+    const user_id: number = req.query.user_id as unknown as number;
 
-    const result = await deleteProjectsInDb(req.body, req.query.user_id);
+    const result = await deleteProjectsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const addSkills = async (req, res) => {
+const addSkills = async (req: Request, res: Response) => {
   try {
     const errors = validationResult(req);
 
@@ -130,33 +137,31 @@ const addSkills = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addSkillsInDb(req.body, req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+
+    const result = await addSkillsInDb(req.body, user_id);
 
     return res.status(200).send(result);
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.error(error);
     res.status(500).send({ message: error.message });
   }
 };
 
-const deleteSkills = async (req, res) => {
+const deleteSkills = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
+    const user_id: number = req.query.user_id as unknown as number;
 
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-
-    const result = await deleteSkillsInDb(req.body, req.query.user_id);
+    const result = await deleteSkillsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error) {
-    console.log("error", error);
+  } catch (error: any) {
+    console.error(error);
     res.status(400).send({ message: error.message });
   }
 };
 
-const addCertificates = async (req, res) => {
+const addCertificates = async (req: Request, res: Response) => {
   try {
     const errors = validationResult(req);
 
@@ -164,46 +169,61 @@ const addCertificates = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await addCertificatesInDb(req.body, req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+
+    const result = await addCertificatesInDb(req.body, user_id);
 
     return res.status(200).send(result);
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const deleteCertificates = async (req, res) => {
+const deleteCertificates = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
+    const user_id: number = req.query.user_id as unknown as number;
 
-    const result = await deleteCertificatesInDb(req.body, req.query.user_id);
+    const result = await deleteCertificatesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const addEducations = async (req, res) => {
+const addEducations = async (req: Request, res: Response) => {
   try {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).send({ errors: errors.array() });
     }
-    const result = await addEducationsInDb(req.body, req.query.user_id);
+
+    const user_id: number = req.query.user_id as unknown as number;
+
+    const result = await addEducationsInDb(req.body, user_id);
 
     return res.status(200).send(result);
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const deleteEducations = async (req, res) => {
+const deleteEducations = async (req: Request, res: Response) => {
+  try {
+
+    const user_id: number = req.query.user_id as unknown as number;
+
+    const result = await deleteEducationsInDb(req.body, user_id);
+
+    return res.status(200).send({ message: result });
+  } catch (error: any) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+const addExperiences = async (req: Request, res: Response) => {
   try {
     const errors = validationResult(req);
 
@@ -211,55 +231,36 @@ const deleteEducations = async (req, res) => {
       return res.status(400).send({ errors: errors.array() });
     }
 
-    const result = await deleteEducationsInDb(req.body, req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+
+    const result = await addExperiencesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const addExperiences = async (req, res) => {
+const deleteExperiences = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    const result = await addExperiencesInDb(req.body, req.query.user_id);
+    const user_id: number = req.query.user_id as unknown as number;
+
+    const result = await deleteExperiencesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
 
-const deleteExperiences = async (req, res) => {
+const addOrUpdateUser = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
+    const user_id: number = req.query.user_id as unknown as number;
 
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-
-    const result = await deleteExperiencesInDb(req.body, req.query.user_id);
-
+    const result = await addOrUpdateUserInDB(req.body, user_id);
     return res.status(200).send({ message: result });
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
-};
-
-const addOrUpdateUser = async (req, res) => {
-  try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    const result = await addOrUpdateUserInDB(req.body, req.query.user_id);
-    return res.status(200).send({ message: result });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 };
