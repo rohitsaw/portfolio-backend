@@ -6,7 +6,7 @@ interface Certificate {
   certification_date: string;
   certification_expiry: string;
   verification_url: string;
-  technology_tags: string | Array<String>;
+  technology_tags: Array<String>;
 }
 
 interface Education {
@@ -25,7 +25,7 @@ interface Project {
   github_url: string;
   web_url: string;
   play_store_url: string;
-  technology_tags: string | Array<string>;
+  technology_tags: Array<string>;
 }
 
 interface Skill {

@@ -26,6 +26,11 @@ import {
   validateIdInBody,
   validateUserIdInQuery,
   validateUserEmailInBody,
+  validateProjectInBody,
+  validateSkillInBody,
+  validateCertificateInBody,
+  validateEducationInBody,
+  validateExperienceInBody,
 } from "./utils/validator.js";
 import { Application, NextFunction, Request, Response } from "express";
 
@@ -62,23 +67,14 @@ const addRoutes = (app: Application) => {
     done(null, user);
   });
 
-  app.post(
-    "/projects",
-    checkAuthenticated,
-    body("project_name").notEmpty(),
-    addProjects
-  );
+  app.post("/projects", checkAuthenticated, validateProjectInBody, addProjects);
 
   app.delete("/projects", checkAuthenticated, validateIdInBody, deleteProjects);
 
   app.post(
     "/educations",
     checkAuthenticated,
-    body("institute_name").notEmpty(),
-    body("degree_name").notEmpty(),
-    body("start_date").notEmpty(),
-    body("end_date").notEmpty(),
-    body("score").notEmpty(),
+    validateEducationInBody,
     addEducations
   );
 
@@ -92,10 +88,7 @@ const addRoutes = (app: Application) => {
   app.post(
     "/experiences",
     checkAuthenticated,
-    body("company_name").notEmpty(),
-    body("designation").notEmpty(),
-    body("start_date").notEmpty(),
-    body("end_date").notEmpty(),
+    validateExperienceInBody,
     addExperiences
   );
 
@@ -109,9 +102,7 @@ const addRoutes = (app: Application) => {
   app.post(
     "/certificates",
     checkAuthenticated,
-    body("certificate_name").notEmpty(),
-    body("certification_authority").notEmpty(),
-    body("certification_date").notEmpty(),
+    validateCertificateInBody,
     addCertificates
   );
 
@@ -122,12 +113,7 @@ const addRoutes = (app: Application) => {
     deleteCertificates
   );
 
-  app.post(
-    "/skills",
-    checkAuthenticated,
-    body("skill_name").notEmpty(),
-    addSkills
-  );
+  app.post("/skills", checkAuthenticated, validateSkillInBody, addSkills);
 
   app.delete("/skills", checkAuthenticated, validateIdInBody, deleteSkills);
 
@@ -147,10 +133,11 @@ const checkAuthenticated = async (
 ) => {
   if (req.isAuthenticated()) {
     const user: Profile = req.user as Profile;
+    console.log("Authentication check for user", user);
     if (!user.emails) {
       return res
         .status(403)
-        .send({ message: "you do not have permission to edit details." });
+        .send({ message: "Could not identify you as authorized user." });
     }
     const user_id_from_query: number = req.query.user_id as unknown as number;
     const userId = await getUserIdFromEmail(user.emails[0]?.value);

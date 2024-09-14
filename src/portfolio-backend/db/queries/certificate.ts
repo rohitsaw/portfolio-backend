@@ -42,9 +42,7 @@ const addCertificates = async (certificate: Certificate, user_id: number) => {
         ),
         certification_expiry: certificate.certification_expiry,
         verification_url: certificate.verification_url,
-        technology_tags: Array.isArray(certificate.technology_tags)
-          ? certificate.technology_tags
-          : certificate.technology_tags?.split(","),
+        technology_tags: certificate.technology_tags,
         user_id: user_id,
       },
     });

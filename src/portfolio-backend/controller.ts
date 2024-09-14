@@ -30,8 +30,6 @@ import {
 
 import { Request, Response } from "express";
 
-import { validationResult } from "express-validator";
-
 const getAllCertificates = async (req: Request, res: Response) => {
   try {
     const user_id: number = req.query.user_id as unknown as number;
@@ -100,12 +98,6 @@ const getuser = async (req: Request, res: Response) => {
 
 const addProjects = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await addProjectsInDb(req.body, user_id);
@@ -118,7 +110,6 @@ const addProjects = async (req: Request, res: Response) => {
 
 const deleteProjects = async (req: Request, res: Response) => {
   try {
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await deleteProjectsInDb(req.body, user_id);
@@ -131,12 +122,6 @@ const deleteProjects = async (req: Request, res: Response) => {
 
 const addSkills = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await addSkillsInDb(req.body, user_id);
@@ -163,12 +148,6 @@ const deleteSkills = async (req: Request, res: Response) => {
 
 const addCertificates = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await addCertificatesInDb(req.body, user_id);
@@ -181,7 +160,6 @@ const addCertificates = async (req: Request, res: Response) => {
 
 const deleteCertificates = async (req: Request, res: Response) => {
   try {
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await deleteCertificatesInDb(req.body, user_id);
@@ -194,12 +172,6 @@ const deleteCertificates = async (req: Request, res: Response) => {
 
 const addEducations = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await addEducationsInDb(req.body, user_id);
@@ -212,7 +184,6 @@ const addEducations = async (req: Request, res: Response) => {
 
 const deleteEducations = async (req: Request, res: Response) => {
   try {
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await deleteEducationsInDb(req.body, user_id);
@@ -225,12 +196,6 @@ const deleteEducations = async (req: Request, res: Response) => {
 
 const addExperiences = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await addExperiencesInDb(req.body, user_id);
@@ -243,7 +208,6 @@ const addExperiences = async (req: Request, res: Response) => {
 
 const deleteExperiences = async (req: Request, res: Response) => {
   try {
-
     const user_id: number = req.query.user_id as unknown as number;
 
     const result = await deleteExperiencesInDb(req.body, user_id);
