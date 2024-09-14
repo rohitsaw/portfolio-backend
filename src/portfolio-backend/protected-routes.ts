@@ -1,5 +1,9 @@
 import { body } from "express-validator";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import {
+  Strategy as GoogleStrategy,
+  Profile,
+  VerifyCallback,
+} from "passport-google-oauth20";
 import passport from "passport";
 
 import {
@@ -23,31 +27,37 @@ import {
   validateUserIdInQuery,
   validateUserEmailInBody,
 } from "./utils/validator.js";
+import { Application, NextFunction, Request, Response } from "express";
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID!;
+const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET!;
 
-const addRoutes = (app) => {
+const addRoutes = (app: Application) => {
   passport.use(
     new GoogleStrategy(
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: "/google/callback",
-        prompt: "consent",
         scope: ["email", "profile"],
       },
-      function (accessToken, refreshToken, profile, done) {
+      function (
+        accessToken: string,
+        refreshToken: string,
+        profile: Profile,
+        done: VerifyCallback
+      ) {
         console.log("profile", profile);
         done(null, profile);
       }
     )
   );
-  passport.serializeUser((user, done) => {
+  passport.serializeUser((user: Express.User, done) => {
     console.log("serializing user", user);
     done(null, user);
   });
-  passport.deserializeUser((user, done) => {
+
+  passport.deserializeUser((user: Express.User, done) => {
     console.log("deserializing user", user);
     done(null, user);
   });
@@ -130,19 +140,30 @@ const addRoutes = (app) => {
   );
 };
 
-const checkAuthenticated = async (req, res, next) => {
+const checkAuthenticated = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   if (req.isAuthenticated()) {
-    // Authorization Check for POST & Delete apis
-    const userId = await getUserIdFromEmail(req.user.emails[0]?.value);
-    if (req.user.emails[0]?.verified && userId == req.query.user_id) {
+    const user: Profile = req.user as Profile;
+    if (!user.emails) {
+      return res
+        .status(403)
+        .send({ message: "you do not have permission to edit details." });
+    }
+    const user_id_from_query: number = req.query.user_id as unknown as number;
+    const userId = await getUserIdFromEmail(user.emails[0]?.value);
+
+    if (user.emails[0]?.verified && userId === user_id_from_query) {
       return next();
     } else {
-      res
+      return res
         .status(403)
         .send({ message: "you do not have permission to edit details." });
     }
   }
-  res.status(403).send({ message: "Authentication Failed." });
+  return res.status(403).send({ message: "Authentication Failed." });
 };
 
 export { addRoutes };
