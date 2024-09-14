@@ -67,61 +67,91 @@ const addRoutes = (app: Application) => {
     done(null, user);
   });
 
-  app.post("/projects", checkAuthenticated, validateProjectInBody, addProjects);
+  app.post(
+    "/projects",
+    validateUserIdInQuery,
+    validateProjectInBody,
+    checkAuthenticated,
+    addProjects
+  );
 
-  app.delete("/projects", checkAuthenticated, validateIdInBody, deleteProjects);
+  app.delete(
+    "/projects",
+    validateUserIdInQuery,
+    validateIdInBody,
+    checkAuthenticated,
+    deleteProjects
+  );
 
   app.post(
     "/educations",
-    checkAuthenticated,
+    validateUserIdInQuery,
     validateEducationInBody,
+    checkAuthenticated,
     addEducations
   );
 
   app.delete(
     "/educations",
-    checkAuthenticated,
+    validateUserIdInQuery,
     validateIdInBody,
+    checkAuthenticated,
     deleteEducations
   );
 
   app.post(
     "/experiences",
-    checkAuthenticated,
+    validateUserIdInQuery,
     validateExperienceInBody,
+    checkAuthenticated,
     addExperiences
   );
 
   app.delete(
     "/experiences",
-    checkAuthenticated,
+    validateUserIdInQuery,
     validateIdInBody,
+    checkAuthenticated,
     deleteExperiences
   );
 
   app.post(
     "/certificates",
-    checkAuthenticated,
+    validateUserIdInQuery,
     validateCertificateInBody,
+    checkAuthenticated,
     addCertificates
   );
 
   app.delete(
     "/certificates",
-    checkAuthenticated,
+    validateUserIdInQuery,
     validateIdInBody,
+    checkAuthenticated,
     deleteCertificates
   );
 
-  app.post("/skills", checkAuthenticated, validateSkillInBody, addSkills);
+  app.post(
+    "/skills",
+    validateUserIdInQuery,
+    validateSkillInBody,
+    checkAuthenticated,
+    addSkills
+  );
 
-  app.delete("/skills", checkAuthenticated, validateIdInBody, deleteSkills);
+  app.delete(
+    "/skills",
+    validateUserIdInQuery,
+    validateIdInBody,
+    checkAuthenticated,
+    deleteSkills
+  );
 
   app.post(
     "/user",
-    checkAuthenticated,
     validateUserIdInQuery,
     validateUserEmailInBody,
+    checkAuthenticated,
     addOrUpdateUser
   );
 };
@@ -139,7 +169,7 @@ const checkAuthenticated = async (
         .status(403)
         .send({ message: "Could not identify you as authorized user." });
     }
-    const user_id_from_query: number = req.query.user_id as unknown as number;
+    const user_id_from_query: number = parseInt(req.query.user_id as string);
     const userId = await getUserIdFromEmail(user.emails[0]?.value);
 
     if (user.emails[0]?.verified && userId === user_id_from_query) {
