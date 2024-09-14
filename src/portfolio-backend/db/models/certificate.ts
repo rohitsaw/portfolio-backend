@@ -1,8 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from 'sequelize';
 
 const createCertificateModel = (sequelize: Sequelize, schema: string) => {
   return sequelize.define(
-    "certificates",
+    'certificates',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,15 +13,15 @@ const createCertificateModel = (sequelize: Sequelize, schema: string) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
       },
       certificate_name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      certificate_description: { type: DataTypes.STRING, defaultValue: "N/A" },
+      certificate_description: { type: DataTypes.STRING, defaultValue: 'N/A' },
 
       certification_authority: { type: DataTypes.STRING },
 

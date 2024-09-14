@@ -1,16 +1,16 @@
-import { Sequelize } from "sequelize";
+import { Sequelize } from 'sequelize';
 
-import createCertificateModel from "./models/certificate.js";
-import createProjectModel from "./models/project.js";
-import createWorkExperienceModel from "./models/work-experience.js";
-import createEducationModel from "./models/education.js";
-import createSkillModel from "./models/skill.js";
-import createUserModel from "./models/user.js";
+import createCertificateModel from './models/certificate.js';
+import createProjectModel from './models/project.js';
+import createWorkExperienceModel from './models/work-experience.js';
+import createEducationModel from './models/education.js';
+import createSkillModel from './models/skill.js';
+import createUserModel from './models/user.js';
 
 async function initModels(psql: Sequelize, schemaname: string) {
   try {
     await psql.authenticate();
-    console.log("Connection has been verified.");
+    console.log('Connection has been verified.');
 
     createUserModel(psql, schemaname);
     createProjectModel(psql, schemaname);
@@ -19,7 +19,7 @@ async function initModels(psql: Sequelize, schemaname: string) {
     createEducationModel(psql, schemaname);
     createSkillModel(psql, schemaname);
   } catch (error) {
-    console.error("something went wrong:", error);
+    console.error('something went wrong:', error);
   }
 }
 

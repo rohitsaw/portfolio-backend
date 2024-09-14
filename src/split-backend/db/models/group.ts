@@ -1,8 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from 'sequelize';
 
 const createGroupModel = (sequelize: Sequelize, schema: string) => {
   const User = sequelize.define(
-    "Group",
+    'Group',
     {
       name: {
         type: DataTypes.STRING,
@@ -13,7 +13,7 @@ const createGroupModel = (sequelize: Sequelize, schema: string) => {
       schema,
       timestamps: true,
       underscored: true,
-      tableName: "groups",
+      tableName: 'groups',
     }
   );
   return User;

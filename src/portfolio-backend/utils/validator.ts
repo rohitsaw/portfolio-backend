@@ -1,12 +1,12 @@
-import { NextFunction, Request, Response } from "express";
-import { body, query, validationResult } from "express-validator";
+import { NextFunction, Request, Response } from 'express';
+import { body, query, validationResult } from 'express-validator';
 
 const validateUserIdInQuery = [
-  query("user_id")
+  query('user_id')
     .exists()
-    .withMessage("User ID is required")
+    .withMessage('User ID is required')
     .isInt({ min: 1 })
-    .withMessage("User ID must be a positive integer"),
+    .withMessage('User ID must be a positive integer'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -17,11 +17,11 @@ const validateUserIdInQuery = [
 ];
 
 const validateUserEmailInQuery = [
-  query("user_email")
+  query('user_email')
     .exists()
-    .withMessage("User Email is required")
+    .withMessage('User Email is required')
     .isEmail()
-    .withMessage("User ID must be a valid email"),
+    .withMessage('User ID must be a valid email'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -32,11 +32,11 @@ const validateUserEmailInQuery = [
 ];
 
 const validateUserEmailInBody = [
-  body("user_email")
+  body('user_email')
     .exists()
-    .withMessage("User Email is required")
+    .withMessage('User Email is required')
     .isEmail()
-    .withMessage("User ID must be a valid email"),
+    .withMessage('User ID must be a valid email'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -47,11 +47,11 @@ const validateUserEmailInBody = [
 ];
 
 const validateIdInBody = [
-  body("id")
+  body('id')
     .exists()
-    .withMessage("id required")
+    .withMessage('id required')
     .isInt({ min: 1 })
-    .withMessage("id must be a positive integer"),
+    .withMessage('id must be a positive integer'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -62,7 +62,7 @@ const validateIdInBody = [
 ];
 
 const validateProjectInBody = [
-  body("project_name").exists().withMessage("project_name is required"),
+  body('project_name').exists().withMessage('project_name is required'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -73,7 +73,7 @@ const validateProjectInBody = [
 ];
 
 const validateSkillInBody = [
-  body("skill_name").exists().withMessage("skill_name is required"),
+  body('skill_name').exists().withMessage('skill_name is required'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -84,17 +84,17 @@ const validateSkillInBody = [
 ];
 
 const validateCertificateInBody = [
-  body("certificate_name")
+  body('certificate_name')
     .exists()
-    .withMessage("certificate_name is required.")
+    .withMessage('certificate_name is required.')
     .notEmpty(),
-  body("certification_authority")
+  body('certification_authority')
     .exists()
-    .withMessage("certification_authority is required.")
+    .withMessage('certification_authority is required.')
     .notEmpty(),
-  body("certification_date")
+  body('certification_date')
     .exists()
-    .withMessage("certification_date is required.")
+    .withMessage('certification_date is required.')
     .notEmpty(),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
@@ -106,11 +106,11 @@ const validateCertificateInBody = [
 ];
 
 const validateEducationInBody = [
-  body("institute_name").exists().notEmpty(),
-  body("degree_name").exists().notEmpty(),
-  body("start_date").exists().notEmpty(),
-  body("end_date").exists().notEmpty(),
-  body("score").exists().notEmpty(),
+  body('institute_name').exists().notEmpty(),
+  body('degree_name').exists().notEmpty(),
+  body('start_date').exists().notEmpty(),
+  body('end_date').exists().notEmpty(),
+  body('score').exists().notEmpty(),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -121,10 +121,10 @@ const validateEducationInBody = [
 ];
 
 const validateExperienceInBody = [
-  body("company_name").exists().notEmpty(),
-  body("designation").exists().notEmpty(),
-  body("start_date").exists().notEmpty(),
-  body("end_date").exists().notEmpty(),
+  body('company_name').exists().notEmpty(),
+  body('designation').exists().notEmpty(),
+  body('start_date').exists().notEmpty(),
+  body('end_date').exists().notEmpty(),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

@@ -6,7 +6,7 @@ interface Certificate {
   certification_date: string;
   certification_expiry: string;
   verification_url: string;
-  technology_tags: Array<String>;
+  technology_tags: Array<string>;
 }
 
 interface Education {

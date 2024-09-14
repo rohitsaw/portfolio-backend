@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
 const send_push_notification = ({
   groupName,
@@ -9,21 +9,21 @@ const send_push_notification = ({
   headings: string;
   title: string;
 }) => {
-  const url = "https://onesignal.com/api/v1/notifications";
+  const url = 'https://onesignal.com/api/v1/notifications';
   const options = {
-    method: "POST",
+    method: 'POST',
     headers: {
       Authorization: `Basic ${process.env.ONESIGNAL_KEY}`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      app_id: "e6cdb8fb-192b-4a0e-81e1-5762f7e0b630",
+      app_id: 'e6cdb8fb-192b-4a0e-81e1-5762f7e0b630',
       filters: [
         {
-          field: "tag",
+          field: 'tag',
           key: `group: ${groupName}`,
-          relation: "=",
-          value: "true",
+          relation: '=',
+          value: 'true',
         },
       ],
       headings: {
@@ -38,8 +38,8 @@ const send_push_notification = ({
   // Perform the POST request
   fetch(url, options)
     .then((response) => response.json()) // Parse JSON response
-    .then((data) => console.log("Success:", data)) // Handle the data
-    .catch((error) => console.error("Error:", error)); // Handle errors
+    .then((data) => console.log('Success:', data)) // Handle the data
+    .catch((error) => console.error('Error:', error)); // Handle errors
 };
 
 export { send_push_notification };

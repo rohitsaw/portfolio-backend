@@ -2,33 +2,33 @@ import {
   getAllCertificates as getAllCertificatesFromDb,
   addCertificates as addCertificatesInDb,
   deleteCertificates as deleteCertificatesInDb,
-} from "./db/queries/certificate.js";
+} from './db/queries/certificate.js';
 import {
   getAllEducations as getAllEducationsFromDb,
   addEducations as addEducationsInDb,
   deleteEducations as deleteEducationsInDb,
-} from "./db/queries/education.js";
+} from './db/queries/education.js';
 import {
   getAllProjects as getAllProjectsFromDb,
   deleteProjects as deleteProjectsInDb,
   addProjects as addProjectsInDb,
-} from "./db/queries/project.js";
+} from './db/queries/project.js';
 import {
   getAllSkills as getAllSkillsFromDb,
   addSkills as addSkillsInDb,
   deleteSkills as deleteSkillsInDb,
-} from "./db/queries/skill.js";
+} from './db/queries/skill.js';
 import {
   getuser as getuserFromDb,
   addOrUpdateUser as addOrUpdateUserInDB,
-} from "./db/queries/user.js";
+} from './db/queries/user.js';
 import {
   getAllExperiences as getAllExperiencesFromDb,
   addExperiences as addExperiencesInDb,
   deleteExperiences as deleteExperiencesInDb,
-} from "./db/queries/work-experience.js";
+} from './db/queries/work-experience.js';
 
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
 const getAllCertificates = async (req: Request, res: Response) => {
   try {

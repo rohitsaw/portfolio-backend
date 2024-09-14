@@ -1,8 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from 'sequelize';
 
 const createEducationModel = (sequelize: Sequelize, schema: string) => {
   return sequelize.define(
-    "education",
+    'education',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,8 +13,8 @@ const createEducationModel = (sequelize: Sequelize, schema: string) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
       },
       institute_name: { type: DataTypes.STRING, allowNull: false },

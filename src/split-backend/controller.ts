@@ -1,22 +1,22 @@
-import { Request, Response } from "express";
-import { createGroup as createGroupInDB } from "./db/queries/group.js";
+import { Request, Response } from 'express';
+import { createGroup as createGroupInDB } from './db/queries/group.js';
 import {
   createUser as createUserInDB,
   getAllUsersInGroup as getAllUsersInGroupFromDB,
-} from "./db/queries/user.js";
+} from './db/queries/user.js';
 import {
   saveTransaction as saveTransactionInDB,
   savePayment as savePaymentInDB,
   savePayments as savePaymentsInDB,
   getAllTransactionInGroup as getAllTransactionInGroupFromDB,
-} from "./db/queries/transaction.js";
+} from './db/queries/transaction.js';
 import {
   getGroup as getGroupInDB,
   getOverviewDataInGroup as getOverviewDataInGroupFromDb,
-} from "./db/queries/group.js";
+} from './db/queries/group.js';
 
-import { encrypt, decrypt } from "./utils/crypto.js";
-import { send_push_notification } from "./utils/send_notification.js";
+import { encrypt, decrypt } from './utils/crypto.js';
+import { send_push_notification } from './utils/send_notification.js';
 import {
   createGroupPayload,
   createUserPayload,
@@ -24,14 +24,14 @@ import {
   joinGroupPayload,
   savePaymentPayload,
   saveTransactionPayload,
-} from "../types/split";
+} from '../types/split';
 
 const createGroup = async (
   req: Request<{}, {}, createGroupPayload>,
   res: Response
 ) => {
   try {
-    const requiredFields = ["name"];
+    const requiredFields = ['name'];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
@@ -49,7 +49,7 @@ const joinGroup = async (
   res: Response
 ) => {
   try {
-    const requiredFields = ["invite_id"];
+    const requiredFields = ['invite_id'];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
@@ -59,14 +59,14 @@ const joinGroup = async (
     const response: any = await getGroupInDB({ group_id: group_id });
 
     if (response == null) {
-      throw new Error("No Group Found");
+      throw new Error('No Group Found');
     }
 
     const inviteId = encrypt(`${response.id}`);
 
     return res.status(200).send({ ...response, inviteId });
   } catch (error: any) {
-    console.error("error", error);
+    console.error('error', error);
     return res.status(400).send({ message: error.message });
   }
 };
@@ -76,7 +76,7 @@ const createUser = async (
   res: Response
 ) => {
   try {
-    const requiredFields = ["name", "group_id"];
+    const requiredFields = ['name', 'group_id'];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
@@ -92,7 +92,7 @@ const saveTransaction = async (
   res: Response
 ) => {
   try {
-    const requiredFields = ["by", "title", "totalAmount", "transactionParts"];
+    const requiredFields = ['by', 'title', 'totalAmount', 'transactionParts'];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
@@ -111,7 +111,7 @@ const saveTransaction = async (
     const response = await saveTransactionInDB(req.body);
     send_push_notification({
       groupName: req.body.groupName,
-      headings: "New Expense",
+      headings: 'New Expense',
       title: req.body.title,
     });
     return res.status(200).send(response);
@@ -125,14 +125,14 @@ const savePayment = async (
   res: Response
 ) => {
   try {
-    const requiredFields = ["from", "to", "amount"];
+    const requiredFields = ['from', 'to', 'amount'];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
     const response = await savePaymentInDB(req.body);
     send_push_notification({
       groupName: req.body.groupName,
-      headings: "New Payment",
+      headings: 'New Payment',
       title: `INR ${req.body.amount}`,
     });
     return res.status(200).send(response);
@@ -146,13 +146,13 @@ const savePayments = async (
   res: Response
 ) => {
   try {
-    const requiredFields = ["from", "to", "amount"];
+    const requiredFields = ['from', 'to', 'amount'];
 
     for (let each of req.body) {
       if (
-        !Object.prototype.hasOwnProperty.call(each, "from") ||
-        !Object.prototype.hasOwnProperty.call(each, "to") ||
-        !Object.prototype.hasOwnProperty.call(each, "amount")
+        !Object.prototype.hasOwnProperty.call(each, 'from') ||
+        !Object.prototype.hasOwnProperty.call(each, 'to') ||
+        !Object.prototype.hasOwnProperty.call(each, 'amount')
       ) {
         throw new Error(`Required Field missing ${requiredFields}`);
       }
@@ -162,7 +162,7 @@ const savePayments = async (
     req.body.forEach((e) => {
       send_push_notification({
         groupName: e.groupName,
-        headings: "New Payment",
+        headings: 'New Payment',
         title: `INR ${e.amount}`,
       });
     });
@@ -177,7 +177,7 @@ const getAllUsersInGroup = async (
   res: Response
 ) => {
   try {
-    const requiredFields = ["group_id"];
+    const requiredFields = ['group_id'];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
@@ -193,7 +193,7 @@ const getAllTransactionInGroup = async (
   res: Response
 ) => {
   try {
-    const requiredFields = ["group_id"];
+    const requiredFields = ['group_id'];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }
@@ -209,7 +209,7 @@ const getOverviewDataInGroup = async (
   res: Response
 ) => {
   try {
-    const requiredFields = ["group_id"];
+    const requiredFields = ['group_id'];
     if (!requiredFields.every((each) => Object.keys(req.body).includes(each))) {
       throw new Error(`Required Field missing ${requiredFields}`);
     }

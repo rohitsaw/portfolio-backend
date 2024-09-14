@@ -1,4 +1,4 @@
-import { Application } from "express";
+import { Application } from 'express';
 import {
   joinGroup,
   createGroup,
@@ -9,27 +9,27 @@ import {
   getAllTransactionInGroup,
   getOverviewDataInGroup,
   savePayments,
-} from "./controller.js";
+} from './controller.js';
 
 const addRoutes = (app: Application) => {
-  app.post("/createGroup", createGroup);
+  app.post('/createGroup', createGroup);
 
-  app.post("/joinGroup", joinGroup);
+  app.post('/joinGroup', joinGroup);
 
-  app.post("/createUser", createUser);
+  app.post('/createUser', createUser);
 
-  app.post("/saveTransaction", saveTransaction);
+  app.post('/saveTransaction', saveTransaction);
 
-  app.post("/savePayment", savePayment);
+  app.post('/savePayment', savePayment);
 
-  app.post("/savePayments", savePayments);
+  app.post('/savePayments', savePayments);
 
-  app.post("/getAllUsersInGroup", getAllUsersInGroup);
+  app.post('/getAllUsersInGroup', getAllUsersInGroup);
 
-  app.post("/getOverviewDataInGroup", getOverviewDataInGroup);
+  app.post('/getOverviewDataInGroup', getOverviewDataInGroup);
 
   // AllExpenses, ExpensesInvolevedAUser, ExpensesByAUser
-  app.post("/getAllExpensesInGroup", getAllTransactionInGroup);
+  app.post('/getAllExpensesInGroup', getAllTransactionInGroup);
 };
 
 export { addRoutes };

@@ -1,17 +1,17 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from 'sequelize';
 
 const createTransactionModel = (sequelize: Sequelize, schema: string) => {
   const Transaction = sequelize.define(
-    "Transaction",
+    'Transaction',
     {
       by: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
       },
       amount: {
         type: DataTypes.DOUBLE,
@@ -29,7 +29,7 @@ const createTransactionModel = (sequelize: Sequelize, schema: string) => {
       schema,
       timestamps: true,
       underscored: true,
-      tableName: "transactions",
+      tableName: 'transactions',
     }
   );
   return Transaction;

@@ -1,15 +1,15 @@
-import { sequelize, split_backend as schemaname } from "../../../postgres.js";
-import { QueryTypes } from "sequelize";
+import { sequelize, split_backend as schemaname } from '../../../postgres.js';
+import { QueryTypes } from 'sequelize';
 import {
   getAllTransactionInGroupPayload,
   savePaymentPayload,
   saveTransactionPayload,
-} from "../../../types/split";
+} from '../../../types/split';
 
 const saveTransaction = async (payload: saveTransactionPayload) => {
   try {
     if (!sequelize) {
-      throw new Error("DB not initialized");
+      throw new Error('DB not initialized');
     } else {
       return sequelize.transaction(async (t) => {
         const transaction = await sequelize!.models.Transaction.create(
@@ -46,15 +46,15 @@ const saveTransaction = async (payload: saveTransactionPayload) => {
 const savePayment = async (payload: savePaymentPayload) => {
   try {
     if (!sequelize) {
-      throw new Error("DB not initialized");
+      throw new Error('DB not initialized');
     }
     return sequelize.transaction(async (t) => {
       const transaction = await sequelize!.models.Transaction.create(
         {
           by: payload.from,
-          title: "payment",
+          title: 'payment',
           amount: payload.amount,
-          category: "payment",
+          category: 'payment',
         },
         { transaction: t }
       );
@@ -80,7 +80,7 @@ const savePayment = async (payload: savePaymentPayload) => {
 const savePayments = async (payments: Array<savePaymentPayload>) => {
   try {
     if (!sequelize) {
-      throw new Error("DB not initialized");
+      throw new Error('DB not initialized');
     }
 
     return sequelize.transaction(async (t) => {
@@ -90,9 +90,9 @@ const savePayments = async (payments: Array<savePaymentPayload>) => {
         const transaction = await sequelize!.models.Transaction.create(
           {
             by: payment.from,
-            title: "payment",
+            title: 'payment',
             amount: payment.amount,
-            category: "payment",
+            category: 'payment',
           },
           { transaction: t }
         );
@@ -124,13 +124,13 @@ const getAllTransactionInGroup = async ({
   payments,
 }: getAllTransactionInGroupPayload) => {
   if (!sequelize) {
-    throw new Error("DB not initialized");
+    throw new Error('DB not initialized');
   }
 
-  if (!by || by == "null") {
+  if (!by || by == 'null') {
     by = undefined;
   }
-  if (!user_id || user_id == "null") {
+  if (!user_id || user_id == 'null') {
     user_id = undefined;
   }
 

@@ -1,8 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from 'sequelize';
 
 const createUserModel = (sequelize: Sequelize, schema: string) => {
   const User = sequelize.define(
-    "User",
+    'User',
     {
       name: {
         type: DataTypes.STRING,
@@ -11,17 +11,17 @@ const createUserModel = (sequelize: Sequelize, schema: string) => {
       group_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: "groups",
-          key: "id",
+          model: 'groups',
+          key: 'id',
         },
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE',
       },
     },
     {
       schema,
       timestamps: true,
       underscored: true,
-      tableName: "users",
+      tableName: 'users',
     }
   );
   return User;

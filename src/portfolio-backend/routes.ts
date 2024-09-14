@@ -1,4 +1,4 @@
-import { Application } from "express";
+import { Application } from 'express';
 import {
   getAllCertificates,
   getAllProjects,
@@ -6,24 +6,24 @@ import {
   getAllExperiences,
   getAllSkills,
   getuser,
-} from "./controller.js";
+} from './controller.js';
 import {
   validateUserIdInQuery,
   validateUserEmailInQuery,
-} from "./utils/validator.js";
+} from './utils/validator.js';
 
 const addRoutes = (app: Application) => {
-  app.get("/certificates", validateUserIdInQuery, getAllCertificates);
+  app.get('/certificates', validateUserIdInQuery, getAllCertificates);
 
-  app.get("/projects", validateUserIdInQuery, getAllProjects);
+  app.get('/projects', validateUserIdInQuery, getAllProjects);
 
-  app.get("/educations", validateUserIdInQuery, getAllEducations);
+  app.get('/educations', validateUserIdInQuery, getAllEducations);
 
-  app.get("/experiences", validateUserIdInQuery, getAllExperiences);
+  app.get('/experiences', validateUserIdInQuery, getAllExperiences);
 
-  app.get("/skills", validateUserIdInQuery, getAllSkills);
+  app.get('/skills', validateUserIdInQuery, getAllSkills);
 
-  app.get("/user", validateUserEmailInQuery, getuser);
+  app.get('/user', validateUserEmailInQuery, getuser);
 };
 
 export { addRoutes };

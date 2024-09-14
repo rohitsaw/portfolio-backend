@@ -1,12 +1,12 @@
-import { QueryTypes } from "sequelize";
-import dayjs from "dayjs";
+import { QueryTypes } from 'sequelize';
+import dayjs from 'dayjs';
 
 import {
   sequelize as psql,
   portfolio_backend as schemaname,
-} from "../../../postgres.js";
+} from '../../../postgres.js';
 
-import { Certificate } from "../../../types/portfolio";
+import { Certificate } from '../../../types/portfolio';
 
 const getAllCertificates = async (user_id: number) => {
   const query = `select * from ${schemaname}.certificates where user_id = :user_id order by certification_date desc`;
@@ -38,7 +38,7 @@ const addCertificates = async (certificate: Certificate, user_id: number) => {
         certificate_description: certificate.certificate_description,
         certification_authority: certificate.certification_authority,
         certification_date: dayjs(certificate.certification_date).format(
-          "YYYY-MM-DD"
+          'YYYY-MM-DD'
         ),
         certification_expiry: certificate.certification_expiry,
         verification_url: certificate.verification_url,

@@ -1,10 +1,9 @@
-import { body } from "express-validator";
 import {
   Strategy as GoogleStrategy,
   Profile,
   VerifyCallback,
-} from "passport-google-oauth20";
-import passport from "passport";
+} from 'passport-google-oauth20';
+import passport from 'passport';
 
 import {
   addProjects,
@@ -18,9 +17,9 @@ import {
   deleteExperiences,
   deleteSkills,
   addOrUpdateUser,
-} from "./controller.js";
+} from './controller.js';
 
-import { getUserIdFromEmail } from "./db/queries/user.js";
+import { getUserIdFromEmail } from './db/queries/user.js';
 
 import {
   validateIdInBody,
@@ -31,8 +30,8 @@ import {
   validateCertificateInBody,
   validateEducationInBody,
   validateExperienceInBody,
-} from "./utils/validator.js";
-import { Application, NextFunction, Request, Response } from "express";
+} from './utils/validator.js';
+import { Application, NextFunction, Request, Response } from 'express';
 
 const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID!;
 const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET!;
@@ -43,8 +42,8 @@ const addRoutes = (app: Application) => {
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "/google/callback",
-        scope: ["email", "profile"],
+        callbackURL: '/google/callback',
+        scope: ['email', 'profile'],
       },
       function (
         accessToken: string,
@@ -52,23 +51,23 @@ const addRoutes = (app: Application) => {
         profile: Profile,
         done: VerifyCallback
       ) {
-        console.log("profile", profile);
+        console.log('profile', profile);
         done(null, profile);
       }
     )
   );
   passport.serializeUser((user: Express.User, done) => {
-    console.log("serializing user", user);
+    console.log('serializing user', user);
     done(null, user);
   });
 
   passport.deserializeUser((user: Express.User, done) => {
-    console.log("deserializing user", user);
+    console.log('deserializing user', user);
     done(null, user);
   });
 
   app.post(
-    "/projects",
+    '/projects',
     validateUserIdInQuery,
     validateProjectInBody,
     checkAuthenticated,
@@ -76,7 +75,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.delete(
-    "/projects",
+    '/projects',
     validateUserIdInQuery,
     validateIdInBody,
     checkAuthenticated,
@@ -84,7 +83,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.post(
-    "/educations",
+    '/educations',
     validateUserIdInQuery,
     validateEducationInBody,
     checkAuthenticated,
@@ -92,7 +91,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.delete(
-    "/educations",
+    '/educations',
     validateUserIdInQuery,
     validateIdInBody,
     checkAuthenticated,
@@ -100,7 +99,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.post(
-    "/experiences",
+    '/experiences',
     validateUserIdInQuery,
     validateExperienceInBody,
     checkAuthenticated,
@@ -108,7 +107,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.delete(
-    "/experiences",
+    '/experiences',
     validateUserIdInQuery,
     validateIdInBody,
     checkAuthenticated,
@@ -116,7 +115,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.post(
-    "/certificates",
+    '/certificates',
     validateUserIdInQuery,
     validateCertificateInBody,
     checkAuthenticated,
@@ -124,7 +123,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.delete(
-    "/certificates",
+    '/certificates',
     validateUserIdInQuery,
     validateIdInBody,
     checkAuthenticated,
@@ -132,7 +131,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.post(
-    "/skills",
+    '/skills',
     validateUserIdInQuery,
     validateSkillInBody,
     checkAuthenticated,
@@ -140,7 +139,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.delete(
-    "/skills",
+    '/skills',
     validateUserIdInQuery,
     validateIdInBody,
     checkAuthenticated,
@@ -148,7 +147,7 @@ const addRoutes = (app: Application) => {
   );
 
   app.post(
-    "/user",
+    '/user',
     validateUserIdInQuery,
     validateUserEmailInBody,
     checkAuthenticated,
@@ -163,11 +162,11 @@ const checkAuthenticated = async (
 ) => {
   if (req.isAuthenticated()) {
     const user: Profile = req.user as Profile;
-    console.log("Authentication check for user", user);
+    console.log('Authentication check for user', user);
     if (!user.emails) {
       return res
         .status(403)
-        .send({ message: "Could not identify you as authorized user." });
+        .send({ message: 'Could not identify you as authorized user.' });
     }
     const user_id_from_query: number = parseInt(req.query.user_id as string);
     const userId = await getUserIdFromEmail(user.emails[0]?.value);
@@ -177,10 +176,10 @@ const checkAuthenticated = async (
     } else {
       return res
         .status(403)
-        .send({ message: "you do not have permission to edit details." });
+        .send({ message: 'you do not have permission to edit details.' });
     }
   }
-  return res.status(403).send({ message: "Authentication Failed." });
+  return res.status(403).send({ message: 'Authentication Failed.' });
 };
 
 export { addRoutes };

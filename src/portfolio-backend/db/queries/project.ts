@@ -1,10 +1,10 @@
-import { QueryTypes } from "sequelize";
+import { QueryTypes } from 'sequelize';
 import {
   sequelize as psql,
   portfolio_backend as schemaname,
-} from "../../../postgres.js";
+} from '../../../postgres.js';
 
-import { Project } from "../../../types/portfolio";
+import { Project } from '../../../types/portfolio';
 
 const getAllProjects = async (user_id: number) => {
   const query = `select * from ${schemaname}.projects where user_id = :user_id order by id desc`;

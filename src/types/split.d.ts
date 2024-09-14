@@ -33,6 +33,11 @@ interface getAllTransactionInGroupPayload {
   payments?: string;
 }
 
+interface User {
+  name: string;
+  group_id: number;
+}
+
 export {
   createGroupPayload,
   joinGroupPayload,
@@ -40,4 +45,5 @@ export {
   saveTransactionPayload,
   savePaymentPayload,
   getAllTransactionInGroupPayload,
+  User,
 };

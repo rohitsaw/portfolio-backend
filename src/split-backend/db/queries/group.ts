@@ -1,12 +1,12 @@
-import { QueryTypes } from "sequelize";
-import { sequelize, split_backend as schemaname } from "../../../postgres.js";
-import { createGroupPayload } from "../../../types/split.js";
+import { QueryTypes } from 'sequelize';
+import { sequelize, split_backend as schemaname } from '../../../postgres.js';
+import { createGroupPayload } from '../../../types/split.js';
 
 const createGroup = async (payload: createGroupPayload) => {
   if (sequelize != null) {
     return sequelize.models.Group.create({ name: payload.name });
   } else {
-    throw new Error("DB not initialized");
+    throw new Error('DB not initialized');
   }
 };
 
@@ -17,7 +17,7 @@ const getGroup = async ({ group_id }: { group_id: number }) => {
       raw: true,
     });
   } else {
-    throw new Error("DB not initialized");
+    throw new Error('DB not initialized');
   }
 };
 
@@ -47,7 +47,7 @@ where A.group_id = :group_id`;
       replacements: { group_id: group_id },
     });
   } else {
-    throw new Error("DB not initialized");
+    throw new Error('DB not initialized');
   }
 };
 

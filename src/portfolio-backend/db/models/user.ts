@@ -1,8 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from 'sequelize';
 
 const createUserModel = (sequelize: Sequelize, schema: string) => {
   return sequelize.define(
-    "users",
+    'users',
     {
       id: {
         type: DataTypes.INTEGER,

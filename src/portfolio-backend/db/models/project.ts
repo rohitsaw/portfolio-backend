@@ -1,8 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from 'sequelize';
 
 const createProjectModel = (sequelize: Sequelize, schema: string) => {
   return sequelize.define(
-    "projects",
+    'projects',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,12 +13,12 @@ const createProjectModel = (sequelize: Sequelize, schema: string) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
       },
       project_name: { type: DataTypes.STRING, allowNull: false },
-      project_description: { type: DataTypes.STRING, defaultValue: "N/A" },
+      project_description: { type: DataTypes.STRING, defaultValue: 'N/A' },
 
       github_url: { type: DataTypes.STRING },
       web_url: { type: DataTypes.STRING },

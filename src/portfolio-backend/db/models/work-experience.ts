@@ -1,8 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from 'sequelize';
 
 const createWorkExperienceModel = (sequelize: Sequelize, schema: string) => {
   return sequelize.define(
-    "work_experiences",
+    'work_experiences',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,8 +13,8 @@ const createWorkExperienceModel = (sequelize: Sequelize, schema: string) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
       },
       company_name: { type: DataTypes.STRING, allowNull: false },

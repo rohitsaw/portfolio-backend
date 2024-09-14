@@ -1,10 +1,10 @@
-import { QueryTypes } from "sequelize";
+import { QueryTypes } from 'sequelize';
 import {
   sequelize as psql,
   portfolio_backend as schemaname,
-} from "../../../postgres.js";
+} from '../../../postgres.js';
 
-import { WorkExperience } from "../../../types/portfolio";
+import { WorkExperience } from '../../../types/portfolio';
 
 const getAllExperiences = async (user_id: number) => {
   const query = `select * from ${schemaname}.work_experiences where user_id = :user_id order by end_date desc`;
