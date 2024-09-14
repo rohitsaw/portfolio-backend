@@ -38,9 +38,7 @@ const addProjects = async (project: Project, user_id: number) => {
         github_url: project.github_url,
         web_url: project.web_url,
         play_store_url: project.play_store_url,
-        technology_tags: Array.isArray(project.technology_tags)
-          ? project.technology_tags
-          : project.technology_tags?.split(","),
+        technology_tags: project.technology_tags,
         user_id: user_id,
       },
     });
