@@ -10,7 +10,7 @@ jest.mock('node-fetch', () => ({
     return Promise.resolve({
       json: () => Promise.resolve({ message: 'Mocked response' }),
       status: 200,
-    } as Response);
+    });
   }),
 }));
 

@@ -21,6 +21,9 @@ class DBConnection {
   }
 
   async init() {
+    await DBConnection.#sequelize.authenticate();
+    console.log('Connection has been verified.');
+
     await connectToPortfolioDB(
       DBConnection.#sequelize,
       DBConnection.portfolio_backend
@@ -28,6 +31,7 @@ class DBConnection {
     await connectToSplitDB(DBConnection.#sequelize, DBConnection.split_backend);
     await DBConnection.#sequelize.sync({ alter: true });
     await this.#createIndexes();
+
     console.log('Database Sync Done for all DB');
   }
 

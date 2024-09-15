@@ -9,9 +9,6 @@ import createUserModel from './models/user.js';
 
 async function initModels(psql: Sequelize, schemaname: string) {
   try {
-    await psql.authenticate();
-    console.log('Connection has been verified.');
-
     createUserModel(psql, schemaname);
     createProjectModel(psql, schemaname);
     createCertificateModel(psql, schemaname);

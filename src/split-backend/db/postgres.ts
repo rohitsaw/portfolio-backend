@@ -7,8 +7,6 @@ import createTransactionPartModel from './models/transactionPart.js';
 
 const initializeDB = async (sequelize: Sequelize, schemaname: string) => {
   try {
-    await sequelize.authenticate();
-
     createGroupModel(sequelize, schemaname);
     createUserModel(sequelize, schemaname);
     createTransactionModel(sequelize, schemaname);
