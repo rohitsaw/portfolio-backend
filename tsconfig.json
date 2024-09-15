@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "ESNext",
-    "esModuleInterop": true, // Ensures compatibility with CommonJS modules
+    "target": "ESNext",
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ESNext", // Target modern JavaScript
     "moduleResolution": "node",
-    "allowJs": true, // Allows JavaScript files to be compiled
-    "checkJs": false, // Turns off type checking for JS files
-    "outDir": "./dist", // Output folder for compiled files
+    "allowJs": true,
+    "checkJs": false,
+    "outDir": "./dist",
     "typeRoots": ["./src/types/", "./node_modules/@types"],
-    "skipLibCheck": true, // Skips type checking for declaration files
-    "strict": true, // Enables all strict type-checking options
-    "forceConsistentCasingInFileNames": true, // Enforces consistent casing in import paths
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "noEmit": false,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "babel.config.js"],
   "exclude": ["node_modules"],
-  "types": ["node", "express"]
+  "types": ["node", "express", "jest"]
 }
