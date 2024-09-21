@@ -30,7 +30,7 @@ jobs:
           args: >
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ secrets.SONAR_ORG }}  # Only needed for organizations
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.token=${{ secrets.SONAR_TOKEN2 }}
             -Dsonar.sources=./src  # Modify to your source folder
             -Dsonar.tests=./src  # Modify to your test folder
             -Dsonar.test.inclusions=**/*.unit.test.ts  # Include only .unit.test.js files
