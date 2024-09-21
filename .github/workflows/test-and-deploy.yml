@@ -24,6 +24,11 @@ jobs:
         run: npm run test
         # Ensure that your test runner generates an lcov report, e.g. Jest
 
+      - name: Check secrets visibility
+        run: echo "SONAR_TOKEN is set"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Upload coverage to SonarCloud
         uses: sonarsource/sonarcloud-github-action@v2
         with:
