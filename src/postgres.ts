@@ -74,6 +74,10 @@ class DBConnection {
   }
 }
 
+if (!process.env.postgresConnStr) {
+  throw new Error(`postgresConnStr env variable not set`);
+}
+
 const db: DBConnection = new DBConnection(process.env.postgresConnStr!);
 await db.init();
 

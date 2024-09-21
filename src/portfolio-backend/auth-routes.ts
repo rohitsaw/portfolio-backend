@@ -31,7 +31,6 @@ app.get('/logout', (req: Request, res: Response, next: NextFunction) => {
     if (err) {
       return next(err);
     }
-    console.log('logout referrer', req.headers.referer);
     if (req.headers.referer?.includes('onrender')) {
       res.redirect(process.env.CLIENT_ADDRESS1!);
     } else {
@@ -48,7 +47,6 @@ app.get(
 app.get(
   '/google/callback',
   function (req: Request, res: Response, next: NextFunction) {
-    console.log('login referrer', req.headers.referer);
     passport.authenticate('google', {
       successRedirect: req.headers.referer?.includes('onrender')
         ? process.env.CLIENT_ADDRESS1

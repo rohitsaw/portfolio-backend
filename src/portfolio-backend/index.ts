@@ -12,6 +12,25 @@ import { addRoutes as addProtectedRouted } from './protected-routes.js';
 /* Backend for https://portfolio-rsaw409.onrender.com/ */
 
 const main = async (app: Application) => {
+  if (!process.env.CLIENT_ADDRESS1) {
+    throw new Error(`CLIENT_ADDRESS1 env variable not set`);
+  }
+
+  if (!process.env.CLIENT_ADDRESS2) {
+    throw new Error(`CLIENT_ADDRESS2 env variable not set`);
+  }
+
+  if (!process.env.GOOGLE_CLIENT_ID) {
+    throw new Error(`GOOGLE_CLIENT_ID env variable not set`);
+  }
+
+  if (!process.env.GOOGLE_CLIENT_SECRET) {
+    throw new Error(`GOOGLE_CLIENT_SECRET env variable not set`);
+  }
+
+  if (!process.env.GOOGLE_CLIENT_SECRET) {
+    throw new Error(`GOOGLE_CLIENT_SECRET env variable not set`);
+  }
   // app.set("trust proxy", 1);
 
   app.use(

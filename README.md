@@ -2,9 +2,9 @@
 # Backend for rsaw409
 
 It contains backend code for following projects.
-https://portfolio.rsaw409.me/
-https://play.google.com/store/apps/details?id=developer.rohitsaw.split
-https://tictoe-rsaw409.onrender.com/
+https://portfolio.rsaw409.me/  <br/>
+https://play.google.com/store/apps/details?id=developer.rohitsaw.split  <br/>
+https://tictoe-rsaw409.onrender.com/  
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Version](https://img.shields.io/badge/version-1.0.0-brightgreen)
@@ -31,7 +31,7 @@ The Goal of this project is to provide backend functionality for all existing or
 
 ### Prerequisites
 
-List any prerequisites, such as Node.js version, npm/yarn, and any other tools or dependencies needed:
+Make sure you have Node.js, npm/yarn, and any other tools or dependencies that are needed to run node.js project:
 
 ```bash
 # Ensure you have Node.js installed (version 14 or higher)
@@ -40,6 +40,8 @@ node --version
 # Also ensure you have npm or yarn
 npm --version
 ```
+
+Make Sure you also have env variables properly set in .env file in root directory.
 
 ### Installation
 
@@ -57,14 +59,17 @@ yarn install
 
 ## Usage
 
-Provide details on how to use your project. For example, how to run it locally:
+how to run it locally:
 
 ```bash
+# Build the project 
+npm run build
+
 # Start the development server
 npm run dev
 ```
 
-Or any other commands specific to your project:
+how to run it in production:
 
 ```bash
 # Build the project for production
@@ -76,11 +81,11 @@ npm start
 
 ## Testing
 
-Explain how to run tests and include any special configuration:
+To run jest unit test with coverage reports.
 
 ```bash
 # Run all tests with coverage
-npm test
+npm run test
 
 ```
 
@@ -89,6 +94,7 @@ npm test
 Example of what environment variables could be needed depending on specific project:
 
 ```text
+Each of micro-backend application require some env variables like
 postgresConnStr=postgres://user:password@localhost:5432/database
 ONESIGNAL_KEY=your_api_key_here
 GOOGLE_CLIENT_ID = your_client_id
