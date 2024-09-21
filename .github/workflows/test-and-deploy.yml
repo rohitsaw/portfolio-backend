@@ -58,7 +58,7 @@ jobs:
 
   deploy:
     if: success()
-    needs: test
+    needs: sonarcloud
     runs-on: ubuntu-latest
     steps:
       - name: Trigger deployment via private URL
