@@ -1,0 +1,33 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
+
+  deploy:
+    if: success() # Only run this job if the test job succeeds
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deployment via Render webhook
+        run: |
+          curl -X GET ${{ secrets.PRIVATE_DEPLOY_URL }}
