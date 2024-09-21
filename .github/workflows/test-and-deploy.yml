@@ -1,4 +1,4 @@
-name: Test and Deploy
+name: Test, SonarCloud Analysis, and Deploy
 
 on:
   push:
@@ -20,14 +20,27 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
+      - name: Run tests with coverage
         run: npm run test
+        # Ensure that your test runner generates an lcov report, e.g. Jest
+
+      - name: Upload coverage to SonarCloud
+        uses: sonarsource/sonarcloud-github-action@v2
+        with:
+          args: >
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}  # Only needed for organizations
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.sources=./src  # Modify to your source folder
+            -Dsonar.tests=./src  # Modify to your test folder
+            -Dsonar.test.inclusions=**/*.unit.test.ts  # Include only .unit.test.js files
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info  # Path to the lcov report
 
   deploy:
-    if: success() # Only run this job if the test job succeeds
+    if: success()
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger deployment via Render webhook
+      - name: Trigger deployment via private URL
         run: |
-          curl -X GET ${{ secrets.PRIVATE_DEPLOY_URL }}
+          curl -X GET "${{ secrets.PRIVATE_DEPLOY_URL }}"
