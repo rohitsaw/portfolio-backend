@@ -33,8 +33,8 @@ import {
 } from './utils/validator.js';
 import { Application, NextFunction, Request, Response } from 'express';
 
-const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID!;
-const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET!;
+const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET;
 
 const addRoutes = (app: Application) => {
   passport.use(
