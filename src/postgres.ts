@@ -4,8 +4,8 @@ import connectToPortfolioDB from './portfolio-backend/db/postgres.js';
 import connectToSplitDB from './split-backend/db/postgres.js';
 
 class DBConnection {
-  static portfolio_backend: string = 'portfolio_backend';
-  static split_backend: string = 'split_backend';
+  static readonly portfolio_backend: string = 'portfolio_backend';
+  static readonly split_backend: string = 'split_backend';
 
   static #connStr: string;
   static #sequelize: Sequelize;
@@ -78,7 +78,7 @@ if (!process.env.postgresConnStr) {
   throw new Error(`postgresConnStr env variable not set`);
 }
 
-const db: DBConnection = new DBConnection(process.env.postgresConnStr!);
+const db: DBConnection = new DBConnection(process.env.postgresConnStr);
 await db.init();
 
 export const sequelize: Sequelize = DBConnection.getSequelize();

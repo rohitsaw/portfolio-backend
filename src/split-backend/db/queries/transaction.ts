@@ -85,8 +85,7 @@ const savePayments = async (payments: Array<savePaymentPayload>) => {
 
     return sequelize.transaction(async (t) => {
       const tmp = [];
-      for (let i = 0; i < payments.length; i++) {
-        let payment = payments[i];
+      for (let payment of payments) {
         const transaction = await sequelize.models.Transaction.create(
           {
             by: payment.from,

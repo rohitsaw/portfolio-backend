@@ -10,13 +10,13 @@ const key = crypto
   .createHash('sha256')
   .update(String(ENCRYPTION_KEY))
   .digest('base64')
-  .substr(0, 32);
+  .substring(0, 32);
 
 const iv = crypto
   .createHash('sha256')
   .update(String(IV))
   .digest('base64')
-  .substr(0, 16);
+  .substring(0, 16);
 
 function encrypt(text: string): string {
   let cipher = crypto.createCipheriv(algorithm, key, iv);
