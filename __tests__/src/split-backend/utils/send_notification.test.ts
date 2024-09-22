@@ -16,7 +16,9 @@ jest.unstable_mockModule('node-fetch', () => {
   };
 });
 
-const { send_push_notification } = await import('./send_notification.js');
+const { send_push_notification } = await import(
+  '../../../../src/split-backend/utils/send_notification.js'
+);
 const { default: fetch } = await import('node-fetch');
 
 describe('SEND NOTIFCATION TEST', () => {

@@ -16,14 +16,14 @@ jest.mock('sequelize', () => {
   };
 });
 
-jest.unstable_mockModule('./portfolio-backend/db/postgres', () => {
+jest.unstable_mockModule('../src/portfolio-backend/db/postgres', () => {
   return {
     __esModule: true,
     default: jest.fn(),
   };
 });
 
-jest.unstable_mockModule('./split-backend/db/postgres', () => {
+jest.unstable_mockModule('../src/split-backend/db/postgres', () => {
   return {
     __esModule: true,
     default: jest.fn(),
@@ -37,7 +37,7 @@ describe('DBConnection Tests', () => {
 
   test('DBConnection initialization', async () => {
     process.env.postgresConnStr = 'tests-postgres';
-    const { default: db } = await import('./postgres.js');
+    const { default: db } = await import('../src/postgres.js');
     await db.init();
     await db.init();
     db.getSequelize();

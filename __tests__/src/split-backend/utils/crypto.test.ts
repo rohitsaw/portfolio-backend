@@ -1,6 +1,9 @@
 import { jest } from '@jest/globals';
 
-import { encrypt, decrypt } from './crypto.js';
+import {
+  encrypt,
+  decrypt,
+} from '../../../../src/split-backend/utils/crypto.js';
 
 describe('CRYPTO TESTS', () => {
   beforeEach(() => {
