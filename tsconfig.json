@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "rootDirs": ["src"],
     "outDir": "dist",
     "lib": ["ES2022"],
     "target": "ES2022",
@@ -12,12 +11,16 @@
     "incremental": true,
     "esModuleInterop": true,
     "types": ["jest", "node", "@types/jest"],
-    "sourceMap": true
+    "sourceMap": true,
+
+    "allowJs": true,
+    "checkJs": false
   },
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
-  "include": ["src/**/*"],
-  "exclude": ["__test__", "node_modules", "dist"]
+  "include": ["./src/**/*"],
+  "exclude": ["__test__", "node_modules"],
+  "types": ["node", "express", "jest"]
 }
