@@ -1,15 +1,24 @@
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Node Version](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
 
 # Backend for rsaw409
 
 It contains backend code for following projects.
-https://portfolio.rsaw409.me/  <br/>
-https://play.google.com/store/apps/details?id=developer.rohitsaw.split  <br/>
-https://tictoe-rsaw409.onrender.com/  
+- https://portfolio.rsaw409.me/
+- https://play.google.com/store/apps/details?id=developer.rohitsaw.split
+- https://tictoe-rsaw409.onrender.com/  
 
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Version](https://img.shields.io/badge/version-1.0.0-brightgreen)
 
-![Node Version](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
+
+
+## [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=bugs)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
+
 
 ## Table of Contents
 
