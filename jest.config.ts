@@ -6,7 +6,7 @@ const defaultEsmPreset = createDefaultEsmPreset();
 const jestConfig: JestConfigWithTsJest = {
   ...defaultEsmPreset,
   transformIgnorePatterns: ['/node_modules/', '/dist/'],
-  testMatch: ['<rootDir>/__tests__/**/*.(test).ts'],
+  testMatch: ['<rootDir>/__test__/**/*.(test).ts'],
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
   coverageDirectory: 'coverage',
