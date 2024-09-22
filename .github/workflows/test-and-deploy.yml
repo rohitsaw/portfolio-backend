@@ -20,42 +20,8 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN2 }}
-  # test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '22'
-
-  #     - name: Install dependencies
-  #       run: npm install
-
-  #     - name: Run tests with coverage
-  #       run: npm run test
-  #       # Ensure that your test runner generates an lcov report, e.g. Jest
-
-  #     - name: Check secrets visibility
-  #       run: echo "SONAR_TOKEN is set"
-  #       env:
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-  #     - name: Upload coverage to SonarCloud
-  #       uses: sonarsource/sonarcloud-github-action@v2
-  #       with:
-  #         args: >
-  #           -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-  #           -Dsonar.organization=${{ secrets.SONAR_ORG }}  # Only needed for organizations
-  #           -Dsonar.token=${{ secrets.SONAR_TOKEN2 }}
-  #           -Dsonar.sources=./src  # Modify to your source folder
-  #           -Dsonar.tests=./src  # Modify to your test folder
-  #           -Dsonar.test.inclusions=**/*.unit.test.ts  # Include only .unit.test.js files
-  #           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info  # Path to the lcov report
 
   deploy:
     if: success()

@@ -1,19 +1,21 @@
 import { NextFunction, Request, Response } from 'express';
 import { body, query, validationResult } from 'express-validator';
 
+const errorHandler = (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+};
+
 const validateUserIdInQuery = [
   query('user_id')
     .exists()
     .withMessage('User ID is required')
     .isInt({ min: 1 })
     .withMessage('User ID must be a positive integer'),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 const validateUserEmailInQuery = [
@@ -22,13 +24,7 @@ const validateUserEmailInQuery = [
     .withMessage('User Email is required')
     .isEmail()
     .withMessage('User ID must be a valid email'),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 const validateUserEmailInBody = [
@@ -37,13 +33,7 @@ const validateUserEmailInBody = [
     .withMessage('User Email is required')
     .isEmail()
     .withMessage('User ID must be a valid email'),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 const validateIdInBody = [
@@ -52,35 +42,17 @@ const validateIdInBody = [
     .withMessage('id required')
     .isInt({ min: 1 })
     .withMessage('id must be a positive integer'),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 const validateProjectInBody = [
   body('project_name').exists().withMessage('project_name is required'),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 const validateSkillInBody = [
   body('skill_name').exists().withMessage('skill_name is required'),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 const validateCertificateInBody = [
@@ -96,13 +68,7 @@ const validateCertificateInBody = [
     .exists()
     .withMessage('certification_date is required.')
     .notEmpty(),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 const validateEducationInBody = [
@@ -111,13 +77,7 @@ const validateEducationInBody = [
   body('start_date').exists().notEmpty(),
   body('end_date').exists().notEmpty(),
   body('score').exists().notEmpty(),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 const validateExperienceInBody = [
@@ -125,13 +85,7 @@ const validateExperienceInBody = [
   body('designation').exists().notEmpty(),
   body('start_date').exists().notEmpty(),
   body('end_date').exists().notEmpty(),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
-    }
-    next();
-  },
+  errorHandler,
 ];
 
 export {
