@@ -12,7 +12,7 @@ const saveTransaction = async (payload: saveTransactionPayload) => {
       throw new Error('DB not initialized');
     } else {
       return sequelize.transaction(async (t) => {
-        const transaction = await sequelize!.models.Transaction.create(
+        const transaction = await sequelize.models.Transaction.create(
           {
             by: payload.by,
             title: payload.title,
@@ -28,7 +28,7 @@ const saveTransaction = async (payload: saveTransactionPayload) => {
           };
         });
 
-        await sequelize!.models.TransactionPart.bulkCreate(transaction_parts, {
+        await sequelize.models.TransactionPart.bulkCreate(transaction_parts, {
           transaction: t,
         });
 
@@ -49,7 +49,7 @@ const savePayment = async (payload: savePaymentPayload) => {
       throw new Error('DB not initialized');
     }
     return sequelize.transaction(async (t) => {
-      const transaction = await sequelize!.models.Transaction.create(
+      const transaction = await sequelize.models.Transaction.create(
         {
           by: payload.from,
           title: 'payment',
@@ -59,7 +59,7 @@ const savePayment = async (payload: savePaymentPayload) => {
         { transaction: t }
       );
 
-      await sequelize!.models.TransactionPart.create(
+      await sequelize.models.TransactionPart.create(
         {
           user_id: payload.to,
           amount: payload.amount,
@@ -87,7 +87,7 @@ const savePayments = async (payments: Array<savePaymentPayload>) => {
       const tmp = [];
       for (let i = 0; i < payments.length; i++) {
         let payment = payments[i];
-        const transaction = await sequelize!.models.Transaction.create(
+        const transaction = await sequelize.models.Transaction.create(
           {
             by: payment.from,
             title: 'payment',
@@ -97,7 +97,7 @@ const savePayments = async (payments: Array<savePaymentPayload>) => {
           { transaction: t }
         );
 
-        await sequelize!.models.TransactionPart.create(
+        await sequelize.models.TransactionPart.create(
           {
             user_id: payment.to,
             amount: payment.amount,

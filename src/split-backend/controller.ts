@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
-import { createGroup as createGroupInDB } from './db/queries/group.js';
+import {
+  createGroup as createGroupInDB,
+  getGroup as getGroupInDB,
+  getOverviewDataInGroup as getOverviewDataInGroupFromDb,
+} from './db/queries/group.js';
 import {
   createUser as createUserInDB,
   getAllUsersInGroup as getAllUsersInGroupFromDB,
@@ -10,11 +14,6 @@ import {
   savePayments as savePaymentsInDB,
   getAllTransactionInGroup as getAllTransactionInGroupFromDB,
 } from './db/queries/transaction.js';
-import {
-  getGroup as getGroupInDB,
-  getOverviewDataInGroup as getOverviewDataInGroupFromDb,
-} from './db/queries/group.js';
-
 import { encrypt, decrypt } from './utils/crypto.js';
 import { send_push_notification } from './utils/send_notification.js';
 import {

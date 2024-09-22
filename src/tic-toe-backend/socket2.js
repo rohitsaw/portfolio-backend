@@ -26,7 +26,7 @@ const addSocket = (http) => {
           `${userName} - ${userId} has joined game with id ${gameId}`
         );
 
-        if (!Object.prototype.hasOwnProperty.call(games, gameId))
+        if (!Object.hasOwn(games, gameId))
           games[gameId] = {};
         games[gameId][userId] = userName;
       }

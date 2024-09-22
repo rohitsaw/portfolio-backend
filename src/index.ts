@@ -6,7 +6,7 @@ import splitMain from './split-backend/index.js';
 
 import { sequelize } from './postgres.js';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ?? 3000;
 
 const main = async () => {
   const app: Application = express();

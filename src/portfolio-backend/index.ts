@@ -37,8 +37,8 @@ const main = async (app: Application) => {
     cors({
       origin: [
         'https://tictoe-rsaw409.onrender.com',
-        process.env.CLIENT_ADDRESS1!,
-        process.env.CLIENT_ADDRESS2!,
+        process.env.CLIENT_ADDRESS1,
+        process.env.CLIENT_ADDRESS2,
       ],
       methods: 'GET,POST,PUT,DELETE',
       credentials: true,
