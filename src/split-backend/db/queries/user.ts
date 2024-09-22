@@ -1,5 +1,7 @@
-import { sequelize } from '../../../postgres.js';
+import DB from '../../../postgres.js';
 import { User } from '../../../types/split.js';
+
+const sequelize = DB.getSequelize();
 
 const getAllUsersInGroup = async ({ group_id }: { group_id: number }) => {
   if (!sequelize) throw new Error('DB not initialized');

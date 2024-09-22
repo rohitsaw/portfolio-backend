@@ -1,10 +1,10 @@
-import { QueryTypes } from 'sequelize';
-import {
-  sequelize as psql,
-  portfolio_backend as schemaname,
-} from '../../../postgres.js';
+import { QueryTypes, Sequelize } from 'sequelize';
+import DB from '../../../postgres.js';
 
-import { Skill } from '../../../types/portfolio';
+import { Skill } from '../../../types/portfolio.js';
+
+const psql: Sequelize = DB.getSequelize();
+const schemaname: string = DB.portfolio_backend;
 
 const getAllSkills = async (user_id: number) => {
   const query = `select * from ${schemaname}.skills where user_id = :user_id order by skill_name;`;

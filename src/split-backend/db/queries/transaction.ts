@@ -1,10 +1,13 @@
-import { sequelize, split_backend as schemaname } from '../../../postgres.js';
+import DB from '../../../postgres.js';
 import { QueryTypes } from 'sequelize';
 import {
   getAllTransactionInGroupPayload,
   savePaymentPayload,
   saveTransactionPayload,
-} from '../../../types/split';
+} from '../../../types/split.js';
+
+const sequelize = DB.getSequelize();
+const schemaname = DB.split_backend;
 
 const saveTransaction = async (payload: saveTransactionPayload) => {
   try {

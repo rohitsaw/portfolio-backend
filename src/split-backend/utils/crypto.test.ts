@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 
-import { encrypt, decrypt } from './crypto';
+import { encrypt, decrypt } from './crypto.js';
 
 describe('CRYPTO TESTS', () => {
   beforeEach(() => {

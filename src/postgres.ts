@@ -10,12 +10,12 @@ class DBConnection {
   readonly split_backend: string = 'split_backend';
   readonly #sequelize: Sequelize;
 
-  #isInitialized: boolean;
+  static #isInitialized: boolean;
 
   private constructor(connStr: string) {
     console.log('Creating DB instance.');
     this.#sequelize = new Sequelize(connStr);
-    this.#isInitialized = false;
+    DBConnection.#isInitialized = false;
   }
 
   static getInstance(): DBConnection {
@@ -31,14 +31,15 @@ class DBConnection {
     return DBConnection.#instance;
   }
 
-  async getSequelize(): Promise<Sequelize> {
-    if (this.#isInitialized === false) {
-      await this.init();
-    }
+  getSequelize(): Sequelize {
     return this.#sequelize;
   }
 
   async init() {
+    if (DBConnection.#isInitialized === true) {
+      console.log('DB already initialized.');
+      return;
+    }
     await this.#sequelize.authenticate();
     console.log('Connection has been verified.');
 
@@ -49,7 +50,7 @@ class DBConnection {
 
     console.log('Database Sync Done for all DB');
 
-    this.#isInitialized = true;
+    DBConnection.#isInitialized = true;
   }
 
   async #createIndexes() {
@@ -93,6 +94,4 @@ class DBConnection {
 
 const db: DBConnection = DBConnection.getInstance();
 
-export const sequelize: Sequelize = await db.getSequelize();
-export const portfolio_backend = db.portfolio_backend;
-export const split_backend = db.split_backend;
+export default db;

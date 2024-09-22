@@ -1,12 +1,12 @@
-import { QueryTypes } from 'sequelize';
+import { QueryTypes, Sequelize } from 'sequelize';
 import dayjs from 'dayjs';
 
-import {
-  sequelize as psql,
-  portfolio_backend as schemaname,
-} from '../../../postgres.js';
+import DB from '../../../postgres.js';
 
-import { Certificate } from '../../../types/portfolio';
+import { Certificate } from '../../../types/portfolio.js';
+
+const psql: Sequelize = DB.getSequelize();
+const schemaname: string = DB.portfolio_backend;
 
 const getAllCertificates = async (user_id: number) => {
   const query = `select * from ${schemaname}.certificates where user_id = :user_id order by certification_date desc`;

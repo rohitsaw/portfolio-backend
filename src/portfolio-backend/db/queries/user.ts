@@ -1,10 +1,9 @@
-import { QueryTypes } from 'sequelize';
-import {
-  sequelize as psql,
-  portfolio_backend as schemaname,
-} from '../../../postgres.js';
+import { QueryTypes, Sequelize } from 'sequelize';
+import DB from '../../../postgres.js';
+import { User } from '../../../types/portfolio.js';
 
-import { User } from '../../../types/portfolio';
+const psql: Sequelize = DB.getSequelize();
+const schemaname: string = DB.portfolio_backend;
 
 const getuser = async (email: string) => {
   const query = `select * from ${schemaname}.users where user_email = :email`;

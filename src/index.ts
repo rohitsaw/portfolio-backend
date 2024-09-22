@@ -4,11 +4,13 @@ import portfolioMain from './portfolio-backend/index.js';
 import ticToeMain from './tic-toe-backend/index.js';
 import splitMain from './split-backend/index.js';
 
-import { sequelize } from './postgres.js';
+import DB from './postgres.js';
 
 const PORT = process.env.PORT ?? 3000;
 
 const main = async () => {
+  await DB.init();
+
   const app: Application = express();
   const http: Server = createServer(app);
 
@@ -23,7 +25,7 @@ const main = async () => {
   });
 
   app.use('/db_health', async (req: Request, res: Response) => {
-    await sequelize.authenticate();
+    await DB.getSequelize().authenticate();
     return res.status(200).send({ message: 'DB is Running.' });
   });
 

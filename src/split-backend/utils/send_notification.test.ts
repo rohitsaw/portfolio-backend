@@ -1,20 +1,24 @@
 import { jest } from '@jest/globals';
 
-import { send_push_notification } from './send_notification';
+jest.unstable_mockModule('node-fetch', () => {
+  console.log('here!!');
+  return {
+    __esModule: true,
+    default: jest.fn((url, options) => {
+      expect(url).toEqual('https://onesignal.com/api/v1/notifications');
+      expect(options).toHaveProperty('method', 'POST');
+      expect(options).toHaveProperty('headers');
+      expect(options).toHaveProperty('body');
+      return Promise.resolve({
+        json: () => Promise.resolve({ message: 'Mocked response' }),
+        status: 200,
+      });
+    }),
+  };
+});
 
-jest.mock('node-fetch', () => ({
-  __esModule: true,
-  default: jest.fn((url, options) => {
-    expect(url).toEqual('https://onesignal.com/api/v1/notifications');
-    expect(options).toHaveProperty('method', 'POST');
-    expect(options).toHaveProperty('headers');
-    expect(options).toHaveProperty('body');
-    return Promise.resolve({
-      json: () => Promise.resolve({ message: 'Mocked response' }),
-      status: 200,
-    });
-  }),
-}));
+const { send_push_notification } = await import('./send_notification.js');
+const { default: fetch } = await import('node-fetch');
 
 describe('SEND NOTIFCATION TEST', () => {
   beforeEach(() => {
@@ -22,7 +26,6 @@ describe('SEND NOTIFCATION TEST', () => {
   });
 
   test('send notification test', async () => {
-    const { default: fetch } = await import('node-fetch');
     send_push_notification({
       groupName: 'testGroup',
       headings: 'test heading',
