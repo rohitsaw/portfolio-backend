@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 
-jest.mock('Sequelize', () => {
+jest.mock('sequelize', () => {
   return {
     Sequelize: jest.fn((connStr) => {
       expect(connStr).toEqual('tests-postgres');

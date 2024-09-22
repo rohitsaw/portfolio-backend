@@ -1,7 +1,6 @@
 import { jest } from '@jest/globals';
 
 jest.unstable_mockModule('node-fetch', () => {
-  console.log('here!!');
   return {
     __esModule: true,
     default: jest.fn((url, options) => {
