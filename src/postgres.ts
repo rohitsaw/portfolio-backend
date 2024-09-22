@@ -19,7 +19,7 @@ class DBConnection {
   }
 
   static getInstance(): DBConnection {
-    if (!DBConnection.#instance) {
+    if (DBConnection.#instance) {
       return DBConnection.#instance;
     }
 
