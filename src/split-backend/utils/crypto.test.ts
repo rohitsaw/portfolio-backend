@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 import { encrypt, decrypt } from './crypto';
 
 describe('CRYPTO TESTS', () => {

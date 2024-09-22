@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 import { send_push_notification } from './send_notification';
 
 jest.mock('node-fetch', () => ({

@@ -4,39 +4,56 @@ import connectToPortfolioDB from './portfolio-backend/db/postgres.js';
 import connectToSplitDB from './split-backend/db/postgres.js';
 
 class DBConnection {
-  static readonly portfolio_backend: string = 'portfolio_backend';
-  static readonly split_backend: string = 'split_backend';
+  static #instance: DBConnection;
 
-  static #connStr: string;
-  static #sequelize: Sequelize;
+  readonly portfolio_backend: string = 'portfolio_backend';
+  readonly split_backend: string = 'split_backend';
+  readonly #sequelize: Sequelize;
 
-  constructor(connStr: string) {
+  #isInitialized: boolean;
+
+  private constructor(connStr: string) {
     console.log('Creating DB instance.');
-    DBConnection.#connStr = connStr;
-    DBConnection.#sequelize = new Sequelize(DBConnection.#connStr);
+    this.#sequelize = new Sequelize(connStr);
+    this.#isInitialized = false;
   }
 
-  static getSequelize(): Sequelize {
-    return DBConnection.#sequelize;
+  static getInstance(): DBConnection {
+    if (!DBConnection.#instance) {
+      return DBConnection.#instance;
+    }
+
+    if (!process.env.postgresConnStr) {
+      throw new Error(`postgresConnStr env variable not set`);
+    }
+
+    DBConnection.#instance = new DBConnection(process.env.postgresConnStr);
+    return DBConnection.#instance;
+  }
+
+  async getSequelize(): Promise<Sequelize> {
+    if (this.#isInitialized === false) {
+      await this.init();
+    }
+    return this.#sequelize;
   }
 
   async init() {
-    await DBConnection.#sequelize.authenticate();
+    await this.#sequelize.authenticate();
     console.log('Connection has been verified.');
 
-    await connectToPortfolioDB(
-      DBConnection.#sequelize,
-      DBConnection.portfolio_backend
-    );
-    await connectToSplitDB(DBConnection.#sequelize, DBConnection.split_backend);
-    await DBConnection.#sequelize.sync({ alter: true });
+    await connectToPortfolioDB(this.#sequelize, this.portfolio_backend);
+    await connectToSplitDB(this.#sequelize, this.split_backend);
+    await this.#sequelize.sync({ alter: true });
     await this.#createIndexes();
 
     console.log('Database Sync Done for all DB');
+
+    this.#isInitialized = true;
   }
 
   async #createIndexes() {
-    const psql: Sequelize = DBConnection.#sequelize;
+    const psql: Sequelize = this.#sequelize;
     await psql.query(
       'create unique index if not exists users_user_email on portfolio_backend.users (user_email)'
     );
@@ -74,13 +91,8 @@ class DBConnection {
   }
 }
 
-if (!process.env.postgresConnStr) {
-  throw new Error(`postgresConnStr env variable not set`);
-}
+const db: DBConnection = DBConnection.getInstance();
 
-const db: DBConnection = new DBConnection(process.env.postgresConnStr);
-await db.init();
-
-export const sequelize: Sequelize = DBConnection.getSequelize();
-export const portfolio_backend = DBConnection.portfolio_backend;
-export const split_backend = DBConnection.split_backend;
+export const sequelize: Sequelize = await db.getSequelize();
+export const portfolio_backend = db.portfolio_backend;
+export const split_backend = db.split_backend;
