@@ -1,10 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
 import { body, query, validationResult } from 'express-validator';
+import { Request } from 'express-validator/src/base';
+import { Response } from 'express';
 
-const errorHandler = (req: Request, res: Response, next: NextFunction) => {
+const errorHandler = (req: Request, res: Response, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).send({ errors: errors.array() });
   }
   next();
 };
