@@ -38,10 +38,19 @@ describe('DBConnection Tests', () => {
   test('DBConnection initialization', async () => {
     process.env.postgresConnStr = 'tests-postgres';
     const { default: db } = await import('../src/postgres.js');
+    const { default: connectToPortfolioDB } = await import(
+      '../src/portfolio-backend/db/postgres.js'
+    );
+    const { default: connectToSplitDB } = await import(
+      '../src/portfolio-backend/db/postgres.js'
+    );
+
     await db.init();
     await db.init();
     db.getSequelize();
     expect(db.portfolio_backend).toEqual('portfolio_backend');
     expect(db.split_backend).toEqual('split_backend');
+    expect(connectToPortfolioDB).toHaveBeenCalledTimes(1);
+    expect(connectToSplitDB).toHaveBeenCalledTimes(1);
   });
 });

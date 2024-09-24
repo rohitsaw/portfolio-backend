@@ -10,7 +10,7 @@ const jestConfig: JestConfigWithTsJest = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
   coverageDirectory: 'coverage',
-  coverageReporters: ['json', 'lcov', 'text'],
+  coverageReporters: ['lcov', 'text'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
