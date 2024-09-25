@@ -95,3 +95,4 @@ class DBConnection {
 const db: DBConnection = DBConnection.getInstance();
 
 export default db;
+export { DBConnection };

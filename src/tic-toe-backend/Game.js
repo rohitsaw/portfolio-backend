@@ -1,51 +1,51 @@
-class Game {
-  #gameId;
-  #playerA;
-  #playerB;
-  #isReady = false;
+// class Game {
+//   #gameId;
+//   #playerA;
+//   #playerB;
+//   #isReady = false;
 
-  constructor(gameId) {
-    this.#gameId = gameId;
-  }
+//   constructor(gameId) {
+//     this.#gameId = gameId;
+//   }
 
-  get gameId() {
-    return this.#gameId;
-  }
+//   get gameId() {
+//     return this.#gameId;
+//   }
 
-  get isReady() {
-    return this.#isReady;
-  }
+//   get isReady() {
+//     return this.#isReady;
+//   }
 
-  addPlayer(player) {
-    if (!this.#playerA) {
-      this.#playerA = player;
-    } else {
-      this.#playerB = player;
-    }
+//   addPlayer(player) {
+//     if (!this.#playerA) {
+//       this.#playerA = player;
+//     } else {
+//       this.#playerB = player;
+//     }
 
-    if (this.#playerA && this.#playerB) {
-      this.#isReady = true;
-    }
-  }
+//     if (this.#playerA && this.#playerB) {
+//       this.#isReady = true;
+//     }
+//   }
 
-  playerLeft(playerId) {
-    if (this.#playerA?.playerId === playerId) {
-      this.#playerA = null;
-    } else if (this.#playerB?.playerId === playerId) {
-      this.#playerB = null;
-    }
+//   playerLeft(playerId) {
+//     if (this.#playerA?.playerId === playerId) {
+//       this.#playerA = null;
+//     } else if (this.#playerB?.playerId === playerId) {
+//       this.#playerB = null;
+//     }
 
-    if (this.#playerA === null && this.#playerB === null) {
-      return "Both Player Left";
-    }
-  }
+//     if (this.#playerA === null && this.#playerB === null) {
+//       return "Both Player Left";
+//     }
+//   }
 
-  get users() {
-    return {
-      ...this.#playerA.user,
-      ...this.#playerB.user,
-    };
-  }
-}
+//   get users() {
+//     return {
+//       ...this.#playerA.user,
+//       ...this.#playerB.user,
+//     };
+//   }
+// }
 
-export default Game;
+// export default Game;
