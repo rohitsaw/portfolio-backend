@@ -5,15 +5,15 @@ import {
   getOverviewDataInGroup as getOverviewDataInGroupFromDb,
 } from './db/queries/group.js';
 import {
-  createUser as createUserInDB,
-  getAllUsersInGroup as getAllUsersInGroupFromDB,
-} from './db/queries/user.js';
-import {
   saveTransaction as saveTransactionInDB,
   savePayment as savePaymentInDB,
   savePayments as savePaymentsInDB,
   getAllTransactionInGroup as getAllTransactionInGroupFromDB,
 } from './db/queries/transaction.js';
+import {
+  createUser as createUserInDB,
+  getAllUsersInGroup as getAllUsersInGroupFromDB,
+} from './db/queries/user.js';
 import { encrypt, decrypt } from './utils/crypto.js';
 import { send_push_notification } from './utils/send_notification.js';
 import {
@@ -39,6 +39,7 @@ const createGroup = async (
     const inviteId = encrypt(`${response.id}`);
     return res.status(200).send({ ...response.dataValues, inviteId });
   } catch (error: any) {
+    console.log(error);
     return res.status(400).send({ message: error.message });
   }
 };
