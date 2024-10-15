@@ -146,6 +146,9 @@ const savePayments = async (
   res: Response
 ) => {
   try {
+    if (!Array.isArray(req.body) || req.body.length === 0) {
+      throw new Error('req.body should have array of (from,to,amount');
+    }
     const requiredFields = ['from', 'to', 'amount'];
 
     for (let each of req.body) {

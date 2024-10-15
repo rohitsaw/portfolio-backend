@@ -61,11 +61,19 @@ const {
   getAllUsersInGroup: getAllUsersInGroupFromDB,
 } = await import('../../../src/split-backend/db/queries/user.js');
 
-const { getAllTransactionInGroup: getAllTransactionInGroupFromDB } =
-  await import('../../../src/split-backend/db/queries/transaction.js');
+const {
+  getAllTransactionInGroup: getAllTransactionInGroupFromDB,
+  savePayment: savePaymentInDB,
+  savePayments: savePaymentsInDB,
+  saveTransaction: saveTransactionInDB,
+} = await import('../../../src/split-backend/db/queries/transaction.js');
 
 const { encrypt, decrypt } = await import(
   '../../../src/split-backend/utils/crypto.js'
+);
+
+const { send_push_notification } = await import(
+  '../../../src/split-backend/utils/send_notification.js'
 );
 
 const {
@@ -75,6 +83,9 @@ const {
   getAllUsersInGroup,
   getAllTransactionInGroup,
   getOverviewDataInGroup,
+  savePayment,
+  savePayments,
+  saveTransaction,
 } = await import('../../../src/split-backend/controller.js');
 
 describe('Testing Controllers', () => {
@@ -290,5 +301,157 @@ describe('Testing Controllers', () => {
     expect(res.send).toHaveBeenCalledWith(
       expect.objectContaining({ message: expect.any(String) })
     );
+  });
+
+  test('savePayment should return error if payload is incorrect', async () => {
+    let req = {
+      body: {},
+    } as any as Request;
+
+    await savePayment(req, res);
+    expect(savePaymentInDB).not.toHaveBeenCalled();
+    expect(send_push_notification).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
+  });
+
+  test('savePayment should return success', async () => {
+    let req = {
+      body: { from: '1', to: '1', amount: 100 },
+    } as any as Request;
+
+    await savePayment(req, res);
+    expect(savePaymentInDB).toHaveBeenCalledWith({
+      from: '1',
+      to: '1',
+      amount: 100,
+    });
+    expect(send_push_notification).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalled();
+  });
+
+  test('savePayments should return error if req.body has incorrect schema in array', async () => {
+    let req = {
+      body: [{}],
+    } as any as Request;
+
+    await savePayments(req, res);
+    expect(savePaymentsInDB).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
+  });
+
+  test('savePayments should return error if req.body is empty array', async () => {
+    let req = {
+      body: [],
+    } as any as Request;
+
+    await savePayments(req, res);
+    expect(savePaymentsInDB).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
+  });
+
+  test('savePayments should return success', async () => {
+    let req = {
+      body: [{ from: '1', to: '2', amount: 100 }],
+    } as any as Request;
+
+    await savePayments(req, res);
+    expect(savePaymentsInDB).toHaveBeenCalledWith([
+      {
+        from: '1',
+        to: '2',
+        amount: 100,
+      },
+    ]);
+    expect(send_push_notification).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalled();
+  });
+
+  test('saveTransaction should return error if payload is incorrect', async () => {
+    let req = {
+      body: {
+        by: '1',
+        title: 'test',
+      },
+    } as any as Request;
+
+    await saveTransaction(req, res);
+    expect(saveTransactionInDB).not.toHaveBeenCalled();
+    expect(send_push_notification).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
+  });
+
+  test('saveTransaction should return error if transactionPart in incorrect in body', async () => {
+    let req = {
+      body: {
+        by: '1',
+        title: 'test',
+        totalAmount: 100,
+        transactionParts: [{ user_id: 1 }, { user_id: 2, amount: 80 }],
+      },
+    } as any as Request;
+
+    await saveTransaction(req, res);
+    expect(saveTransactionInDB).not.toHaveBeenCalled();
+    expect(send_push_notification).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
+  });
+
+  test('saveTransaction should return error if transactionPart does not sum as totalAmount', async () => {
+    let req = {
+      body: {
+        by: '1',
+        title: 'test',
+        totalAmount: 100,
+        transactionParts: [
+          { user_id: 1, amount: 90 },
+          { user_id: 2, amount: 80 },
+        ],
+      },
+    } as any as Request;
+
+    await saveTransaction(req, res);
+    expect(saveTransactionInDB).not.toHaveBeenCalled();
+    expect(send_push_notification).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
+  });
+
+  test('saveTransaction should return success', async () => {
+    let req = {
+      body: {
+        by: '1',
+        title: 'test',
+        totalAmount: 100,
+        transactionParts: [
+          { user_id: 1, amount: 20 },
+          { user_id: 2, amount: 80 },
+        ],
+      },
+    } as any as Request;
+
+    await saveTransaction(req, res);
+    expect(saveTransactionInDB).toHaveBeenCalled();
+    expect(send_push_notification).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalled();
   });
 });
