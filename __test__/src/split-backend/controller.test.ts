@@ -50,22 +50,32 @@ jest.unstable_mockModule(
   }
 );
 
-const { createGroup: createGroupInDB, getGroup: getGroupInDB } = await import(
-  '../../../src/split-backend/db/queries/group.js'
-);
+const {
+  createGroup: createGroupInDB,
+  getGroup: getGroupInDB,
+  getOverviewDataInGroup: getOverviewDataInGroupFromDb,
+} = await import('../../../src/split-backend/db/queries/group.js');
 
 const {
   createUser: createUserInDB,
   getAllUsersInGroup: getAllUsersInGroupFromDB,
 } = await import('../../../src/split-backend/db/queries/user.js');
 
+const { getAllTransactionInGroup: getAllTransactionInGroupFromDB } =
+  await import('../../../src/split-backend/db/queries/transaction.js');
+
 const { encrypt, decrypt } = await import(
   '../../../src/split-backend/utils/crypto.js'
 );
 
-const { createGroup, joinGroup, createUser, getAllUsersInGroup } = await import(
-  '../../../src/split-backend/controller.js'
-);
+const {
+  createGroup,
+  joinGroup,
+  createUser,
+  getAllUsersInGroup,
+  getAllTransactionInGroup,
+  getOverviewDataInGroup,
+} = await import('../../../src/split-backend/controller.js');
 
 describe('Testing Controllers', () => {
   let res = {
@@ -224,5 +234,61 @@ describe('Testing Controllers', () => {
     expect(getAllUsersInGroupFromDB).toHaveBeenCalledWith({ group_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
+  });
+
+  test('getAllTransactionInGroup should return success', async () => {
+    let req = {
+      body: {
+        group_id: 1,
+      },
+    } as any as Request;
+
+    await getAllTransactionInGroup(req, res);
+    expect(getAllTransactionInGroupFromDB).toHaveBeenCalledWith({
+      group_id: 1,
+    });
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalled();
+  });
+
+  test('getAllTransactionInGroup should return error if payload is incorrect', async () => {
+    let req = {
+      body: {},
+    } as any as Request;
+
+    await getAllTransactionInGroup(req, res);
+    expect(getAllTransactionInGroupFromDB).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
+  });
+
+  test('getOverviewDataInGroup should return success', async () => {
+    let req = {
+      body: {
+        group_id: 1,
+      },
+    } as any as Request;
+
+    await getOverviewDataInGroup(req, res);
+    expect(getOverviewDataInGroupFromDb).toHaveBeenCalledWith({
+      group_id: 1,
+    });
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalled();
+  });
+
+  test('getOverviewDataInGroup should return error if payload is incorrect', async () => {
+    let req = {
+      body: {},
+    } as any as Request;
+
+    await getOverviewDataInGroup(req, res);
+    expect(getOverviewDataInGroupFromDb).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
   });
 });
