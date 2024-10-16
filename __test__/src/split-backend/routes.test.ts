@@ -23,7 +23,7 @@ const { getAllUsersInGroup } = await import(
 
 const { addRoutes } = await import('../../../src/split-backend/routes.js');
 
-describe('TEST portfolio routes', () => {
+describe('TEST split routes', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
