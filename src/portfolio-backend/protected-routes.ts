@@ -19,8 +19,6 @@ import {
   addOrUpdateUser,
 } from './controller.js';
 
-import { getUserIdFromEmail } from './db/queries/user.js';
-
 import {
   validateIdInBody,
   validateUserIdInQuery,
@@ -31,7 +29,9 @@ import {
   validateEducationInBody,
   validateExperienceInBody,
 } from './utils/validator.js';
-import { Application, NextFunction, Request, Response } from 'express';
+import { checkAuthenticated } from './utils/auth-check.js';
+
+import { Application } from 'express';
 
 const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET;
@@ -153,34 +153,6 @@ const addRoutes = (app: Application) => {
     checkAuthenticated,
     addOrUpdateUser
   );
-};
-
-const checkAuthenticated = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (req.isAuthenticated()) {
-    const user: Profile = req.user as Profile;
-    console.log('Authentication check for user', user);
-    if (!user.emails) {
-      return res
-        .status(403)
-        .send({ message: 'Could not identify you as authorized user.' });
-    }
-    const user_id_from_query: number = parseInt(req.query.user_id as string);
-    const userId = await getUserIdFromEmail(user.emails[0]?.value);
-
-    // Authorization validation
-    if (user.emails[0]?.verified && userId === user_id_from_query) {
-      return next();
-    } else {
-      return res
-        .status(403)
-        .send({ message: 'you do not have permission to edit details.' });
-    }
-  }
-  return res.status(403).send({ message: 'Authentication Failed.' });
 };
 
 export { addRoutes };
