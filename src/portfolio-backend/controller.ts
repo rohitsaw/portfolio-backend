@@ -129,7 +129,7 @@ const addSkills = async (req: Request, res: Response) => {
     return res.status(200).send(result);
   } catch (error: any) {
     console.error(error);
-    res.status(500).send({ message: error.message });
+    res.status(400).send({ message: error.message });
   }
 };
 
