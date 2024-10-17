@@ -152,7 +152,7 @@ describe('TEST portfolio DB Experience queries', () => {
 
 describe('TEST portfolio DB User queries', () => {
   test('TEST getuser', async () => {
-    await getuser('rsaw409@gmail.com', {});
+    await getuser('rsaw409@gmail.com');
   });
 
   test('TEST addOrUpdateUser', async () => {
