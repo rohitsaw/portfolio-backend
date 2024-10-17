@@ -23,6 +23,9 @@ const createUserModel = (sequelize: Sequelize, schema: string) => {
       social_links: {
         type: DataTypes.JSONB,
       },
+      profile_url: {
+        type: DataTypes.STRING,
+      },
     },
     {
       schema,
