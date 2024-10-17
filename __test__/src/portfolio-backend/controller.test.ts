@@ -190,6 +190,7 @@ describe('TESTING portfolio-backend controllers', () => {
   test('getuser should return success', async () => {
     let req = {
       query: { user_email: 'test@test.com' },
+      headers: {},
     } as any as Request;
 
     await getuser(req, res);

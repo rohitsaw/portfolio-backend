@@ -17,6 +17,7 @@ jest.unstable_mockModule('../../../../../src/postgres.js', () => {
           models: {
             users: {
               findOrCreate: jest.fn(() => [{}]),
+              findOne: jest.fn(() => {}),
             },
             work_experiences: {
               create: jest.fn((p) => {

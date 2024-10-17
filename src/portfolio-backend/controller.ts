@@ -88,8 +88,13 @@ const getAllSkills = async (req: Request, res: Response) => {
 const getuser = async (req: Request, res: Response) => {
   try {
     const user_email: string = req.query.user_email as unknown as string;
-    const user = await getuserFromDb(user_email);
-
+    const name: string | undefined = req.headers.name as unknown as
+      | string
+      | undefined;
+    const user = await getuserFromDb(user_email, name);
+    if (user === null) {
+      throw new Error('user not found');
+    }
     return res.status(200).send(user);
   } catch (error: any) {
     res.status(400).send({ message: error.message });
