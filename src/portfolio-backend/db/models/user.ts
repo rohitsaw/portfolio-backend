@@ -25,6 +25,8 @@ const createUserModel = (sequelize: Sequelize, schema: string) => {
       },
       profile_url: {
         type: DataTypes.TEXT,
+        defaultValue:
+          'https://cywiacstqjeecqodaozz.supabase.co/storage/v1/object/public/portfolio_images/default_profile_pic.webp',
       },
     },
     {
