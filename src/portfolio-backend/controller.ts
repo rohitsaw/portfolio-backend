@@ -88,7 +88,7 @@ const getAllSkills = async (req: Request, res: Response) => {
 const getuser = async (req: Request, res: Response) => {
   try {
     const user_email: string = req.query.user_email as unknown as string;
-    const user = await getuserFromDb(user_email);
+    const user = await getuserFromDb(user_email, req.user);
 
     return res.status(200).send(user);
   } catch (error: any) {

@@ -15,6 +15,9 @@ jest.unstable_mockModule('../../../../../src/postgres.js', () => {
       getSequelize: jest.fn(() => {
         return {
           models: {
+            users: {
+              findOrCreate: jest.fn(() => [{}]),
+            },
             work_experiences: {
               create: jest.fn((p) => {
                 expect(p).toHaveProperty('user_id');
@@ -149,7 +152,7 @@ describe('TEST portfolio DB Experience queries', () => {
 
 describe('TEST portfolio DB User queries', () => {
   test('TEST getuser', async () => {
-    await getuser('rsaw409@gmail.com');
+    await getuser('rsaw409@gmail.com', {});
   });
 
   test('TEST addOrUpdateUser', async () => {

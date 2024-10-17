@@ -5,13 +5,23 @@ import { User } from '../../../types/portfolio.js';
 const psql: Sequelize = DB.getSequelize();
 const schemaname: string = DB.portfolio_backend;
 
-const getuser = async (email: string) => {
-  const query = `select * from ${schemaname}.users where user_email = :email`;
-  const res = await psql.query(query, {
-    type: QueryTypes.SELECT,
-    replacements: { email: email },
-  });
-  return res;
+const getuser = async (email: string, userFromAuth) => {
+  console.log('getuser: email', email);
+  console.log('getUser: userFromAuth', userFromAuth);
+  if (userFromAuth) {
+    const [user] = await psql.models.users.findOrCreate({
+      where: { user_email: email },
+      defaults: { user_email: email, name: userFromAuth.displayName },
+    });
+    return user;
+  } else {
+    const query = `select * from ${schemaname}.users where user_email = :email`;
+    const res = await psql.query(query, {
+      type: QueryTypes.SELECT,
+      replacements: { email: email },
+    });
+    return res;
+  }
 };
 
 const addOrUpdateUser = async (
@@ -48,4 +58,15 @@ const getUserIdFromEmail = async (email: string) => {
   return res[0]?.id;
 };
 
-export { getuser, addOrUpdateUser, getUserIdFromEmail };
+const findOrCreateUser = async ({ email, name }) => {
+  console.log('findOrCreateUser', email);
+  return psql.models.users.findOrCreate({
+    where: { user_email: email },
+    defaults: {
+      user_email: email,
+      name: name,
+    },
+  });
+};
+
+export { getuser, addOrUpdateUser, getUserIdFromEmail, findOrCreateUser };

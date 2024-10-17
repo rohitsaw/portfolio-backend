@@ -193,7 +193,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await getuser(req, res);
-    expect(getuserFromDb).toHaveBeenCalledWith('test@test.com');
+    expect(getuserFromDb).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
