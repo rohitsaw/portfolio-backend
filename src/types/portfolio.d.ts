@@ -49,7 +49,8 @@ interface User {
   user_email: string;
   name: string;
   about: string;
-  social_links: Array<string>;
+  profile_url: string;
+  social_links: object;
 }
 
 export { Certificate, Education, Project, Skill, WorkExperience, User };

@@ -17,7 +17,12 @@ jest.unstable_mockModule('../../../../../src/postgres.js', () => {
           models: {
             users: {
               findOrCreate: jest.fn(() => [{}]),
-              findOne: jest.fn(() => {}),
+              findOne: jest.fn(() => {
+                return {
+                  name: '',
+                  save: jest.fn(),
+                };
+              }),
             },
             work_experiences: {
               create: jest.fn((p) => {
@@ -162,6 +167,7 @@ describe('TEST portfolio DB User queries', () => {
         user_email: 'rsaw409@gmail.com',
         name: 'rohit',
         about: 'NA',
+        profile_url: '',
         social_links: [],
       },
       1

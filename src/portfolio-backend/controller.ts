@@ -29,6 +29,10 @@ import {
 } from './db/queries/work-experience.js';
 
 import { Request, Response } from 'express';
+import {
+  deleteFileFromSupabase,
+  uploadFileToSupabse,
+} from './utils/supabase.js';
 
 const getAllCertificates = async (req: Request, res: Response) => {
   try {
@@ -227,7 +231,36 @@ const addOrUpdateUser = async (req: Request, res: Response) => {
   try {
     const user_id: number = req.query.user_id as unknown as number;
 
-    const result = await addOrUpdateUserInDB(req.body, user_id);
+    let timestamp = Date.now();
+    let profile_url = null;
+    if (req.file) {
+      profile_url = `https://cywiacstqjeecqodaozz.supabase.co/storage/v1/object/public/portfolio_images/${req.body.user_email}/${user_id}_${timestamp}`;
+    }
+
+    const user = {
+      name: req.body.name,
+      user_email: req.body.user_email,
+      about: req.body.about,
+      profile_url: profile_url,
+      social_links: {
+        github_url: req.body.github_url,
+        linkedin_url: req.body.linkedin_url,
+        blog_url: req.body.blog_url,
+        twitter_url: req.body.twitter_url,
+        stackoverflow_url: req.body.stackoverflow_url,
+      },
+    };
+
+    const result = await addOrUpdateUserInDB(user, user_id);
+
+    if (req.file) {
+      await deleteFileFromSupabase(req.body.user_email);
+      await uploadFileToSupabse(
+        `${req.body.user_email}/${user_id}_${timestamp}`,
+        req.file
+      );
+    }
+
     return res.status(200).send({ message: result });
   } catch (error: any) {
     res.status(400).send({ message: error.message });

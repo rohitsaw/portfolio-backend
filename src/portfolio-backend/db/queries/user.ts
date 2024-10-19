@@ -24,27 +24,38 @@ const getuser = async (email: string, name?: string) => {
 };
 
 const addOrUpdateUser = async (
-  { user_email, name, about, social_links }: User,
+  { user_email, name, about, profile_url, social_links }: User,
   user_id: number
 ) => {
-  let social_links_string = JSON.stringify(social_links);
-  const query = `update ${schemaname}.users set
-    name = :name, 
-    about = :about,
-    social_links = :social_links
-    where user_email = :user_email and id = :user_id
-    `;
-  const res = await psql.query(query, {
-    type: QueryTypes.SELECT,
-    replacements: {
-      user_email,
-      name,
-      about,
-      social_links: social_links_string,
-      user_id,
-    },
-  });
-  return res;
+  const dbUser: any = await psql.models.users.findOne({
+    where: { user_email: user_email, id: user_id },
+  })!;
+
+  let dataChange = false;
+
+  if (name && name !== dbUser.name) {
+    dbUser.name = name;
+    dataChange = true;
+  }
+  if (about && about !== dbUser.about) {
+    dbUser.about = about;
+    dataChange = true;
+  }
+  if (profile_url && profile_url !== dbUser.profile_url) {
+    dbUser.profile_url = profile_url;
+    dataChange = true;
+  }
+
+  if (social_links && social_links !== dbUser.social_links) {
+    dbUser.social_links = social_links;
+    dataChange = true;
+  }
+
+  if (dataChange) {
+    await dbUser.save();
+  }
+
+  return dbUser;
 };
 
 const getUserIdFromEmail = async (email: string) => {
@@ -58,7 +69,6 @@ const getUserIdFromEmail = async (email: string) => {
 };
 
 const findOrCreateUser = async ({ email, name }) => {
-  console.log('findOrCreateUser', email);
   return psql.models.users.findOrCreate({
     where: { user_email: email },
     defaults: {

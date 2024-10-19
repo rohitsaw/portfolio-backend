@@ -33,6 +33,9 @@ import { checkAuthenticated } from './utils/auth-check.js';
 
 import { Application } from 'express';
 
+import multer from 'multer';
+import { whitelist, fileValidation } from './utils/file-validation.js';
+
 const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET;
 
@@ -149,8 +152,20 @@ const addRoutes = (app: Application) => {
   app.post(
     '/user',
     validateUserIdInQuery,
-    validateUserEmailInBody,
     checkAuthenticated,
+    multer({
+      storage: multer.memoryStorage(),
+      fileFilter: (req, file, cb) => {
+        if (!whitelist.includes(file.mimetype)) {
+          return cb(new Error('only image file is allowed.'));
+        }
+
+        cb(null, true);
+      },
+      limits: { fileSize: 2097152 },
+    }).single('profile_pic'),
+    fileValidation,
+    validateUserEmailInBody,
     addOrUpdateUser
   );
 };
