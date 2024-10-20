@@ -19,11 +19,11 @@ jobs:
         with:
           name: coverage-report
           path: coverage/
-      - name: Coverage Commenter
-        uses: eregon/gh-pr-comment@v1
+      - name: Comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            **Test Coverage**
-            ```diff
-            $(head -n 10 ./coverage/lcov-report/index.html)
+            **Test Coverage Report**
+            ```
+            $(cat coverage/lcov-report/index.html | head -n 20)
             ```
