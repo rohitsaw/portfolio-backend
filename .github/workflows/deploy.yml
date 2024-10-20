@@ -1,13 +1,11 @@
-name: Test and Deploy
+name: Deployment
 on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  build:
+    name: Code Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,9 +13,9 @@ jobs:
           fetch-depth: 0
       - name: Install dependencies
         run: npm install
-      - name: Test and coverage
+      - name: Running Tests
         run: npm run test
-      - name: SonarCloud Scan
+      - name: Uploading Coverage
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -25,7 +23,7 @@ jobs:
 
   deploy:
     if: success()
-    needs: sonarcloud
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Trigger deployment via private URL

@@ -1,0 +1,29 @@
+name: Pr-Check
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Code Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        run: npm install
+      - name: Running Tests
+        run: npm run test
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
+      - name: Coverage Commenter
+        uses: eregon/gh-pr-comment@v1
+        with:
+          message: |
+            **Test Coverage**
+            ```diff
+            $(head -n 10 ./coverage/lcov-report/index.html)
+            ```
