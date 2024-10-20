@@ -10,12 +10,13 @@ jobs:
   add-reviewer:
     runs-on: ubuntu-latest
     steps:
-      - name: Add reviewers
-        uses: ahmadnassri/action-add-reviewers@v2.1.0
+      - name: Add Reviewers
+        uses: madrapps/add-reviewers@v1
         with:
-          reviewers: 'rohitsaw'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          reviewers: rohitsaw
+          re-request-when-approved: true
+          re-request-when-changes-requested: true
 
   build-and-comment:
     name: Extract Coverage
