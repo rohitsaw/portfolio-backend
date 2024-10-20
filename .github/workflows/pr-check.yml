@@ -7,6 +7,16 @@ permissions:
   pull-requests: write
 
 jobs:
+  add-reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add reviewers
+        uses: ahmadnassri/action-add-reviewers@v2.1.0
+        with:
+          reviewers: 'rohitsaw'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-and-comment:
     name: Extract Coverage
     runs-on: ubuntu-latest
