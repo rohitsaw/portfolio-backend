@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   build-and-comment:
-    name: Build and Post Coverage Comment
+    name: Extract Coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,13 +16,11 @@ jobs:
           fetch-depth: 0
       - name: Install dependencies
         run: npm install
-      - name: Run Tests and Generate Coverage
-        run: npm run test
       - name: Extract Coverage Summary
         id: coverage
         run: |
           # Read the captured text-summary from the coverage output
-          summary=$(npm run test -- --coverage --coverageReporters=text-summary | tee coverage-summary.txt | tail -n +2)
+          summary=$(npm run test -- --coverageReporters=text-summary | tee coverage-summary.txt | tail -n +2)
           echo "COVERAGE_SUMMARY<<EOF" >> $GITHUB_ENV
           echo "$summary" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
