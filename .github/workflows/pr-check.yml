@@ -21,8 +21,8 @@ jobs:
       - name: Extract Coverage Summary
         id: coverage
         run: |
-          # Capture the text summary from the coverage report
-          summary=$(cat coverage/lcov-report/index.html | head -n 20)
+          # Read the captured text-summary from the coverage output
+          summary=$(npm run test -- --coverage --coverageReporters=text-summary | tee coverage-summary.txt | tail -n +2)
           echo "COVERAGE_SUMMARY<<EOF" >> $GITHUB_ENV
           echo "$summary" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
