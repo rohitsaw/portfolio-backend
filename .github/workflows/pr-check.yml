@@ -7,17 +7,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  add-reviewer:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Add Reviewers
-        uses: madrapps/add-reviewers@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: rohitsaw
-          re-request-when-approved: true
-          re-request-when-changes-requested: true
-
   build-and-comment:
     name: Extract Coverage
     runs-on: ubuntu-latest
