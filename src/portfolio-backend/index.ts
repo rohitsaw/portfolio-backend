@@ -94,6 +94,7 @@ const main = async (app: Application) => {
         options: {
           httpOnly: false,
           sameSite: 'None',
+          secure: true,
         },
       },
       angular: true,
