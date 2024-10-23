@@ -54,18 +54,15 @@ const addRoutes = (app: Application) => {
         profile: Profile,
         done: VerifyCallback
       ) {
-        console.log('profile', profile);
         done(null, profile);
       }
     )
   );
   passport.serializeUser((user: Express.User, done) => {
-    console.log('serializing user', user);
     done(null, user);
   });
 
   passport.deserializeUser((user: Express.User, done) => {
-    console.log('deserializing user', user);
     done(null, user);
   });
 

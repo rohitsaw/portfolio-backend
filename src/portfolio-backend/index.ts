@@ -87,12 +87,12 @@ const main = async (app: Application) => {
     next();
   });
 
-  app.use(lusca.csrf());
-
-  app.use((req, res, next) => {
-    res.cookie('XSRF-TOKEN', (req as any).csrfToken());
-    next();
-  });
+  app.use(
+    lusca.csrf({
+      angular: true,
+      secret: process.env['ENCRYPTION_KEY'],
+    })
+  );
 
   app.use(passport.initialize());
 

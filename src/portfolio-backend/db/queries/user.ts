@@ -7,18 +7,15 @@ const schemaname: string = DB.portfolio_backend;
 
 const getuser = async (email: string, name?: string) => {
   if (name) {
-    const [user, created] = await psql.models.users.findOrCreate({
+    const [user] = await psql.models.users.findOrCreate({
       where: { user_email: email },
       defaults: { user_email: email, name: name },
     });
-    console.log('Is user created', created);
-    console.log('user', user);
     return user;
   } else {
     const user = await psql.models.users.findOne({
       where: { user_email: email },
     });
-    console.log('user', user);
     return user;
   }
 };
