@@ -67,12 +67,9 @@ const main = async (app: Application) => {
       name: 'session',
       secret: process.env['ENCRYPTION_KEY'],
       maxAge: 60 * 60 * 1000,
-
       httpOnly: false,
     })
   );
-
-  app.use(lusca.csrf());
 
   // register regenerate & save after the cookieSession middleware initialization
   app.use(function (request: Request, response: Response, next: NextFunction) {
@@ -88,6 +85,8 @@ const main = async (app: Application) => {
     }
     next();
   });
+
+  app.use(lusca.csrf());
 
   app.use(passport.initialize());
 
