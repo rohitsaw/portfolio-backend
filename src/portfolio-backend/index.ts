@@ -95,6 +95,7 @@ const main = async (app: Application) => {
           httpOnly: false,
           sameSite: 'None',
           secure: true,
+          domain: 'portfolio.rsaw409.me',
         },
       },
       angular: true,
