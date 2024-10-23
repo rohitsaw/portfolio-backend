@@ -39,6 +39,10 @@ const main = async (app: Application) => {
   if (!process.env.SUPABASE_KEY) {
     throw new Error(`SUPABASE_KEY env variable not set`);
   }
+
+  if (!process.env.ENCRYPTION_KEY) {
+    throw new Error(`ENCRYPTION_KEY env variable not set`);
+  }
   // app.set("trust proxy", 1);
 
   app.use(
@@ -60,7 +64,7 @@ const main = async (app: Application) => {
   app.use(
     cookieSession({
       name: 'session',
-      secret: 'secret',
+      secret: process.env['ENCRYPTION_KEY'],
       maxAge: 60 * 60 * 1000,
 
       httpOnly: false,

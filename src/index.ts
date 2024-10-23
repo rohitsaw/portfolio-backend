@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express';
+import { rateLimit } from 'express-rate-limit';
 import { createServer, Server } from 'http';
 import portfolioMain from './portfolio-backend/index.js';
 import ticToeMain from './tic-toe-backend/index.js';
@@ -8,11 +9,21 @@ import DB from './postgres.js';
 
 const PORT = process.env.PORT ?? 3000;
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+});
+
 const main = async () => {
   await DB.init();
 
   const app: Application = express();
   const http: Server = createServer(app);
+
+  // Apply the rate limiting middleware to all requests.
+  app.use(limiter);
 
   await portfolioMain(app);
 
