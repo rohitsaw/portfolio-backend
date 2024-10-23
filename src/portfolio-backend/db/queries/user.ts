@@ -11,14 +11,11 @@ const getuser = async (email: string, name?: string) => {
       where: { user_email: email },
       defaults: { user_email: email, name: name },
     });
-    console.log('Is user created', created);
-    console.log('user', user);
     return user;
   } else {
     const user = await psql.models.users.findOne({
       where: { user_email: email },
     });
-    console.log('user', user);
     return user;
   }
 };
