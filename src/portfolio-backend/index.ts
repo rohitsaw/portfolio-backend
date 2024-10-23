@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import cookieSession from 'cookie-session';
+import lusca from 'lusca';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { Application, Request, Response, NextFunction } from 'express';
@@ -70,6 +71,8 @@ const main = async (app: Application) => {
       httpOnly: false,
     })
   );
+
+  app.use(lusca.csrf());
 
   // register regenerate & save after the cookieSession middleware initialization
   app.use(function (request: Request, response: Response, next: NextFunction) {
