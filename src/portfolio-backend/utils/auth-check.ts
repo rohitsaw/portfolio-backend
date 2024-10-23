@@ -9,7 +9,6 @@ const checkAuthenticated = async (
 ) => {
   if (req.isAuthenticated()) {
     const user: Profile = req.user as Profile;
-    console.log('Authentication check for user', user);
     if (!user.emails?.length) {
       return res
         .status(403)

@@ -89,6 +89,13 @@ const main = async (app: Application) => {
 
   app.use(
     lusca.csrf({
+      cookie: {
+        name: 'XSRF-TOKEN',
+        options: {
+          httpOnly: false,
+          sameSite: 'None',
+        },
+      },
       angular: true,
       secret: process.env['ENCRYPTION_KEY'],
     })
