@@ -44,7 +44,8 @@ const main = async (app: Application) => {
   if (!process.env.ENCRYPTION_KEY) {
     throw new Error(`ENCRYPTION_KEY env variable not set`);
   }
-  // app.set("trust proxy", 1);
+
+  app.set('trust proxy', 1);
 
   app.use(
     cors({
@@ -87,6 +88,11 @@ const main = async (app: Application) => {
   });
 
   app.use(lusca.csrf());
+
+  app.use((req, res, next) => {
+    res.cookie('XSRF-TOKEN', (req as any).csrfToken());
+    next();
+  });
 
   app.use(passport.initialize());
 
