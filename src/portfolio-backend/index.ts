@@ -10,6 +10,8 @@ import { addRoutes } from './routes.js';
 import authRoute from './auth-routes.js';
 import { addRoutes as addProtectedRouted } from './protected-routes.js';
 
+const isProduction = process.env?.NODE_ENV === 'production';
+
 /* Backend for https://portfolio-rsaw409.onrender.com/ */
 
 const main = async (app: Application) => {
@@ -68,7 +70,7 @@ const main = async (app: Application) => {
       name: 'session',
       secret: process.env['ENCRYPTION_KEY'],
       maxAge: 60 * 60 * 1000,
-      httpOnly: false,
+      httpOnly: true,
     })
   );
 
@@ -95,7 +97,7 @@ const main = async (app: Application) => {
           httpOnly: false,
           sameSite: 'None',
           secure: true,
-          domain: 'portfolio.rsaw409.me',
+          domain: isProduction ? 'portfolio.rsaw409.me' : 'localhost',
         },
       },
       angular: true,
