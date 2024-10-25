@@ -31,7 +31,7 @@ import {
 } from './utils/validator.js';
 import { checkAuthenticated } from './utils/auth-check.js';
 
-import { Application } from 'express';
+import { Router } from 'express';
 
 import multer from 'multer';
 import { whitelist, fileValidation } from './utils/file-validation.js';
@@ -39,13 +39,13 @@ import { whitelist, fileValidation } from './utils/file-validation.js';
 const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET;
 
-const addRoutes = (app: Application) => {
+const addRoutes = (app: Router) => {
   passport.use(
     new GoogleStrategy(
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: '/google/callback',
+        callbackURL: '/portfolio/google/callback',
         scope: ['email', 'profile'],
       },
       function (
@@ -156,7 +156,6 @@ const addRoutes = (app: Application) => {
         if (!whitelist.includes(file.mimetype)) {
           return cb(new Error('only image file is allowed.'));
         }
-
         cb(null, true);
       },
       limits: { fileSize: 2097152 },

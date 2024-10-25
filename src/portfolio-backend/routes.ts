@@ -1,4 +1,4 @@
-import { Application } from 'express';
+import { Router } from 'express';
 import {
   getAllCertificates,
   getAllProjects,
@@ -12,7 +12,7 @@ import {
   validateUserEmailInQuery,
 } from './utils/validator.js';
 
-const addRoutes = (app: Application) => {
+const addRoutes = (app: Router) => {
   app.get('/certificates', validateUserIdInQuery, getAllCertificates);
 
   app.get('/projects', validateUserIdInQuery, getAllProjects);
