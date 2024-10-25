@@ -1,10 +1,9 @@
-import bodyParser from 'body-parser';
+import express from 'express';
 import passport from 'passport';
 import cookieSession from 'cookie-session';
 import lusca from 'lusca';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import { Application, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import { addRoutes } from './routes.js';
 import authRoute from './auth-routes.js';
@@ -14,108 +13,105 @@ const isProduction = process.env?.NODE_ENV === 'production';
 
 /* Backend for https://portfolio-rsaw409.onrender.com/ */
 
-const main = async (app: Application) => {
-  if (!process.env.CLIENT_ADDRESS1) {
-    throw new Error(`CLIENT_ADDRESS1 env variable not set`);
+if (!process.env.CLIENT_ADDRESS1) {
+  throw new Error(`CLIENT_ADDRESS1 env variable not set`);
+}
+
+if (!process.env.CLIENT_ADDRESS2) {
+  throw new Error(`CLIENT_ADDRESS2 env variable not set`);
+}
+
+if (!process.env.GOOGLE_CLIENT_ID) {
+  throw new Error(`GOOGLE_CLIENT_ID env variable not set`);
+}
+
+if (!process.env.GOOGLE_CLIENT_SECRET) {
+  throw new Error(`GOOGLE_CLIENT_SECRET env variable not set`);
+}
+
+if (!process.env.GOOGLE_CLIENT_SECRET) {
+  throw new Error(`GOOGLE_CLIENT_SECRET env variable not set`);
+}
+
+if (!process.env.SUPABASE_URL) {
+  throw new Error(`SUPABASE_URL env variable not set`);
+}
+
+if (!process.env.SUPABASE_KEY) {
+  throw new Error(`SUPABASE_KEY env variable not set`);
+}
+
+if (!process.env.ENCRYPTION_KEY) {
+  throw new Error(`ENCRYPTION_KEY env variable not set`);
+}
+
+const app = express.Router();
+
+// cors middleware
+app.use(
+  cors({
+    origin: [
+      'https://tictoe-rsaw409.onrender.com',
+      process.env.CLIENT_ADDRESS1,
+      process.env.CLIENT_ADDRESS2,
+    ],
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
+  })
+);
+
+// session middleware
+app.use(
+  cookieSession({
+    name: 'session',
+    secret: process.env['ENCRYPTION_KEY'],
+    maxAge: 60 * 60 * 1000,
+    httpOnly: true,
+  })
+);
+
+// register regenerate & save after the cookieSession middleware initialization
+app.use(function (request: Request, response: Response, next: NextFunction) {
+  if (request.session && !request.session.regenerate) {
+    request.session.regenerate = (cb: () => void) => {
+      cb();
+    };
   }
-
-  if (!process.env.CLIENT_ADDRESS2) {
-    throw new Error(`CLIENT_ADDRESS2 env variable not set`);
+  if (request.session && !request.session.save) {
+    request.session.save = (cb: () => void) => {
+      cb();
+    };
   }
+  next();
+});
 
-  if (!process.env.GOOGLE_CLIENT_ID) {
-    throw new Error(`GOOGLE_CLIENT_ID env variable not set`);
-  }
-
-  if (!process.env.GOOGLE_CLIENT_SECRET) {
-    throw new Error(`GOOGLE_CLIENT_SECRET env variable not set`);
-  }
-
-  if (!process.env.GOOGLE_CLIENT_SECRET) {
-    throw new Error(`GOOGLE_CLIENT_SECRET env variable not set`);
-  }
-
-  if (!process.env.SUPABASE_URL) {
-    throw new Error(`SUPABASE_URL env variable not set`);
-  }
-
-  if (!process.env.SUPABASE_KEY) {
-    throw new Error(`SUPABASE_KEY env variable not set`);
-  }
-
-  if (!process.env.ENCRYPTION_KEY) {
-    throw new Error(`ENCRYPTION_KEY env variable not set`);
-  }
-
-  app.set('trust proxy', 1);
-
-  app.use(
-    cors({
-      origin: [
-        'https://tictoe-rsaw409.onrender.com',
-        process.env.CLIENT_ADDRESS1,
-        process.env.CLIENT_ADDRESS2,
-      ],
-      methods: 'GET,POST,PUT,DELETE',
-      credentials: true,
-    })
-  );
-
-  app.use(cookieParser());
-
-  app.use(bodyParser.json());
-
-  app.use(
-    cookieSession({
-      name: 'session',
-      secret: process.env['ENCRYPTION_KEY'],
-      maxAge: 60 * 60 * 1000,
-      httpOnly: true,
-    })
-  );
-
-  // register regenerate & save after the cookieSession middleware initialization
-  app.use(function (request: Request, response: Response, next: NextFunction) {
-    if (request.session && !request.session.regenerate) {
-      request.session.regenerate = (cb: () => void) => {
-        cb();
-      };
-    }
-    if (request.session && !request.session.save) {
-      request.session.save = (cb: () => void) => {
-        cb();
-      };
-    }
-    next();
-  });
-
-  app.use(
-    lusca.csrf({
-      cookie: {
-        name: 'XSRF-TOKEN',
-        options: {
-          httpOnly: false,
-          sameSite: 'None',
-          secure: true,
-          domain: isProduction ? 'portfolio.rsaw409.me' : 'localhost',
-        },
+// csrf protection middleware
+app.use(
+  lusca.csrf({
+    cookie: {
+      name: 'XSRF-TOKEN',
+      options: {
+        httpOnly: false,
+        sameSite: 'None',
+        secure: true,
+        domain: isProduction ? 'portfolio.rsaw409.me' : 'localhost',
       },
-      angular: true,
-      secret: process.env['ENCRYPTION_KEY'],
-    })
-  );
+    },
+    angular: true,
+    secret: process.env['ENCRYPTION_KEY'],
+  })
+);
 
-  app.use(passport.initialize());
+app.use(passport.initialize());
 
-  app.use(passport.session());
+app.use(passport.session());
 
-  // GET APIS
-  addRoutes(app);
+// GET APIS
+addRoutes(app);
 
-  app.use(authRoute);
+app.use(authRoute);
 
-  // POST APIS
-  addProtectedRouted(app);
-};
+// POST APIS
+addProtectedRouted(app);
 
-export default main;
+export default app;

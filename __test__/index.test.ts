@@ -19,6 +19,7 @@ jest.unstable_mockModule('express', () => {
     default: jest.fn(() => {
       return {
         use: jest.fn(),
+        set: jest.fn(),
       };
     }),
   };

@@ -14,6 +14,7 @@ export default [
       sourceType: 'module',
       parser: typescriptParser,
       globals: {
+        Buffer: 'readonly',
         console: 'readonly',
         process: 'readonly',
         __dirname: 'readonly',

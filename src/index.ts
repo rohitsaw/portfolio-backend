@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express';
+import bodyParser from 'body-parser';
 import { rateLimit } from 'express-rate-limit';
 import { createServer, Server } from 'http';
 import portfolioMain from './portfolio-backend/index.js';
@@ -6,6 +7,7 @@ import ticToeMain from './tic-toe-backend/index.js';
 import splitMain from './split-backend/index.js';
 
 import DB from './postgres.js';
+import cookieParser from 'cookie-parser';
 
 const PORT = process.env.PORT ?? 3000;
 
@@ -22,10 +24,16 @@ const main = async () => {
   const app: Application = express();
   const http: Server = createServer(app);
 
+  app.set('trust proxy', 1);
+
   // Apply the rate limiting middleware to all requests.
   app.use(limiter);
 
-  await portfolioMain(app);
+  app.use(cookieParser());
+
+  app.use(bodyParser.json({ limit: '4mb' }));
+
+  app.use('/portfolio', portfolioMain);
 
   await splitMain(app);
 
