@@ -11,11 +11,13 @@ It contains backend code for following projects.
 
 ## [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
 
+[![CodeQL](https://github.com/rohitsaw/portfolio-backend/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/rohitsaw/portfolio-backend/actions/workflows/github-code-scanning/codeql)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=bugs)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=rohitsaw_portfolio-backend&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=rohitsaw_portfolio-backend)
+
 
 
 ## Table of Contents
