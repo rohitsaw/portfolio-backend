@@ -1,5 +1,5 @@
 import { body, query, validationResult } from 'express-validator';
-import { Request } from 'express-validator/src/base';
+import { Request } from 'express-validator/lib/base.js';
 import { Response } from 'express';
 
 const errorHandler = (req: Request, res: Response, next) => {

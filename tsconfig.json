@@ -12,7 +12,7 @@
     "esModuleInterop": true,
     "types": ["jest", "node", "@types/jest"],
     "sourceMap": true,
-
+    "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": false
   },

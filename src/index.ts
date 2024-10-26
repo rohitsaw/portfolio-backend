@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express';
+import 'dotenv/config';
 import bodyParser from 'body-parser';
 import { rateLimit } from 'express-rate-limit';
 import { createServer, Server } from 'http';
