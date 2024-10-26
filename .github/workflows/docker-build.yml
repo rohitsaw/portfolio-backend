@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -22,10 +26,10 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/my-app:${{ github.sha }} .
-          docker tag ghcr.io/${{ github.repository }}/my-app:${{ github.sha }} ghcr.io/${{ github.repository }}/my-app:latest
+          docker build -t ghcr.io/${{ github.repository }}/portfolio-backend:${{ github.sha }} .
+          docker tag ghcr.io/${{ github.repository }}/portfolio-backend:${{ github.sha }} ghcr.io/${{ github.repository }}/my-app:latest
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository }}/my-app:${{ github.sha }}
-          docker push ghcr.io/${{ github.repository }}/my-app:latest
+          docker push ghcr.io/${{ github.repository }}/portfolio-backend:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}/portfolio-backend:latest
