@@ -324,8 +324,13 @@ describe('TESTING portfolio-backend controllers', () => {
   });
   test('addOrUpdateUser should return success', async () => {
     let req = {
+      file: {
+        buffer: '',
+      },
       query: { user_id: 1 },
-      body: {},
+      body: {
+        user_email: 'rsaw409@Gmail.com',
+      },
     } as any as Request;
 
     await addOrUpdateUser(req, res);

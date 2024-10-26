@@ -152,13 +152,13 @@ const addRoutes = (app: Router) => {
     checkAuthenticated,
     multer({
       storage: multer.memoryStorage(),
+      limits: { fileSize: 2097152 },
       fileFilter: (req, file, cb) => {
         if (!whitelist.includes(file.mimetype)) {
           return cb(new Error('only image file is allowed.'));
         }
         cb(null, true);
       },
-      limits: { fileSize: 2097152 },
     }).single('profile_pic'),
     fileValidation,
     validateUserEmailInBody,

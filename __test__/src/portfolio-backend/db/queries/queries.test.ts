@@ -105,9 +105,9 @@ const { getAllEducations, addEducations, deleteEducations } = await import(
 const { addSkills, getAllSkills, deleteSkills } = await import(
   '../../../../../src/portfolio-backend/db/queries/skill.js'
 );
-const { getuser, addOrUpdateUser, getUserIdFromEmail } = await import(
-  '../../../../../src/portfolio-backend/db/queries/user.js'
-);
+const { getuser, addOrUpdateUser, getUserIdFromEmail, findOrCreateUser } =
+  await import('../../../../../src/portfolio-backend/db/queries/user.js');
+
 const { getAllProjects, addProjects, deleteProjects } = await import(
   '../../../../../src/portfolio-backend/db/queries/project.js'
 );
@@ -161,6 +161,10 @@ describe('TEST portfolio DB User queries', () => {
     await getuser('rsaw409@gmail.com');
   });
 
+  test('TEST getuser with name', async () => {
+    await getuser('rsaw409@gmail.com', 'Rohit Saw');
+  });
+
   test('TEST addOrUpdateUser', async () => {
     await addOrUpdateUser(
       {
@@ -174,8 +178,25 @@ describe('TEST portfolio DB User queries', () => {
     );
   });
 
+  test('TEST addOrUpdateUser with profile_url', async () => {
+    await addOrUpdateUser(
+      {
+        user_email: 'rsaw409@gmail.com',
+        name: 'rohit',
+        about: 'NA',
+        profile_url: 'https://image.com',
+        social_links: [],
+      },
+      1
+    );
+  });
+
   test('TEST getUserIdFromEmail', async () => {
     await getUserIdFromEmail('rsaw409@gmail.com');
+  });
+
+  test('TEST findOrCreateUser', async () => {
+    await findOrCreateUser({ email: 'rsaw409@gmail.com', name: 'Rohit' });
   });
 });
 
