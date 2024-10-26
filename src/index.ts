@@ -31,7 +31,7 @@ const main = async () => {
 
   app.use(cookieParser());
 
-  app.use(bodyParser.json({ limit: '4mb' }));
+  app.use(bodyParser.json());
 
   app.use('/portfolio', portfolioMain);
 
