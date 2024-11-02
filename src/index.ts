@@ -15,8 +15,11 @@ const PORT = process.env.PORT ?? 3000;
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-  standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => {
+    return req.path.includes('health');
+  },
 });
 
 const main = async () => {
@@ -28,7 +31,7 @@ const main = async () => {
   app.set('trust proxy', 1);
 
   // Apply the rate limiting middleware to all requests.
-  // app.use(limiter);
+  app.use(limiter);
 
   app.use(cookieParser());
 
