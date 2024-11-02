@@ -7,7 +7,7 @@ jest.mock('sequelize', () => {
       return {
         authenticate: jest.fn(),
         sync: jest.fn(({ alter, force }) => {
-          expect(alter).toEqual(true);
+          expect(alter).toEqual(false);
           expect(force).toEqual(undefined);
         }),
         query: jest.fn(),
