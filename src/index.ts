@@ -28,7 +28,7 @@ const main = async () => {
   app.set('trust proxy', 1);
 
   // Apply the rate limiting middleware to all requests.
-  app.use(limiter);
+  // app.use(limiter);
 
   app.use(cookieParser());
 
