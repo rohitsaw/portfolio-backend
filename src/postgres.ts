@@ -35,7 +35,7 @@ class DBConnection {
     return this.#sequelize;
   }
 
-  async init() {
+  async init({ alter = false } = {}) {
     if (DBConnection.#isInitialized === true) {
       console.log('DB already initialized.');
       return;
@@ -45,15 +45,16 @@ class DBConnection {
 
     await connectToPortfolioDB(this.#sequelize, this.portfolio_backend);
     await connectToSplitDB(this.#sequelize, this.split_backend);
-    await this.#sequelize.sync({ alter: true });
-    await this.#createIndexes();
+    await this.#sequelize.sync({ alter: alter });
+    await this.#createIndexes({ alter: alter });
 
     console.log('Database Sync Done for all DB');
 
     DBConnection.#isInitialized = true;
   }
 
-  async #createIndexes() {
+  async #createIndexes({ alter = false }) {
+    if (alter === false) return;
     const psql: Sequelize = this.#sequelize;
     await psql.query(
       'create unique index if not exists users_user_email on portfolio_backend.users (user_email)'

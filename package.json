@@ -1,7 +1,7 @@
 {
   "name": "portfolio-backend",
   "version": "1.0.0",
-  "description": "NodeJs Backend for http://portfolio-rsaw409.onrender.com",
+  "description": "NodeJs Backend for https://portfolio-rsaw409.onrender.com",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
