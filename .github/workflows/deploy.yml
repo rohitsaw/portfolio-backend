@@ -1,11 +1,13 @@
-name: Deployment
+name: Test+Build+Deploy
+
 on:
   push:
     branches:
       - main
+
 jobs:
-  build:
-    name: Code Build
+
+  Test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,10 +22,35 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN2 }}
+          
+  Build:
+    if: success()
+    needs: Test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Docker image
+        run: |
+          docker build --platform=linux/amd64 -t ghcr.io/${{ github.repository }}/portfolio-backend-app:${{ github.sha }} .
+          docker tag ghcr.io/${{ github.repository }}/portfolio-backend-app:${{ github.sha }} ghcr.io/${{ github.repository }}/portfolio-backend-app:latest
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository }}/portfolio-backend-app:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}/portfolio-backend-app:latest
 
   deploy:
     if: success()
-    needs: build
+    needs: Build
     runs-on: ubuntu-latest
     steps:
       - name: Trigger deployment via private URL
