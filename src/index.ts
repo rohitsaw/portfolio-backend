@@ -52,6 +52,8 @@ const main = async () => {
     return res.status(200).send({ message: 'DB is Running.' });
   });
 
+  console.log('Server is Ready.');
+
   http.on('error', (e: NodeJS.ErrnoException) => {
     if (e.code === 'EADDRINUSE') {
       console.error('Address in use, retrying...');

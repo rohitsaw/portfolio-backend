@@ -14,7 +14,9 @@ class DBConnection {
 
   private constructor(connStr: string) {
     console.log('Creating DB instance.');
-    this.#sequelize = new Sequelize(connStr);
+    this.#sequelize = new Sequelize(connStr, {
+      logging: false,
+    });
     DBConnection.#isInitialized = false;
   }
 
