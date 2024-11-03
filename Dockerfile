@@ -1,5 +1,5 @@
 # Use a node image suitable for production
-FROM node:lts AS build
+FROM node:lts-slim AS build
 
 # Set the working directory
 WORKDIR /app
@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # Production image
-FROM node:lts AS production
+FROM node:lts-slim AS production
 
 # Set the working directory
 WORKDIR /app
@@ -40,3 +40,4 @@ COPY --from=build /app/dist ./dist
 # Expose the port and start the application
 EXPOSE 3000
 CMD ["node", "dist/src/index.js"]
+
