@@ -26,7 +26,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/portfolio-backend-app:${{ github.sha }} .
+          docker build --platform=linux/amd64 -t ghcr.io/${{ github.repository }}/portfolio-backend-app:${{ github.sha }} .
           docker tag ghcr.io/${{ github.repository }}/portfolio-backend-app:${{ github.sha }} ghcr.io/${{ github.repository }}/portfolio-backend-app:latest
 
       - name: Push Docker image
