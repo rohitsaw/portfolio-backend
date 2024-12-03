@@ -1,4 +1,4 @@
-import supabase from '../../@rsaw409/supabase';
+import supabase from '../../@rsaw409/supabase.js';
 import { decode } from 'base64-arraybuffer';
 
 const uploadFileToSupabse = async (url: string, file: Express.Multer.File) => {
