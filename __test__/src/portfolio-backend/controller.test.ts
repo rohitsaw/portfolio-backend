@@ -73,15 +73,14 @@ jest.unstable_mockModule(
   }
 );
 
-jest.unstable_mockModule(
-  '../../../src/portfolio-backend/utils/supabase.js',
-  () => {
-    return {
+jest.unstable_mockModule('../../../src/@rsaw409/supabase.js', () => {
+  return {
+    default: {
       uploadFileToSupabse: jest.fn(),
       deleteFileFromSupabase: jest.fn(),
-    };
-  }
-);
+    },
+  };
+});
 
 const {
   getAllProjects: getAllProjectsFromDb,

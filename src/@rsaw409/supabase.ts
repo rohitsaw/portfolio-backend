@@ -1,16 +1,34 @@
 import { createClient } from '@supabase/supabase-js';
+import { decode } from 'base64-arraybuffer';
 
-if (!process.env.SUPABASE_URL) {
-  throw new Error(`SUPABASE_URL env variable not set`);
+class SupaBase {
+  #supabase;
+
+  constructor() {
+    this.#supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_KEY
+    );
+  }
+
+  async uploadFileToSupabse(url: string, file: Express.Multer.File) {
+    const fileBase64 = decode(file.buffer.toString('base64'));
+
+    await this.#supabase.storage
+      .from('portfolio_images')
+      .upload(url, fileBase64, {
+        contentType: file.mimetype,
+      });
+  }
+
+  async deleteFileFromSupabase(prefix: string) {
+    const { data: list } = await this.#supabase.storage
+      .from('portfolio_images')
+      .list(prefix);
+    const filesToRemove = list.map((x) => `${prefix}/${x.name}`);
+
+    await this.#supabase.storage.from('portfolio_images').remove(filesToRemove);
+  }
 }
 
-if (!process.env.SUPABASE_KEY) {
-  throw new Error(`SUPABASE_KEY env variable not set`);
-}
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
-
-export default supabase;
+export default new SupaBase();

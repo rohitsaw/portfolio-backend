@@ -30,10 +30,8 @@ import {
 } from './db/queries/work-experience.js';
 
 import { Request, Response } from 'express';
-import {
-  deleteFileFromSupabase,
-  uploadFileToSupabse,
-} from './utils/supabase.js';
+
+import supabase from '../@rsaw409/supabase.js';
 
 const getAllCertificates = async (req: Request, res: Response) => {
   try {
@@ -255,8 +253,8 @@ const addOrUpdateUser = async (req: Request, res: Response) => {
     const result = await addOrUpdateUserInDB(user, user_id);
 
     if (req.file) {
-      await deleteFileFromSupabase(req.body.user_email);
-      await uploadFileToSupabse(
+      await supabase.deleteFileFromSupabase(req.body.user_email);
+      await supabase.uploadFileToSupabse(
         `${req.body.user_email}/${user_id}_${timestamp}`,
         req.file
       );
