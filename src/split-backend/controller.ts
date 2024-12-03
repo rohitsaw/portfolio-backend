@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import logger from '../@rsaw409/logger.js';
 import {
   createGroup as createGroupInDB,
   getGroup as getGroupInDB,
@@ -39,7 +40,7 @@ const createGroup = async (
     const inviteId = encrypt(`${response.id}`);
     return res.status(200).send({ ...response.dataValues, inviteId });
   } catch (error: any) {
-    console.error(error);
+    logger.error(error);
     return res.status(400).send({ message: error.message });
   }
 };
@@ -66,7 +67,8 @@ const joinGroup = async (
 
     return res.status(200).send({ ...response, inviteId });
   } catch (error: any) {
-    console.error('error', error);
+    logger.error('Something went wrong');
+    logger.error(error);
     return res.status(400).send({ message: error.message });
   }
 };

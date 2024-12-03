@@ -1,3 +1,4 @@
+import logger from '../@rsaw409/logger.js';
 import {
   getAllCertificates as getAllCertificatesFromDb,
   addCertificates as addCertificatesInDb,
@@ -137,7 +138,7 @@ const addSkills = async (req: Request, res: Response) => {
 
     return res.status(200).send(result);
   } catch (error: any) {
-    console.error(error);
+    logger.error(error);
     res.status(400).send({ message: error.message });
   }
 };
@@ -150,7 +151,7 @@ const deleteSkills = async (req: Request, res: Response) => {
 
     return res.status(200).send({ message: result });
   } catch (error: any) {
-    console.error(error);
+    logger.error(error);
     res.status(400).send({ message: error.message });
   }
 };

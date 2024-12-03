@@ -33,14 +33,6 @@ if (!process.env.GOOGLE_CLIENT_SECRET) {
   throw new Error(`GOOGLE_CLIENT_SECRET env variable not set`);
 }
 
-if (!process.env.SUPABASE_URL) {
-  throw new Error(`SUPABASE_URL env variable not set`);
-}
-
-if (!process.env.SUPABASE_KEY) {
-  throw new Error(`SUPABASE_KEY env variable not set`);
-}
-
 if (!process.env.ENCRYPTION_KEY) {
   throw new Error(`ENCRYPTION_KEY env variable not set`);
 }

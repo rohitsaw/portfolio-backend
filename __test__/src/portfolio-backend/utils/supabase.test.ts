@@ -1,20 +1,19 @@
 import { jest } from '@jest/globals';
 
-jest.unstable_mockModule('@supabase/supabase-js', () => {
+jest.unstable_mockModule('../../../../src/@rsaw409/supabase.js', () => {
   return {
-    createClient: jest.fn(() => {
-      return {
-        storage: {
-          from: jest.fn((bucket_name) => {
-            return {
-              upload: jest.fn(),
-              remove: jest.fn(),
-              list: jest.fn(() => ({ data: ['1', '2'] })),
-            };
-          }),
-        },
-      };
-    }),
+    __esModule: true,
+    default: {
+      storage: {
+        from: jest.fn((bucket_name) => {
+          return {
+            upload: jest.fn(),
+            remove: jest.fn(),
+            list: jest.fn(() => ({ data: ['1', '2'] })),
+          };
+        }),
+      },
+    },
   };
 });
 

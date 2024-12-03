@@ -1,11 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../../@rsaw409/supabase';
 import { decode } from 'base64-arraybuffer';
-
-// Create a single supabase client for interacting with your database
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
 
 const uploadFileToSupabse = async (url: string, file: Express.Multer.File) => {
   const fileBase64 = decode(file.buffer.toString('base64'));

@@ -25,24 +25,24 @@
 //         socket.join(game.gameId);
 //         game.addPlayer(player);
 
-//         console.log(
+//         logger.info(
 //           `${player.userName} - ${player.playerId} has joined game with id ${game.gameId}`
 //         );
 //       }
 //     });
 
 //     socket.on("madeMove", (data) => {
-//       console.log("madeMove", data);
+//       logger.info("madeMove", data);
 //       socket.to(data.gameId).emit("receivedFromServer", data);
 //     });
 
 //     socket.on("RestartGame", (data) => {
-//       console.log("RestartGame", data);
+//       logger.info("RestartGame", data);
 //       socket.to(data.gameId).emit("userRestartedGame", data);
 //     });
 
 //     socket.on("LeftGame", (data) => {
-//       console.log("LeftGame", data);
+//       logger.info("LeftGame", data);
 //       GameList.playerLeft(data.gameId, data.userId);
 
 //       socket.to(data.gameId).emit("userLeftGame", data);
@@ -51,7 +51,7 @@
 //     });
 
 //     socket.on("disconnecting", (reason) => {
-//       console.log("disconnecting", reason);
+//       logger.info("disconnecting", reason);
 //       const userId = socket.id;
 //       const { gameId, userName } = GameList.findGameIdFromPlayerId(userId);
 //       if (gameId && userName) {

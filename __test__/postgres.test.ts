@@ -16,6 +16,16 @@ jest.mock('sequelize', () => {
   };
 });
 
+jest.unstable_mockModule('../src/@rsaw409/logger.js', () => {
+  return {
+    __esModule: true,
+    default: {
+      error: jest.fn(),
+      info: jest.fn(),
+    },
+  };
+});
+
 jest.unstable_mockModule('../src/portfolio-backend/db/postgres', () => {
   return {
     __esModule: true,

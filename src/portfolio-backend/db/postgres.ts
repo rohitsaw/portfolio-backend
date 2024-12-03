@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import logger from '../../@rsaw409/logger.js';
 
 import createCertificateModel from './models/certificate.js';
 import createProjectModel from './models/project.js';
@@ -16,7 +17,8 @@ async function initModels(psql: Sequelize, schemaname: string) {
     createEducationModel(psql, schemaname);
     createSkillModel(psql, schemaname);
   } catch (error) {
-    console.error('something went wrong:', error);
+    logger.error('something went wrong:');
+    logger.error(error);
   }
 }
 

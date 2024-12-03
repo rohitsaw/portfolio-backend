@@ -6,6 +6,17 @@ jest.unstable_mockModule('file-type', () => {
   };
 });
 
+jest.unstable_mockModule('../../../../src/@rsaw409/logger.js', () => {
+  return {
+    __esModule: true,
+    default: {
+      error: jest.fn(),
+      info: jest.fn(),
+    },
+  };
+});
+
+
 const { fileValidation } = await import(
   '../../../../src/portfolio-backend/utils/file-validation'
 );

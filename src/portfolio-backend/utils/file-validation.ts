@@ -1,11 +1,12 @@
 import { fileTypeFromBuffer } from 'file-type';
+import logger from '../../@rsaw409/logger.js';
 
 const whitelist = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
 
 const fileValidation = async (req, res, next) => {
   try {
     if (!req.file) {
-      console.log('No file found.');
+      logger.info('No file found.');
       return next();
     }
     const meta = await fileTypeFromBuffer(req.file.buffer);

@@ -2,6 +2,17 @@ import { jest } from '@jest/globals';
 import request from 'supertest';
 import express, { Request, Response } from 'express';
 
+
+jest.unstable_mockModule('../../../src/@rsaw409/logger.js', () => {
+  return {
+    __esModule: true,
+    default: {
+      error: jest.fn(),
+      info: jest.fn(),
+    },
+  };
+});
+
 jest.unstable_mockModule('../../../src/portfolio-backend/controller.js', () => {
   return {
     addProjects: jest.fn(),

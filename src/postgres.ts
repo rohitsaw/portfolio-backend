@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import logger from '../src/@rsaw409/logger.js';
 
 import connectToPortfolioDB from './portfolio-backend/db/postgres.js';
 import connectToSplitDB from './split-backend/db/postgres.js';
@@ -13,7 +14,7 @@ class DBConnection {
   static #isInitialized: boolean;
 
   private constructor(connStr: string) {
-    console.log('Creating DB instance.');
+    logger.info('Creating DB instance.');
     this.#sequelize = new Sequelize(connStr, {
       logging: false,
     });
@@ -39,18 +40,18 @@ class DBConnection {
 
   async init({ alter = false } = {}) {
     if (DBConnection.#isInitialized === true) {
-      console.log('DB already initialized.');
+      logger.info('DB already initialized.');
       return;
     }
     await this.#sequelize.authenticate();
-    console.log('Connection has been verified.');
+    logger.info('Connection has been verified.');
 
     await connectToPortfolioDB(this.#sequelize, this.portfolio_backend);
     await connectToSplitDB(this.#sequelize, this.split_backend);
     await this.#sequelize.sync({ alter: alter });
     await this.#createIndexes({ alter: alter });
 
-    console.log('Database Sync Done for all DB');
+    logger.info('Database Sync Done for all DB');
 
     DBConnection.#isInitialized = true;
   }

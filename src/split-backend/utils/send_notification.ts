@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import logger from '../../@rsaw409/logger.js';
 
 const send_push_notification = ({
   groupName,
@@ -38,8 +39,8 @@ const send_push_notification = ({
   // Perform the POST request
   fetch(url, options)
     .then((response) => response.json()) // Parse JSON response
-    .then((data) => console.log('Success:', data)) // Handle the data
-    .catch((error) => console.error('Error:', error)); // Handle errors
+    .then((data) => logger.info(`Success: ${JSON.stringify(data)}`)) // Handle the data
+    .catch((error) => logger.error(`Error: ${JSON.stringify(error)}`)); // Handle errors
 };
 
 export { send_push_notification };

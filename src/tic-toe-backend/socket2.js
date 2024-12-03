@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import logger from '../@rsaw409/logger.js'
 
 const addSocket = (http) => {
   const games = {};
@@ -22,7 +23,7 @@ const addSocket = (http) => {
       let users = io.sockets.adapter.rooms.get(gameId);
       if (!users || users?.size < 2) {
         socket.join(gameId);
-        console.log(
+        logger.info(
           `${userName} - ${userId} has joined game with id ${gameId}`
         );
 
@@ -43,7 +44,7 @@ const addSocket = (http) => {
       const userName = data.userName;
       // const [i, j] = data.index;
       // const symbol = data.symbol;
-      console.log(`${userName} has made his move.`);
+      logger.info(`${userName} has made his move.`);
       socket.to(gameId).emit("receivedFromServer", data);
     });
 
@@ -60,7 +61,7 @@ const addSocket = (http) => {
           delete games?.[data?.gameId];
         }
       } catch (error) {
-        console.error(error);
+        logger.error(error);
       }
       socket.to(data.gameId).emit("userLeftGame", data);
     });
@@ -76,7 +77,7 @@ const addSocket = (http) => {
               delete games?.[room];
             }
           } catch (error) {
-            console.error(error);
+            logger.error(error);
           }
 
           socket.to(room).emit("userDisconnected", userName);

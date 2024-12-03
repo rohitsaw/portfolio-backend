@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import logger from '../../@rsaw409/logger.js';
 
 import createGroupModel from './models/group.js';
 import createUserModel from './models/user.js';
@@ -12,7 +13,8 @@ const initializeDB = async (sequelize: Sequelize, schemaname: string) => {
     createTransactionModel(sequelize, schemaname);
     createTransactionPartModel(sequelize, schemaname);
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    logger.error('Unable to connect to the database:');
+    logger.error(error);
   }
 };
 export default initializeDB;

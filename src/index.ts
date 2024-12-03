@@ -1,5 +1,6 @@
-import express, { Application, Request, Response } from 'express';
 import 'dotenv/config';
+import express, { Application, Request, Response } from 'express';
+import logger from '../src/@rsaw409/logger.js';
 import bodyParser from 'body-parser';
 import { rateLimit } from 'express-rate-limit';
 import { createServer, Server } from 'http';
@@ -33,6 +34,8 @@ const main = async () => {
   // Apply the rate limiting middleware to all requests.
   app.use(limiter);
 
+  app.use(logger.express);
+
   app.use(cookieParser());
 
   app.use(bodyParser.json());
@@ -52,11 +55,11 @@ const main = async () => {
     return res.status(200).send({ message: 'DB is Running.' });
   });
 
-  console.log('Server is Ready.');
+  logger.info('Server is Ready.');
 
   http.on('error', (e: NodeJS.ErrnoException) => {
     if (e.code === 'EADDRINUSE') {
-      console.error('Address in use, retrying...');
+      logger.error('Address in use, retrying...');
       setTimeout(() => {
         http.close();
         http.listen(PORT);

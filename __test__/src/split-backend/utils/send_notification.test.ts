@@ -1,5 +1,7 @@
 import { jest } from '@jest/globals';
 
+
+
 jest.unstable_mockModule('node-fetch', () => {
   return {
     __esModule: true,
@@ -15,6 +17,16 @@ jest.unstable_mockModule('node-fetch', () => {
     }),
   };
 });
+jest.unstable_mockModule('../../../../src/@rsaw409/logger.js', () => {
+  return {
+    __esModule: true,
+    default: {
+      error: jest.fn(),
+      info: jest.fn(),
+    },
+  };
+});
+
 
 const { send_push_notification } = await import(
   '../../../../src/split-backend/utils/send_notification.js'

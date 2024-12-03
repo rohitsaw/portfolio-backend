@@ -1,3 +1,4 @@
+import logger from '../../../@rsaw409/logger.js';
 import DB from '../../../postgres.js';
 import { QueryTypes } from 'sequelize';
 import {
@@ -39,7 +40,7 @@ const saveTransaction = async (payload: saveTransactionPayload) => {
       });
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     if (error instanceof Error) {
       throw new Error(error.message);
     }
@@ -73,7 +74,7 @@ const savePayment = async (payload: savePaymentPayload) => {
       return transaction;
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     if (error instanceof Error) {
       throw new Error(error.message);
     }
@@ -112,7 +113,7 @@ const savePayments = async (payments: Array<savePaymentPayload>) => {
       return tmp;
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     if (error instanceof Error) {
       throw new Error(error.message);
     }

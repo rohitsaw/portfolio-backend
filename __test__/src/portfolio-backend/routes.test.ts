@@ -2,6 +2,16 @@ import { jest } from '@jest/globals';
 import request from 'supertest';
 import express, { Request, Response } from 'express';
 
+jest.unstable_mockModule('../../../src/@rsaw409/logger.js', () => {
+  return {
+    __esModule: true,
+    default: {
+      error: jest.fn(),
+      info: jest.fn(),
+    },
+  };
+});
+
 jest.unstable_mockModule(
   '../../../src/portfolio-backend/utils/validator.js',
   () => {
@@ -11,7 +21,6 @@ jest.unstable_mockModule(
         next();
       }),
       validateUserIdInQuery: jest.fn((req, res, next: () => void) => {
-        console.log('validating userid in query');
         next();
       }),
     };
