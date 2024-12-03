@@ -48,7 +48,7 @@ class Logger {
   express = responseTime((req, res, time) => {
     let ignoreUrls = ['/health', '/db_health'];
     if (!ignoreUrls.includes(req.originalUrl)) {
-      let msg = `${req.method} ${req.originalUrl} ${req.statusCode}`;
+      let msg = `${req.method} ${req.originalUrl} ${res.statusCode}`;
       if (time) msg += ` ${Math.round(time)}ms`;
       if (res.statusCode < 400) {
         this.info(msg);
