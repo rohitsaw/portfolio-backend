@@ -168,7 +168,7 @@ const getAllTransactionInGroup = async ({
     (payments !== null
       ? payments
         ? `and B.category = 'payment'`
-        : `and B.category != 'payment'`
+        : `and B.category is null`
       : ``) +
     `) F
   group by 1,2,3,4,5,6,7,8` +
@@ -181,6 +181,7 @@ const getAllTransactionInGroup = async ({
   )`
       : ` `) +
     ` order by transaction_date desc `;
+
   return sequelize.query(query, {
     type: QueryTypes.SELECT,
     replacements: { group_id: group_id, by: by, user_id: `${user_id}` },
