@@ -1,7 +1,10 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes, Sequelize, Model, Optional } from 'sequelize';
+import { Skill } from '../../../types/portfolio';
+
+interface SkillCreationAttributes extends Optional<Skill, 'id'> {}
 
 const createSkillModel = (sequelize: Sequelize, schema: string) => {
-  return sequelize.define(
+  return sequelize.define<Model<Skill, SkillCreationAttributes>>(
     'skills',
     {
       id: {

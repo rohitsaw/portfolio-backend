@@ -1,7 +1,10 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes, Sequelize, Model, Optional } from 'sequelize';
+import { Certificate } from '../../../types/portfolio';
+
+interface CertificateCreationAttributes extends Optional<Certificate, 'id'> {}
 
 const createCertificateModel = (sequelize: Sequelize, schema: string) => {
-  return sequelize.define(
+  return sequelize.define<Model<Certificate, CertificateCreationAttributes>>(
     'certificates',
     {
       id: {

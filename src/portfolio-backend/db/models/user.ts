@@ -1,7 +1,10 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes, Sequelize, Optional, Model } from 'sequelize';
+import { User } from '../../../types/portfolio';
+
+interface UserCreationAttributes extends Optional<User, 'id'> {}
 
 const createUserModel = (sequelize: Sequelize, schema: string) => {
-  return sequelize.define(
+  return sequelize.define<Model<User, UserCreationAttributes>>(
     'users',
     {
       id: {

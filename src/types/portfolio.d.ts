@@ -1,5 +1,6 @@
 interface Certificate {
   id?: number;
+  user_id?: number;
   certificate_name: string;
   certificate_description: string;
   certification_authority: string;
@@ -11,6 +12,7 @@ interface Certificate {
 
 interface Education {
   id?: number;
+  user_id?: number;
   institute_name: string;
   degree_name: string;
   start_date: string;
@@ -20,6 +22,7 @@ interface Education {
 
 interface Project {
   id?: number;
+  user_id?: number;
   project_name: string;
   project_description: string;
   github_url: string;
@@ -30,6 +33,7 @@ interface Project {
 
 interface Skill {
   id?: number;
+  user_id?: number;
   skill_name: string;
   skill_category: string;
   skill_proficiency: number;
@@ -37,6 +41,7 @@ interface Skill {
 
 interface WorkExperience {
   id?: number;
+  user_id?: number;
   company_name: string;
   designation: string;
   start_date: string;

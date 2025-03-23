@@ -1,7 +1,11 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes, Sequelize, Model, Optional } from 'sequelize';
+
+import { Project } from '../../../types/portfolio';
+
+interface ProjectCreationAttributes extends Optional<Project, 'id'> {}
 
 const createProjectModel = (sequelize: Sequelize, schema: string) => {
-  return sequelize.define(
+  return sequelize.define<Model<Project, ProjectCreationAttributes>>(
     'projects',
     {
       id: {

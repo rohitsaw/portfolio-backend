@@ -6,7 +6,9 @@ import { WorkExperience } from '../../../types/portfolio.js';
 const psql: Sequelize = DB.getSequelize();
 const schemaname: string = DB.portfolio_backend;
 
-const getAllExperiences = async (user_id: number) => {
+const getAllExperiences = async (
+  user_id: number
+): Promise<WorkExperience[]> => {
   const query = `select * from ${schemaname}.work_experiences where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
     type: QueryTypes.SELECT,
@@ -14,7 +16,7 @@ const getAllExperiences = async (user_id: number) => {
       user_id,
     },
   });
-  return res;
+  return res as WorkExperience[];
 };
 
 const addExperiences = async (experience: WorkExperience, user_id: number) => {

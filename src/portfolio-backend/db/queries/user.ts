@@ -5,18 +5,18 @@ import { User } from '../../../types/portfolio.js';
 const psql: Sequelize = DB.getSequelize();
 const schemaname: string = DB.portfolio_backend;
 
-const getuser = async (email: string, name?: string) => {
+const getuser = async (email: string, name?: string): Promise<User> => {
   if (name) {
     const [user] = await psql.models.users.findOrCreate({
       where: { user_email: email },
       defaults: { user_email: email, name: name },
     });
-    return user;
+    return user as unknown as User;
   } else {
     const user = await psql.models.users.findOne({
       where: { user_email: email },
     });
-    return user;
+    return user as unknown as User;
   }
 };
 

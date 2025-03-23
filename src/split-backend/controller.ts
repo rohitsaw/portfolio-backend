@@ -26,6 +26,8 @@ import {
   saveTransactionPayload,
 } from '../types/split.js';
 
+import { ErrorMessage } from '../@rsaw409/constant.js';
+
 const createGroup = async (
   req: Request<{}, {}, createGroupPayload>,
   res: Response
@@ -41,7 +43,7 @@ const createGroup = async (
     return res.status(200).send({ ...response.dataValues, inviteId });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -74,7 +76,7 @@ const joinGroup = async (
     return res.status(200).send({ ...response, inviteId });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -96,7 +98,7 @@ const createUser = async (
     return res.status(200).send(response);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -133,7 +135,7 @@ const saveTransaction = async (
     return res.status(200).send(response);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -159,7 +161,7 @@ const savePayment = async (
     return res.status(200).send(response);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -198,7 +200,7 @@ const savePayments = async (
     return res.status(200).send(response);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -219,7 +221,7 @@ const getAllUsersInGroup = async (
     return res.status(200).send(response);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -240,7 +242,7 @@ const getAllTransactionInGroup = async (
     return res.status(200).send(response);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -261,7 +263,7 @@ const getOverviewDataInGroup = async (
     return res.status(200).send(response);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }

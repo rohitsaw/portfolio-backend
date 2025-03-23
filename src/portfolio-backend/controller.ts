@@ -32,11 +32,20 @@ import {
 import { Request, Response } from 'express';
 
 import supabase from '../@rsaw409/supabase.js';
+import { ErrorMessage } from '../@rsaw409/constant.js';
+import {
+  Certificate,
+  Education,
+  Project,
+  Skill,
+  WorkExperience,
+  User,
+} from '../types/portfolio.js';
 
 const getAllCertificates = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
-    const certificates = await getAllCertificatesFromDb(user_id);
+    const user_id: number = Number(req.query.user_id);
+    const certificates: Certificate[] = await getAllCertificatesFromDb(user_id);
 
     return res.status(200).send(certificates);
   } catch (error: unknown) {
@@ -51,8 +60,8 @@ const getAllCertificates = async (req: Request, res: Response) => {
 
 const getAllProjects = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
-    const projects = await getAllProjectsFromDb(user_id);
+    const user_id: number = Number(req.query.user_id);
+    const projects: Project[] = await getAllProjectsFromDb(user_id);
 
     return res.status(200).send(projects);
   } catch (error: unknown) {
@@ -67,8 +76,8 @@ const getAllProjects = async (req: Request, res: Response) => {
 
 const getAllEducations = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
-    const educations = await getAllEducationsFromDb(user_id);
+    const user_id: number = Number(req.query.user_id);
+    const educations: Education[] = await getAllEducationsFromDb(user_id);
 
     return res.status(200).send(educations);
   } catch (error: unknown) {
@@ -83,8 +92,9 @@ const getAllEducations = async (req: Request, res: Response) => {
 
 const getAllExperiences = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
-    const experiences = await getAllExperiencesFromDb(user_id);
+    const user_id: number = Number(req.query.user_id);
+    const experiences: WorkExperience[] =
+      await getAllExperiencesFromDb(user_id);
 
     return res.status(200).send(experiences);
   } catch (error: unknown) {
@@ -99,8 +109,8 @@ const getAllExperiences = async (req: Request, res: Response) => {
 
 const getAllSkills = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
-    const skills = await getAllSkillsFromDb(user_id);
+    const user_id: number = Number(req.query.user_id);
+    const skills: Skill[] = await getAllSkillsFromDb(user_id);
 
     return res.status(200).send(skills);
   } catch (error: unknown) {
@@ -115,11 +125,11 @@ const getAllSkills = async (req: Request, res: Response) => {
 
 const getuser = async (req: Request, res: Response) => {
   try {
-    const user_email: string = req.query.user_email as unknown as string;
+    const user_email: string = String(req.query.user_email);
     const name: string | undefined = req.headers.name as unknown as
       | string
       | undefined;
-    const user = await getuserFromDb(user_email, name);
+    const user: User = await getuserFromDb(user_email, name);
     if (user === null) {
       throw new Error('user not found');
     }
@@ -136,14 +146,14 @@ const getuser = async (req: Request, res: Response) => {
 
 const addProjects = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await addProjectsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -153,14 +163,14 @@ const addProjects = async (req: Request, res: Response) => {
 
 const deleteProjects = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await deleteProjectsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -170,14 +180,14 @@ const deleteProjects = async (req: Request, res: Response) => {
 
 const addSkills = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await addSkillsInDb(req.body, user_id);
 
     return res.status(200).send(result);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -187,14 +197,14 @@ const addSkills = async (req: Request, res: Response) => {
 
 const deleteSkills = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await deleteSkillsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -204,14 +214,14 @@ const deleteSkills = async (req: Request, res: Response) => {
 
 const addCertificates = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await addCertificatesInDb(req.body, user_id);
 
     return res.status(200).send(result);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -221,14 +231,14 @@ const addCertificates = async (req: Request, res: Response) => {
 
 const deleteCertificates = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await deleteCertificatesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -238,14 +248,14 @@ const deleteCertificates = async (req: Request, res: Response) => {
 
 const addEducations = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await addEducationsInDb(req.body, user_id);
 
     return res.status(200).send(result);
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -255,14 +265,14 @@ const addEducations = async (req: Request, res: Response) => {
 
 const deleteEducations = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await deleteEducationsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -272,14 +282,14 @@ const deleteEducations = async (req: Request, res: Response) => {
 
 const addExperiences = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await addExperiencesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -289,14 +299,14 @@ const addExperiences = async (req: Request, res: Response) => {
 
 const deleteExperiences = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     const result = await deleteExperiencesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }
@@ -306,7 +316,7 @@ const deleteExperiences = async (req: Request, res: Response) => {
 
 const addOrUpdateUser = async (req: Request, res: Response) => {
   try {
-    const user_id: number = req.query.user_id as unknown as number;
+    const user_id: number = Number(req.query.user_id);
 
     let timestamp = Date.now();
     let profile_url = null;
@@ -341,7 +351,7 @@ const addOrUpdateUser = async (req: Request, res: Response) => {
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
     logger.error(error);
-    let message = 'An unknown error occurred';
+    let message = ErrorMessage.Unknown;
     if (error instanceof Error) {
       message = error.message;
     }

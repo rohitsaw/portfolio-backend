@@ -6,7 +6,7 @@ import { Skill } from '../../../types/portfolio.js';
 const psql: Sequelize = DB.getSequelize();
 const schemaname: string = DB.portfolio_backend;
 
-const getAllSkills = async (user_id: number) => {
+const getAllSkills = async (user_id: number): Promise<Skill[]> => {
   const query = `select * from ${schemaname}.skills where user_id = :user_id order by skill_name;`;
   const res = await psql.query(query, {
     type: QueryTypes.SELECT,
@@ -14,7 +14,7 @@ const getAllSkills = async (user_id: number) => {
       user_id: user_id,
     },
   });
-  return res;
+  return res as Skill[];
 };
 
 const addSkills = async (skill: Skill, user_id: number) => {

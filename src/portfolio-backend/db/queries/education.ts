@@ -6,7 +6,7 @@ import { Education } from '../../../types/portfolio.js';
 const psql: Sequelize = DB.getSequelize();
 const schemaname: string = DB.portfolio_backend;
 
-const getAllEducations = async (user_id: number) => {
+const getAllEducations = async (user_id: number): Promise<Education[]> => {
   const query = `select * from ${schemaname}.education where user_id = :user_id order by end_date desc`;
   const res = await psql.query(query, {
     type: QueryTypes.SELECT,
@@ -14,7 +14,7 @@ const getAllEducations = async (user_id: number) => {
       user_id: user_id,
     },
   });
-  return res;
+  return res as Education[];
 };
 
 const addEducations = async (education: Education, user_id: number) => {
