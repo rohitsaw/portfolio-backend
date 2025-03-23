@@ -148,7 +148,7 @@ const addProjects = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await addProjectsInDb(req.body, user_id);
+    const result = await addProjectsInDb({ ...req.body, user_id });
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
@@ -165,7 +165,7 @@ const deleteProjects = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await deleteProjectsInDb(req.body, user_id);
+    const result = await deleteProjectsInDb({ ...req.body, user_id });
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
@@ -182,7 +182,7 @@ const addSkills = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await addSkillsInDb(req.body, user_id);
+    const result = await addSkillsInDb({ ...req.body, user_id });
 
     return res.status(200).send(result);
   } catch (error: unknown) {
@@ -199,7 +199,7 @@ const deleteSkills = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await deleteSkillsInDb(req.body, user_id);
+    const result = await deleteSkillsInDb({ ...req.body, user_id });
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
@@ -216,7 +216,7 @@ const addCertificates = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await addCertificatesInDb(req.body, user_id);
+    const result = await addCertificatesInDb({ ...req.body, user_id });
 
     return res.status(200).send(result);
   } catch (error: unknown) {
@@ -233,7 +233,7 @@ const deleteCertificates = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await deleteCertificatesInDb(req.body, user_id);
+    const result = await deleteCertificatesInDb({ ...req.body, user_id });
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
@@ -250,7 +250,7 @@ const addEducations = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await addEducationsInDb(req.body, user_id);
+    const result = await addEducationsInDb({ ...req.body, user_id });
 
     return res.status(200).send(result);
   } catch (error: unknown) {
@@ -267,7 +267,7 @@ const deleteEducations = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await deleteEducationsInDb(req.body, user_id);
+    const result = await deleteEducationsInDb({ ...req.body, user_id });
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
@@ -284,7 +284,7 @@ const addExperiences = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await addExperiencesInDb(req.body, user_id);
+    const result = await addExperiencesInDb({ ...req.body, user_id });
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {
@@ -301,7 +301,7 @@ const deleteExperiences = async (req: Request, res: Response) => {
   try {
     const user_id: number = Number(req.query.user_id);
 
-    const result = await deleteExperiencesInDb(req.body, user_id);
+    const result = await deleteExperiencesInDb({ ...req.body, user_id });
 
     return res.status(200).send({ message: result });
   } catch (error: unknown) {

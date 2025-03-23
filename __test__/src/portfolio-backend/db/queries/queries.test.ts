@@ -117,42 +117,36 @@ describe('TEST portfolio DB Experience queries', () => {
     await getAllExperiences(1);
   });
   test('TEST deleteExperiences', async () => {
-    await deleteExperiences(
-      {
-        id: 1,
-        company_name: 'test',
-        designation: 'test',
-        start_date: new Date().toISOString(),
-        end_date: new Date().toISOString(),
-        details: 'details',
-      },
-      1
-    );
+    await deleteExperiences({
+      id: 1,
+      company_name: 'test',
+      designation: 'test',
+      start_date: new Date().toISOString(),
+      end_date: new Date().toISOString(),
+      details: 'details',
+      user_id: 1,
+    });
   });
   test('TEST addExperiences with id', async () => {
-    await addExperiences(
-      {
-        id: 1,
-        company_name: 'test',
-        designation: 'test',
-        start_date: new Date().toISOString(),
-        end_date: new Date().toISOString(),
-        details: 'details',
-      },
-      1
-    );
+    await addExperiences({
+      id: 1,
+      company_name: 'test',
+      designation: 'test',
+      start_date: new Date().toISOString(),
+      end_date: new Date().toISOString(),
+      details: 'details',
+      user_id: 1,
+    });
   });
   test('TEST addExperiences without id for update', async () => {
-    await addExperiences(
-      {
-        company_name: 'test',
-        designation: 'test',
-        start_date: new Date().toISOString(),
-        end_date: new Date().toISOString(),
-        details: 'details',
-      },
-      1
-    );
+    await addExperiences({
+      company_name: 'test',
+      designation: 'test',
+      start_date: new Date().toISOString(),
+      end_date: new Date().toISOString(),
+      details: 'details',
+      user_id: 1,
+    });
   });
 });
 
@@ -206,38 +200,32 @@ describe('TEST portfolio DB Skill queries', () => {
   });
 
   test('TEST addSkills - update', async () => {
-    await addSkills(
-      {
-        id: 1,
-        skill_name: 'Javascript',
-        skill_category: 'backend',
-        skill_proficiency: 90,
-      },
-      1
-    );
+    await addSkills({
+      id: 1,
+      skill_name: 'Javascript',
+      skill_category: 'backend',
+      skill_proficiency: 90,
+      user_id: 1,
+    });
   });
 
   test('TEST addSkills - create', async () => {
-    await addSkills(
-      {
-        skill_name: 'Javascript',
-        skill_category: 'backend',
-        skill_proficiency: 90,
-      },
-      1
-    );
+    await addSkills({
+      skill_name: 'Javascript',
+      skill_category: 'backend',
+      skill_proficiency: 90,
+      user_id: 1,
+    });
   });
 
   test('TEST deleteSkills', async () => {
-    await deleteSkills(
-      {
-        id: 1,
-        skill_name: 'Javascript',
-        skill_category: 'backend',
-        skill_proficiency: 90,
-      },
-      1
-    );
+    await deleteSkills({
+      id: 1,
+      skill_name: 'Javascript',
+      skill_category: 'backend',
+      skill_proficiency: 90,
+      user_id: 1,
+    });
   });
 });
 
@@ -247,47 +235,41 @@ describe('TEST portfolio DB Projects queries', () => {
   });
 
   test('TEST addProjects - update', async () => {
-    await addProjects(
-      {
-        id: 1,
-        project_name: 'Javascript',
-        project_description: 'backend',
-        github_url: '',
-        web_url: '',
-        play_store_url: '',
-        technology_tags: [],
-      },
-      1
-    );
+    await addProjects({
+      id: 1,
+      project_name: 'Javascript',
+      project_description: 'backend',
+      github_url: '',
+      web_url: '',
+      play_store_url: '',
+      technology_tags: [],
+      user_id: 1,
+    });
   });
 
   test('TEST addProjects - create', async () => {
-    await addProjects(
-      {
-        project_name: 'Javascript',
-        project_description: 'backend',
-        github_url: '',
-        web_url: '',
-        play_store_url: '',
-        technology_tags: [],
-      },
-      1
-    );
+    await addProjects({
+      project_name: 'Javascript',
+      project_description: 'backend',
+      github_url: '',
+      web_url: '',
+      play_store_url: '',
+      technology_tags: [],
+      user_id: 1,
+    });
   });
 
   test('TEST deleteProjects', async () => {
-    await deleteProjects(
-      {
-        id: 1,
-        project_name: 'Javascript',
-        project_description: 'backend',
-        github_url: '',
-        web_url: '',
-        play_store_url: '',
-        technology_tags: [],
-      },
-      1
-    );
+    await deleteProjects({
+      id: 1,
+      project_name: 'Javascript',
+      project_description: 'backend',
+      github_url: '',
+      web_url: '',
+      play_store_url: '',
+      technology_tags: [],
+      user_id: 1,
+    });
   });
 });
 
@@ -297,44 +279,38 @@ describe('TEST portfolio DB Education queries', () => {
   });
 
   test('TEST addEducations - update', async () => {
-    await addEducations(
-      {
-        id: 1,
-        institute_name: '',
-        degree_name: '',
-        start_date: '',
-        end_date: '',
-        score: 90,
-      },
-      1
-    );
+    await addEducations({
+      id: 1,
+      institute_name: '',
+      degree_name: '',
+      start_date: '',
+      end_date: '',
+      score: 90,
+      user_id: 1,
+    });
   });
 
   test('TEST addEducations - create', async () => {
-    await addEducations(
-      {
-        institute_name: '',
-        degree_name: '',
-        start_date: '',
-        end_date: '',
-        score: 90,
-      },
-      1
-    );
+    await addEducations({
+      institute_name: '',
+      degree_name: '',
+      start_date: '',
+      end_date: '',
+      score: 90,
+      user_id: 1,
+    });
   });
 
   test('TEST deleteEducations', async () => {
-    await deleteEducations(
-      {
-        id: 1,
-        institute_name: '',
-        degree_name: '',
-        start_date: '',
-        end_date: '',
-        score: 90,
-      },
-      1
-    );
+    await deleteEducations({
+      id: 1,
+      institute_name: '',
+      degree_name: '',
+      start_date: '',
+      end_date: '',
+      score: 90,
+      user_id: 1,
+    });
   });
 });
 
@@ -344,49 +320,43 @@ describe('TEST portfolio DB Certificate queries', () => {
   });
 
   test('TEST addCertificates - update', async () => {
-    await addCertificates(
-      {
-        id: 1,
-        certificate_name: '',
-        certificate_description: '',
-        certification_authority: '',
-        certification_date: '',
-        certification_expiry: '',
-        verification_url: '',
-        technology_tags: [''],
-      },
-      1
-    );
+    await addCertificates({
+      id: 1,
+      certificate_name: '',
+      certificate_description: '',
+      certification_authority: '',
+      certification_date: '',
+      certification_expiry: '',
+      verification_url: '',
+      technology_tags: [''],
+      user_id: 1,
+    });
   });
 
   test('TEST addCertificates - create', async () => {
-    await addCertificates(
-      {
-        certificate_name: '',
-        certificate_description: '',
-        certification_authority: '',
-        certification_date: '',
-        certification_expiry: '',
-        verification_url: '',
-        technology_tags: [''],
-      },
-      1
-    );
+    await addCertificates({
+      certificate_name: '',
+      certificate_description: '',
+      certification_authority: '',
+      certification_date: '',
+      certification_expiry: '',
+      verification_url: '',
+      technology_tags: [''],
+      user_id: 1,
+    });
   });
 
   test('TEST deleteCertificates', async () => {
-    await deleteCertificates(
-      {
-        id: 1,
-        certificate_name: '',
-        certificate_description: '',
-        certification_authority: '',
-        certification_date: '',
-        certification_expiry: '',
-        verification_url: '',
-        technology_tags: [''],
-      },
-      1
-    );
+    await deleteCertificates({
+      id: 1,
+      certificate_name: '',
+      certificate_description: '',
+      certification_authority: '',
+      certification_date: '',
+      certification_expiry: '',
+      verification_url: '',
+      technology_tags: [''],
+      user_id: 1,
+    });
   });
 });

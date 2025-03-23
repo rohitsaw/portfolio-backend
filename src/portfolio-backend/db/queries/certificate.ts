@@ -10,16 +10,16 @@ const schemaname: string = DB.portfolio_backend;
 
 const getAllCertificates = async (user_id: number): Promise<Certificate[]> => {
   const query = `select * from ${schemaname}.certificates where user_id = :user_id order by certification_date desc`;
-  const res = await psql.query(query, {
+  const res = await psql.query<Certificate>(query, {
     type: QueryTypes.SELECT,
     replacements: {
       user_id,
     },
   });
-  return res as Certificate[];
+  return res;
 };
 
-const addCertificates = async (certificate: Certificate, user_id: number) => {
+const addCertificates = async (certificate: Certificate) => {
   if (certificate.id) {
     const query = `
       update ${schemaname}.certificates set
@@ -43,20 +43,17 @@ const addCertificates = async (certificate: Certificate, user_id: number) => {
         certification_expiry: certificate.certification_expiry,
         verification_url: certificate.verification_url,
         technology_tags: certificate.technology_tags,
-        user_id: user_id,
+        user_id: certificate.user_id,
       },
     });
   } else {
-    return psql.models.certificates.create({ ...certificate, user_id });
+    return psql.models.certificates.create({ ...certificate });
   }
 };
 
-const deleteCertificates = async (
-  certificate: Certificate,
-  user_id: number
-) => {
+const deleteCertificates = async (certificate: Certificate) => {
   return psql.models.certificates.destroy({
-    where: { id: certificate.id, user_id },
+    where: { id: certificate.id, user_id: certificate.user_id },
   });
 };
 

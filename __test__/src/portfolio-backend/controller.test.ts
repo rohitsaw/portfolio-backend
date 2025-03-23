@@ -224,7 +224,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await addProjects(req, res);
-    expect(addProjectsInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(addProjectsInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -235,7 +235,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await deleteProjects(req, res);
-    expect(deleteProjectsInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(deleteProjectsInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -246,7 +246,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await addSkills(req, res);
-    expect(addSkillsInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(addSkillsInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -258,7 +258,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await deleteSkills(req, res);
-    expect(deleteSkillsInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(deleteSkillsInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -269,7 +269,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await addCertificates(req, res);
-    expect(addCertificatesInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(addCertificatesInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -281,7 +281,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await deleteCertificates(req, res);
-    expect(deleteCertificatesInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(deleteCertificatesInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -292,7 +292,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await addEducations(req, res);
-    expect(addEducationsInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(addEducationsInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -304,7 +304,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await deleteEducations(req, res);
-    expect(deleteEducationsInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(deleteEducationsInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -315,7 +315,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await addExperiences(req, res);
-    expect(addExperiencesInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(addExperiencesInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -327,7 +327,7 @@ describe('TESTING portfolio-backend controllers', () => {
     } as any as Request;
 
     await deleteExperiences(req, res);
-    expect(deleteExperiencesInDb).toHaveBeenCalledWith(expect.any(Object), 1);
+    expect(deleteExperiencesInDb).toHaveBeenCalledWith({ user_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });

@@ -8,16 +8,16 @@ const schemaname: string = DB.portfolio_backend;
 
 const getAllEducations = async (user_id: number): Promise<Education[]> => {
   const query = `select * from ${schemaname}.education where user_id = :user_id order by end_date desc`;
-  const res = await psql.query(query, {
+  const res = await psql.query<Education>(query, {
     type: QueryTypes.SELECT,
     replacements: {
       user_id: user_id,
     },
   });
-  return res as Education[];
+  return res;
 };
 
-const addEducations = async (education: Education, user_id: number) => {
+const addEducations = async (education: Education) => {
   if (education.id) {
     const query = `
       update ${schemaname}.education set
@@ -36,17 +36,17 @@ const addEducations = async (education: Education, user_id: number) => {
         start_date: education.start_date,
         end_date: education.end_date,
         score: education.score,
-        user_id: user_id,
+        user_id: education.user_id,
       },
     });
   } else {
-    return psql.models.education.create({ ...education, user_id });
+    return psql.models.education.create({ ...education });
   }
 };
 
-const deleteEducations = async (education: Education, user_id: number) => {
+const deleteEducations = async (education: Education) => {
   return psql.models.education.destroy({
-    where: { id: education.id, user_id: user_id },
+    where: { id: education.id, user_id: education.user_id },
   });
 };
 

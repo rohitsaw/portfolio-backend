@@ -8,17 +8,17 @@ const schemaname: string = DB.portfolio_backend;
 
 const getAllProjects = async (user_id: number): Promise<Project[]> => {
   const query = `select * from ${schemaname}.projects where user_id = :user_id order by id desc`;
-  const res = await psql.query(query, {
+  const res = await psql.query<Project>(query, {
     type: QueryTypes.SELECT,
     replacements: {
       user_id,
     },
   });
 
-  return res as Project[];
+  return res;
 };
 
-const addProjects = async (project: Project, user_id: number) => {
+const addProjects = async (project: Project) => {
   if (project.id) {
     const query = `
       update ${schemaname}.projects set
@@ -39,17 +39,17 @@ const addProjects = async (project: Project, user_id: number) => {
         web_url: project.web_url,
         play_store_url: project.play_store_url,
         technology_tags: project.technology_tags,
-        user_id: user_id,
+        user_id: project.user_id,
       },
     });
   } else {
-    return psql.models.projects.create({ ...project, user_id });
+    return psql.models.projects.create({ ...project });
   }
 };
 
-const deleteProjects = async (project: Project, user_id: number) => {
+const deleteProjects = async (project: Project) => {
   return psql.models.projects.destroy({
-    where: { id: project.id, user_id: user_id },
+    where: { id: project.id, user_id: project.user_id },
   });
 };
 

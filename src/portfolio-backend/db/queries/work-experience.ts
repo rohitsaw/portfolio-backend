@@ -10,16 +10,16 @@ const getAllExperiences = async (
   user_id: number
 ): Promise<WorkExperience[]> => {
   const query = `select * from ${schemaname}.work_experiences where user_id = :user_id order by end_date desc`;
-  const res = await psql.query(query, {
+  const res = await psql.query<WorkExperience>(query, {
     type: QueryTypes.SELECT,
     replacements: {
       user_id,
     },
   });
-  return res as WorkExperience[];
+  return res;
 };
 
-const addExperiences = async (experience: WorkExperience, user_id: number) => {
+const addExperiences = async (experience: WorkExperience) => {
   if (experience.id) {
     const query = `
     update ${schemaname}.work_experiences set
@@ -37,20 +37,17 @@ const addExperiences = async (experience: WorkExperience, user_id: number) => {
         start_date: experience.start_date,
         end_date: experience.end_date,
         details: experience.details,
-        user_id: user_id,
+        user_id: experience.user_id,
       },
     });
   } else {
-    return psql.models.work_experiences.create({ ...experience, user_id });
+    return psql.models.work_experiences.create({ ...experience });
   }
 };
 
-const deleteExperiences = async (
-  experience: WorkExperience,
-  user_id: number
-) => {
+const deleteExperiences = async (experience: WorkExperience) => {
   return psql.models.work_experiences.destroy({
-    where: { id: experience.id, user_id },
+    where: { id: experience.id, user_id: experience.user_id },
   });
 };
 
