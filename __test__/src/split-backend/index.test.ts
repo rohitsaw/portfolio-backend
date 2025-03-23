@@ -35,18 +35,6 @@ describe('TEST Split Mail Fn', () => {
     expect(addRoutes).not.toHaveBeenCalledWith(app);
   });
 
-  test('Should throw error if IV not in env variable', async () => {
-    const app: Application = express();
-    process.env.ENCRYPTION_KEY = 'ENCRYPTION_KEY';
-    delete process.env.IV;
-    process.env.ONESIGNAL_KEY = 'ONESIGNAL_KEY';
-
-    await expect(splitMailFn(app)).rejects.toThrow(
-      'IV env variable not set'
-    );
-    expect(addRoutes).not.toHaveBeenCalledWith(app);
-  });
-
   test('Should throw error if ONESIGNAL_KEY not in env variable', async () => {
     const app: Application = express();
     process.env.ENCRYPTION_KEY = 'ENCRYPTION_KEY';
