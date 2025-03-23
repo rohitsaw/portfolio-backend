@@ -15,7 +15,7 @@ import {
   createUser as createUserInDB,
   getAllUsersInGroup as getAllUsersInGroupFromDB,
 } from './db/queries/user.js';
-import { encrypt, decrypt } from './utils/crypto.js';
+import crypto from '../@rsaw409/crypto.js';
 import { send_push_notification } from './utils/send_notification.js';
 import {
   createGroupPayload,
@@ -37,11 +37,15 @@ const createGroup = async (
     }
 
     const response: any = await createGroupInDB(req.body);
-    const inviteId = encrypt(`${response.id}`);
+    const inviteId = crypto.encrypt(`${response.id}`);
     return res.status(200).send({ ...response.dataValues, inviteId });
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(error);
-    return res.status(400).send({ message: error.message });
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -55,7 +59,9 @@ const joinGroup = async (
       throw new Error(`Required Field missing ${requiredFields}`);
     }
 
-    const group_id: number = decrypt(req.body.invite_id) as unknown as number;
+    const group_id: number = crypto.decrypt(
+      req.body.invite_id
+    ) as unknown as number;
 
     const response: any = await getGroupInDB({ group_id: group_id });
 
@@ -63,13 +69,16 @@ const joinGroup = async (
       throw new Error('No Group Found');
     }
 
-    const inviteId = encrypt(`${response.id}`);
+    const inviteId = crypto.encrypt(`${response.id}`);
 
     return res.status(200).send({ ...response, inviteId });
-  } catch (error: any) {
-    logger.error('Something went wrong');
+  } catch (error: unknown) {
     logger.error(error);
-    return res.status(400).send({ message: error.message });
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -85,8 +94,13 @@ const createUser = async (
 
     const response = await createUserInDB(req.body);
     return res.status(200).send(response);
-  } catch (error: any) {
-    return res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 const saveTransaction = async (
@@ -117,8 +131,13 @@ const saveTransaction = async (
       title: req.body.title,
     });
     return res.status(200).send(response);
-  } catch (error: any) {
-    return res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -138,8 +157,13 @@ const savePayment = async (
       title: `INR ${req.body.amount}`,
     });
     return res.status(200).send(response);
-  } catch (error: any) {
-    return res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -172,8 +196,13 @@ const savePayments = async (
       });
     });
     return res.status(200).send(response);
-  } catch (error: any) {
-    return res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -188,8 +217,13 @@ const getAllUsersInGroup = async (
     }
     const response = await getAllUsersInGroupFromDB(req.body);
     return res.status(200).send(response);
-  } catch (error: any) {
-    return res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -204,8 +238,13 @@ const getAllTransactionInGroup = async (
     }
     const response = await getAllTransactionInGroupFromDB(req.body);
     return res.status(200).send(response);
-  } catch (error: any) {
-    return res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -220,8 +259,13 @@ const getOverviewDataInGroup = async (
     }
     const response = await getOverviewDataInGroupFromDb(req.body);
     return res.status(200).send(response);
-  } catch (error: any) {
-    return res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 

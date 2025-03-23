@@ -1,7 +1,6 @@
 import { jest } from '@jest/globals';
 import { Request, Response } from 'express';
 
-
 jest.unstable_mockModule('../../../src/@rsaw409/logger.js', () => {
   return {
     __esModule: true,
@@ -45,10 +44,13 @@ jest.unstable_mockModule(
   }
 );
 
-jest.unstable_mockModule('../../../src/split-backend/utils/crypto.js', () => {
+jest.unstable_mockModule('../../../src/@rsaw409/crypto.js', () => {
   return {
-    encrypt: jest.fn(),
-    decrypt: jest.fn(),
+    __esModule: true,
+    default: {
+      encrypt: jest.fn(),
+      decrypt: jest.fn(),
+    },
   };
 });
 
@@ -79,9 +81,7 @@ const {
   saveTransaction: saveTransactionInDB,
 } = await import('../../../src/split-backend/db/queries/transaction.js');
 
-const { encrypt, decrypt } = await import(
-  '../../../src/split-backend/utils/crypto.js'
-);
+const { default: crypto } = await import('../../../src/@rsaw409/crypto.js');
 
 const { send_push_notification } = await import(
   '../../../src/split-backend/utils/send_notification.js'
@@ -142,7 +142,7 @@ describe('Testing Controllers', () => {
     await createGroup(req, res);
 
     expect(createGroupInDB).toHaveBeenCalledWith({ name: 'test-group' });
-    expect(encrypt).toHaveBeenCalled();
+    expect(crypto.encrypt).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalled();
   });
@@ -167,7 +167,7 @@ describe('Testing Controllers', () => {
       },
     } as any as Request;
 
-    (decrypt as any).mockImplementation(() => 1);
+    (crypto.decrypt as any).mockImplementation(() => 1);
     (getGroupInDB as any).mockImplementation(() => null);
     await joinGroup(req, res);
     expect(getGroupInDB).toHaveBeenCalledWith({ group_id: 1 });
@@ -184,7 +184,7 @@ describe('Testing Controllers', () => {
       },
     } as any as Request;
 
-    (decrypt as any).mockImplementation(() => 1);
+    (crypto.decrypt as any).mockImplementation(() => 1);
     (getGroupInDB as any).mockImplementation(() => {
       return {
         id: 1,

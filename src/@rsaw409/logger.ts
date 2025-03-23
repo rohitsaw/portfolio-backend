@@ -37,11 +37,11 @@ class Logger {
     });
   }
 
-  info(message: string) {
+  info(message) {
     this.#logger.info(message);
   }
 
-  error(message: string) {
+  error(message) {
     this.#logger.error(message);
   }
 

@@ -6,10 +6,6 @@ const main = async (app: Application) => {
     throw new Error(`ENCRYPTION_KEY env variable not set`);
   }
 
-  if (!process.env.IV) {
-    throw new Error(`IV env variable not set`);
-  }
-
   if (!process.env.ONESIGNAL_KEY) {
     throw new Error(`ONESIGNAL_KEY env variable not set`);
   }

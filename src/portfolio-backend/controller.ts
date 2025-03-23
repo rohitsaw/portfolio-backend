@@ -39,8 +39,13 @@ const getAllCertificates = async (req: Request, res: Response) => {
     const certificates = await getAllCertificatesFromDb(user_id);
 
     return res.status(200).send(certificates);
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -50,8 +55,13 @@ const getAllProjects = async (req: Request, res: Response) => {
     const projects = await getAllProjectsFromDb(user_id);
 
     return res.status(200).send(projects);
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -61,8 +71,13 @@ const getAllEducations = async (req: Request, res: Response) => {
     const educations = await getAllEducationsFromDb(user_id);
 
     return res.status(200).send(educations);
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -72,8 +87,13 @@ const getAllExperiences = async (req: Request, res: Response) => {
     const experiences = await getAllExperiencesFromDb(user_id);
 
     return res.status(200).send(experiences);
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -83,8 +103,13 @@ const getAllSkills = async (req: Request, res: Response) => {
     const skills = await getAllSkillsFromDb(user_id);
 
     return res.status(200).send(skills);
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -99,8 +124,13 @@ const getuser = async (req: Request, res: Response) => {
       throw new Error('user not found');
     }
     return res.status(200).send(user);
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -111,8 +141,13 @@ const addProjects = async (req: Request, res: Response) => {
     const result = await addProjectsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -123,8 +158,13 @@ const deleteProjects = async (req: Request, res: Response) => {
     const result = await deleteProjectsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -135,9 +175,13 @@ const addSkills = async (req: Request, res: Response) => {
     const result = await addSkillsInDb(req.body, user_id);
 
     return res.status(200).send(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(error);
-    res.status(400).send({ message: error.message });
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -148,9 +192,13 @@ const deleteSkills = async (req: Request, res: Response) => {
     const result = await deleteSkillsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(error);
-    res.status(400).send({ message: error.message });
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -161,8 +209,13 @@ const addCertificates = async (req: Request, res: Response) => {
     const result = await addCertificatesInDb(req.body, user_id);
 
     return res.status(200).send(result);
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -173,8 +226,13 @@ const deleteCertificates = async (req: Request, res: Response) => {
     const result = await deleteCertificatesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -185,8 +243,13 @@ const addEducations = async (req: Request, res: Response) => {
     const result = await addEducationsInDb(req.body, user_id);
 
     return res.status(200).send(result);
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -197,8 +260,13 @@ const deleteEducations = async (req: Request, res: Response) => {
     const result = await deleteEducationsInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -209,8 +277,13 @@ const addExperiences = async (req: Request, res: Response) => {
     const result = await addExperiencesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -221,8 +294,13 @@ const deleteExperiences = async (req: Request, res: Response) => {
     const result = await deleteExperiencesInDb(req.body, user_id);
 
     return res.status(200).send({ message: result });
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 
@@ -261,8 +339,13 @@ const addOrUpdateUser = async (req: Request, res: Response) => {
     }
 
     return res.status(200).send({ message: result });
-  } catch (error: any) {
-    res.status(400).send({ message: error.message });
+  } catch (error: unknown) {
+    logger.error(error);
+    let message = 'An unknown error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    res.status(400).send({ message: message });
   }
 };
 

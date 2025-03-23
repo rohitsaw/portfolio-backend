@@ -1,8 +1,8 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { decode } from 'base64-arraybuffer';
 
 class SupaBase {
-  #supabase;
+  #supabase: SupabaseClient;
 
   constructor() {
     this.#supabase = createClient(
