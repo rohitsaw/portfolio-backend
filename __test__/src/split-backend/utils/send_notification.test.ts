@@ -1,11 +1,8 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test, beforeEach, expect } from 'vitest';
 
-
-
-jest.unstable_mockModule('node-fetch', () => {
+vi.mock('node-fetch', () => {
   return {
-    __esModule: true,
-    default: jest.fn((url, options) => {
+    default: vi.fn((url, options) => {
       expect(url).toEqual('https://onesignal.com/api/v1/notifications');
       expect(options).toHaveProperty('method', 'POST');
       expect(options).toHaveProperty('headers');
@@ -17,20 +14,17 @@ jest.unstable_mockModule('node-fetch', () => {
     }),
   };
 });
-jest.unstable_mockModule('../../../../src/@rsaw409/logger.js', () => {
+
+vi.mock('../../../../src/@rsaw409/logger.js', () => {
   return {
-    __esModule: true,
     default: {
-      error: jest.fn(),
-      info: jest.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
     },
   };
 });
 
-
-const { send_push_notification } = await import(
-  '../../../../src/split-backend/utils/send_notification.js'
-);
+const { send_push_notification } = await import('../../../../src/split-backend/utils/send_notification.js');
 const { default: fetch } = await import('node-fetch');
 
 describe('SEND NOTIFCATION TEST', () => {

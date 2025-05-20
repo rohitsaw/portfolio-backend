@@ -1,16 +1,13 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test, expect } from 'vitest';
 import express, { Application } from 'express';
 
-jest.unstable_mockModule('../../../src/split-backend/routes.js', () => {
+vi.mock('../../../src/split-backend/routes.js', () => {
   return {
-    __esModule: true,
-    addRoutes: jest.fn(),
+    addRoutes: vi.fn(),
   };
 });
 
-const { default: splitMailFn } = await import(
-  '../../../src/split-backend/index.js'
-);
+const { default: splitMailFn } = await import('../../../src/split-backend/index.js');
 const { addRoutes } = await import('../../../src/split-backend/routes.js');
 
 describe('TEST Split Mail Fn', () => {
@@ -28,10 +25,7 @@ describe('TEST Split Mail Fn', () => {
     delete process.env.ENCRYPTION_KEY;
     process.env.IV = 'IV';
     process.env.ONESIGNAL_KEY = 'ONESIGNAL_KEY';
-
-    await expect(splitMailFn(app)).rejects.toThrow(
-      'ENCRYPTION_KEY env variable not set'
-    );
+    await expect(splitMailFn(app)).rejects.toThrow('ENCRYPTION_KEY env variable not set');
     expect(addRoutes).not.toHaveBeenCalledWith(app);
   });
 
@@ -40,10 +34,7 @@ describe('TEST Split Mail Fn', () => {
     process.env.ENCRYPTION_KEY = 'ENCRYPTION_KEY';
     process.env.IV = 'IV';
     delete process.env.ONESIGNAL_KEY;
-
-    await expect(splitMailFn(app)).rejects.toThrow(
-      'ONESIGNAL_KEY env variable not set'
-    );
+    await expect(splitMailFn(app)).rejects.toThrow('ONESIGNAL_KEY env variable not set');
     expect(addRoutes).not.toHaveBeenCalledWith(app);
   });
 });

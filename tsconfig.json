@@ -5,22 +5,17 @@
     "target": "ES2022",
     "module": "ES2022",
     "composite": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "declaration": true,
     "declarationMap": true,
     "incremental": true,
     "esModuleInterop": true,
-    "types": ["jest", "node", "@types/jest"],
+    "types": ["node", "vitest", "vitest/globals"],
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": false
   },
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
-  },
-  "include": ["./src/**/*"],
-  "exclude": ["__test__", "node_modules"],
-  "types": ["node", "express", "jest"]
+  "include": ["./src/**/*", "./__test__/**/*", "./vitest.config.ts"],
+  "exclude": ["node_modules"]
 }

@@ -1,67 +1,53 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test, beforeEach, expect, Mock } from 'vitest';
 import { Request, Response } from 'express';
 
-jest.unstable_mockModule('../../../src/@rsaw409/logger.js', () => {
+vi.mock('../../../src/@rsaw409/logger.js', () => {
   return {
-    __esModule: true,
     default: {
-      error: jest.fn(),
-      info: jest.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
     },
   };
 });
 
-jest.unstable_mockModule(
-  '../../../src/split-backend/db/queries/group.js',
-  () => {
-    return {
-      createGroup: jest.fn(),
-      getGroup: jest.fn(),
-      getOverviewDataInGroup: jest.fn(),
-    };
-  }
-);
-
-jest.unstable_mockModule(
-  '../../../src/split-backend/db/queries/user.js',
-  () => {
-    return {
-      createUser: jest.fn(),
-      getAllUsersInGroup: jest.fn(),
-    };
-  }
-);
-
-jest.unstable_mockModule(
-  '../../../src/split-backend/db/queries/transaction.js',
-  () => {
-    return {
-      saveTransaction: jest.fn(),
-      savePayment: jest.fn(),
-      savePayments: jest.fn(),
-      getAllTransactionInGroup: jest.fn(),
-    };
-  }
-);
-
-jest.unstable_mockModule('../../../src/@rsaw409/crypto.js', () => {
+vi.mock('../../../src/split-backend/db/queries/group.js', () => {
   return {
-    __esModule: true,
+    createGroup: vi.fn(),
+    getGroup: vi.fn(),
+    getOverviewDataInGroup: vi.fn(),
+  };
+});
+
+vi.mock('../../../src/split-backend/db/queries/user.js', () => {
+  return {
+    createUser: vi.fn(),
+    getAllUsersInGroup: vi.fn(),
+  };
+});
+
+vi.mock('../../../src/split-backend/db/queries/transaction.js', () => {
+  return {
+    saveTransaction: vi.fn(),
+    savePayment: vi.fn(),
+    savePayments: vi.fn(),
+    getAllTransactionInGroup: vi.fn(),
+  };
+});
+
+vi.mock('../../../src/@rsaw409/crypto.js', () => {
+  return {
     default: {
-      encrypt: jest.fn(),
-      decrypt: jest.fn(),
+      encrypt: vi.fn(),
+      decrypt: vi.fn(),
     },
   };
 });
 
-jest.unstable_mockModule(
-  '../../../src/split-backend/utils/send_notification.js',
-  () => {
-    return {
-      send_push_notification: jest.fn(),
-    };
-  }
-);
+vi.mock('../../../src/split-backend/utils/send_notification.js', () => {
+  return {
+    send_push_notification: vi.fn(),
+  };
+});
 
 const {
   createGroup: createGroupInDB,
@@ -82,10 +68,7 @@ const {
 } = await import('../../../src/split-backend/db/queries/transaction.js');
 
 const { default: crypto } = await import('../../../src/@rsaw409/crypto.js');
-
-const { send_push_notification } = await import(
-  '../../../src/split-backend/utils/send_notification.js'
-);
+const { send_push_notification } = await import('../../../src/split-backend/utils/send_notification.js');
 
 const {
   createGroup,
@@ -101,15 +84,15 @@ const {
 
 describe('Testing Controllers', () => {
   let res = {
-    status: jest.fn().mockReturnThis(),
-    send: jest.fn(),
+    status: vi.fn().mockReturnThis(),
+    send: vi.fn(),
   } as any as Response;
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
     res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
     } as any as Response;
   });
 
@@ -117,7 +100,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: {},
     } as any as Request;
-
     await createGroup(req, res);
     expect(createGroupInDB).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
@@ -132,15 +114,13 @@ describe('Testing Controllers', () => {
         name: 'test-group',
       },
     } as any as Request;
-
-    (createGroupInDB as any).mockImplementation(() => {
+    (createGroupInDB as Mock).mockImplementation(() => {
       return {
         id: 1,
         dataValues: {},
       };
     });
     await createGroup(req, res);
-
     expect(createGroupInDB).toHaveBeenCalledWith({ name: 'test-group' });
     expect(crypto.encrypt).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(200);
@@ -151,7 +131,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: {},
     } as any as Request;
-
     await joinGroup(req, res);
     expect(getGroupInDB).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
@@ -166,9 +145,8 @@ describe('Testing Controllers', () => {
         invite_id: '123',
       },
     } as any as Request;
-
-    (crypto.decrypt as any).mockImplementation(() => 1);
-    (getGroupInDB as any).mockImplementation(() => null);
+    (crypto.decrypt as Mock).mockImplementation(() => 1);
+    (getGroupInDB as Mock).mockImplementation(() => null);
     await joinGroup(req, res);
     expect(getGroupInDB).toHaveBeenCalledWith({ group_id: 1 });
     expect(res.status).toHaveBeenCalledWith(400);
@@ -183,9 +161,8 @@ describe('Testing Controllers', () => {
         invite_id: '123',
       },
     } as any as Request;
-
-    (crypto.decrypt as any).mockImplementation(() => 1);
-    (getGroupInDB as any).mockImplementation(() => {
+    (crypto.decrypt as Mock).mockImplementation(() => 1);
+    (getGroupInDB as Mock).mockImplementation(() => {
       return {
         id: 1,
       };
@@ -200,7 +177,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: {},
     } as any as Request;
-
     await createUser(req, res);
     expect(createUserInDB).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
@@ -216,13 +192,11 @@ describe('Testing Controllers', () => {
         group_id: 1,
       },
     } as any as Request;
-
-    (createUserInDB as any).mockImplementation(() => {
+    (createUserInDB as Mock).mockImplementation(() => {
       return {
         id: 1,
       };
     });
-
     await createUser(req, res);
     expect(createUserInDB).toHaveBeenCalledWith({
       name: 'test',
@@ -236,7 +210,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: {},
     } as any as Request;
-
     await getAllUsersInGroup(req, res);
     expect(getAllUsersInGroupFromDB).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
@@ -251,7 +224,6 @@ describe('Testing Controllers', () => {
         group_id: 1,
       },
     } as any as Request;
-
     await getAllUsersInGroup(req, res);
     expect(getAllUsersInGroupFromDB).toHaveBeenCalledWith({ group_id: 1 });
     expect(res.status).toHaveBeenCalledWith(200);
@@ -264,7 +236,6 @@ describe('Testing Controllers', () => {
         group_id: 1,
       },
     } as any as Request;
-
     await getAllTransactionInGroup(req, res);
     expect(getAllTransactionInGroupFromDB).toHaveBeenCalledWith({
       group_id: 1,
@@ -277,7 +248,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: {},
     } as any as Request;
-
     await getAllTransactionInGroup(req, res);
     expect(getAllTransactionInGroupFromDB).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
@@ -292,7 +262,6 @@ describe('Testing Controllers', () => {
         group_id: 1,
       },
     } as any as Request;
-
     await getOverviewDataInGroup(req, res);
     expect(getOverviewDataInGroupFromDb).toHaveBeenCalledWith({
       group_id: 1,
@@ -305,7 +274,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: {},
     } as any as Request;
-
     await getOverviewDataInGroup(req, res);
     expect(getOverviewDataInGroupFromDb).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
@@ -318,7 +286,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: {},
     } as any as Request;
-
     await savePayment(req, res);
     expect(savePaymentInDB).not.toHaveBeenCalled();
     expect(send_push_notification).not.toHaveBeenCalled();
@@ -332,7 +299,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: { from: '1', to: '1', amount: 100 },
     } as any as Request;
-
     await savePayment(req, res);
     expect(savePaymentInDB).toHaveBeenCalledWith({
       from: '1',
@@ -348,7 +314,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: [{}],
     } as any as Request;
-
     await savePayments(req, res);
     expect(savePaymentsInDB).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
@@ -361,7 +326,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: [],
     } as any as Request;
-
     await savePayments(req, res);
     expect(savePaymentsInDB).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
@@ -374,7 +338,6 @@ describe('Testing Controllers', () => {
     let req = {
       body: [{ from: '1', to: '2', amount: 100 }],
     } as any as Request;
-
     await savePayments(req, res);
     expect(savePaymentsInDB).toHaveBeenCalledWith([
       {
@@ -395,7 +358,6 @@ describe('Testing Controllers', () => {
         title: 'test',
       },
     } as any as Request;
-
     await saveTransaction(req, res);
     expect(saveTransactionInDB).not.toHaveBeenCalled();
     expect(send_push_notification).not.toHaveBeenCalled();
@@ -414,7 +376,6 @@ describe('Testing Controllers', () => {
         transactionParts: [{ user_id: 1 }, { user_id: 2, amount: 80 }],
       },
     } as any as Request;
-
     await saveTransaction(req, res);
     expect(saveTransactionInDB).not.toHaveBeenCalled();
     expect(send_push_notification).not.toHaveBeenCalled();
@@ -436,7 +397,6 @@ describe('Testing Controllers', () => {
         ],
       },
     } as any as Request;
-
     await saveTransaction(req, res);
     expect(saveTransactionInDB).not.toHaveBeenCalled();
     expect(send_push_notification).not.toHaveBeenCalled();
@@ -458,7 +418,6 @@ describe('Testing Controllers', () => {
         ],
       },
     } as any as Request;
-
     await saveTransaction(req, res);
     expect(saveTransactionInDB).toHaveBeenCalled();
     expect(send_push_notification).toHaveBeenCalled();

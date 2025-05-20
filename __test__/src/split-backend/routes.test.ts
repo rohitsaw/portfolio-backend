@@ -1,19 +1,18 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test, beforeEach, expect, Mock } from 'vitest';
 import request from 'supertest';
 import express, { Request, Response } from 'express';
 
-jest.unstable_mockModule('../../../src/split-backend/controller.js', () => {
+vi.mock('../../../src/split-backend/controller.js', () => {
   return {
-    __esModule: true,
-    joinGroup: jest.fn(),
-    createGroup: jest.fn(),
-    createUser: jest.fn(),
-    saveTransaction: jest.fn(),
-    savePayment: jest.fn(),
-    getAllUsersInGroup: jest.fn(),
-    getAllTransactionInGroup: jest.fn(),
-    getOverviewDataInGroup: jest.fn(),
-    savePayments: jest.fn(),
+    joinGroup: vi.fn(),
+    createGroup: vi.fn(),
+    createUser: vi.fn(),
+    saveTransaction: vi.fn(),
+    savePayment: vi.fn(),
+    getAllUsersInGroup: vi.fn(),
+    getAllTransactionInGroup: vi.fn(),
+    getOverviewDataInGroup: vi.fn(),
+    savePayments: vi.fn(),
   };
 });
 
@@ -23,24 +22,21 @@ const { getAllUsersInGroup } = await import(
 
 const { addRoutes } = await import('../../../src/split-backend/routes.js');
 
-describe('TEST split routes', () => {
+describe('TEST routes', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.resetAllMocks();
   });
 
-  test('Should call all middleware', async () => {
-    (
-      getAllUsersInGroup as jest.Mocked<typeof getAllUsersInGroup>
-    ).mockImplementation(async (_req: Request, res: Response) => {
+  test('test express routes - getAllUsers', async () => {
+    (getAllUsersInGroup as Mock).mockImplementation(async (_req: Request, res: Response) => {
       return res.status(200).send([]);
     });
-
     const app = express();
     addRoutes(app);
-
     const response = await request(app).post('/getAllUsersInGroup');
-
     expect(getAllUsersInGroup).toHaveBeenCalled();
     expect(response.status).toBe(200);
   });
+
+  // ...rest of the test cases...
 });

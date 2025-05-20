@@ -34,7 +34,7 @@ const main = async () => {
   // Apply the rate limiting middleware to all requests.
   app.use(limiter);
 
-  app.use(logger.express);
+  app.use(logger.requestLogger);
 
   app.use(cookieParser());
 

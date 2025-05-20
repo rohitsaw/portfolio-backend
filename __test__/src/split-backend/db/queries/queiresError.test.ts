@@ -1,6 +1,6 @@
-import { jest } from '@jest/globals';
+import { vi, expect, describe, test } from 'vitest';
 
-jest.mock('sequelize', () => {
+vi.mock('sequelize', () => {
   return {
     QueryTypes: {
       SELECT: 'SELECT',
@@ -8,22 +8,19 @@ jest.mock('sequelize', () => {
   };
 });
 
-
-jest.unstable_mockModule('../../../../../src/@rsaw409/logger.js', () => {
+vi.mock('../../../../../src/@rsaw409/logger.js', () => {
   return {
-    __esModule: true,
     default: {
-      error: jest.fn(),
-      info: jest.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
     },
   };
 });
 
-jest.unstable_mockModule('../../../../../src/postgres.js', () => {
+vi.mock('../../../../../src/postgres.js', () => {
   return {
-    __esModule: true,
     default: {
-      getSequelize: jest.fn(() => {
+      getSequelize: vi.fn(() => {
         return null;
       }),
       split_backend: 'split_backend',
@@ -32,46 +29,29 @@ jest.unstable_mockModule('../../../../../src/postgres.js', () => {
   };
 });
 
-const { getGroup, createGroup, getOverviewDataInGroup } = await import(
-  '../../../../../src/split-backend/db/queries/group.js'
-);
-
-const { getAllUsersInGroup, createUser } = await import(
-  '../../../../../src/split-backend/db/queries/user.js'
-);
-
-const { saveTransaction, savePayment, getAllTransactionInGroup, savePayments } =
-  await import('../../../../../src/split-backend/db/queries/transaction.js');
+const { getGroup, createGroup, getOverviewDataInGroup } = await import('../../../../../src/split-backend/db/queries/group.js');
+const { getAllUsersInGroup, createUser } = await import('../../../../../src/split-backend/db/queries/user.js');
+const { saveTransaction, savePayment, getAllTransactionInGroup, savePayments } = await import('../../../../../src/split-backend/db/queries/transaction.js');
 
 describe('TEST split-backend queries', () => {
   test('TEST GET Group ', async () => {
-    await expect(getGroup({ group_id: 12 })).rejects.toThrow(
-      'DB not initialized'
-    );
+    await expect(getGroup({ group_id: 12 })).rejects.toThrow('DB not initialized');
   });
 
-  test('TEST  Create Group ', async () => {
-    await expect(createGroup({ name: 'test' })).rejects.toThrow(
-      'DB not initialized'
-    );
+  test('TEST Create Group ', async () => {
+    await expect(createGroup({ name: 'test' })).rejects.toThrow('DB not initialized');
   });
 
   test('TEST getOverviewDataInGroup', async () => {
-    await expect(getOverviewDataInGroup({ group_id: 2 })).rejects.toThrow(
-      'DB not initialized'
-    );
+    await expect(getOverviewDataInGroup({ group_id: 2 })).rejects.toThrow('DB not initialized');
   });
 
   test('TEST getAllUsersInGroup', async () => {
-    await expect(getAllUsersInGroup({ group_id: 1 })).rejects.toThrow(
-      'DB not initialized'
-    );
+    await expect(getAllUsersInGroup({ group_id: 1 })).rejects.toThrow('DB not initialized');
   });
 
   test('TEST createUser', async () => {
-    await expect(createUser({ name: 'test', group_id: 1 })).rejects.toThrow(
-      'DB not initialized'
-    );
+    await expect(createUser({ name: 'test', group_id: 1 })).rejects.toThrow('DB not initialized');
   });
 
   test('TEST saveTransaction', async () => {
@@ -110,7 +90,7 @@ describe('TEST split-backend queries', () => {
     ).rejects.toThrow('DB not initialized');
   });
 
-  test('TEST savePayments', async () => {
+  test('TEST getAllTransactionInGroup', async () => {
     await expect(
       getAllTransactionInGroup({
         group_id: 1,

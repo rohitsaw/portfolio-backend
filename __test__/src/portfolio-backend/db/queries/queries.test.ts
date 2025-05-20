@@ -1,6 +1,6 @@
-import { jest } from '@jest/globals';
+import { vi, expect, describe, test } from 'vitest';
 
-jest.mock('sequelize', () => {
+vi.mock('sequelize', () => {
   return {
     QueryTypes: {
       SELECT: 'SELECT',
@@ -8,27 +8,26 @@ jest.mock('sequelize', () => {
   };
 });
 
-jest.unstable_mockModule('../../../../../src/postgres.js', () => {
+vi.mock('../../../../../src/postgres.js', () => {
   return {
-    __esModule: true,
     default: {
-      getSequelize: jest.fn(() => {
+      getSequelize: vi.fn(() => {
         return {
           models: {
             users: {
-              findOrCreate: jest.fn(() => [{}]),
-              findOne: jest.fn(() => {
+              findOrCreate: vi.fn(() => [{}]),
+              findOne: vi.fn(() => {
                 return {
                   name: '',
-                  save: jest.fn(),
+                  save: vi.fn(),
                 };
               }),
             },
             work_experiences: {
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('user_id');
               }),
-              destroy: jest.fn((p) => {
+              destroy: vi.fn((p) => {
                 expect(p).toHaveProperty(
                   'where',
                   expect.objectContaining({ id: expect.any(Number) })
@@ -36,51 +35,51 @@ jest.unstable_mockModule('../../../../../src/postgres.js', () => {
               }),
             },
             skills: {
-              destroy: jest.fn((p) => {
+              destroy: vi.fn((p) => {
                 expect(p).toHaveProperty(
                   'where',
                   expect.objectContaining({ id: expect.any(Number) })
                 );
               }),
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('user_id', expect.any(Number));
               }),
             },
             projects: {
-              destroy: jest.fn((p) => {
+              destroy: vi.fn((p) => {
                 expect(p).toHaveProperty(
                   'where',
                   expect.objectContaining({ id: expect.any(Number) })
                 );
               }),
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('user_id', expect.any(Number));
               }),
             },
             education: {
-              destroy: jest.fn((p) => {
+              destroy: vi.fn((p) => {
                 expect(p).toHaveProperty(
                   'where',
                   expect.objectContaining({ id: expect.any(Number) })
                 );
               }),
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('user_id', expect.any(Number));
               }),
             },
             certificates: {
-              destroy: jest.fn((p) => {
+              destroy: vi.fn((p) => {
                 expect(p).toHaveProperty(
                   'where',
                   expect.objectContaining({ id: expect.any(Number) })
                 );
               }),
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('user_id', expect.any(Number));
               }),
             },
           },
-          query: jest.fn((sql, options) => {
+          query: vi.fn((sql, options) => {
             expect(typeof sql).toEqual('string');
             return [];
           }),

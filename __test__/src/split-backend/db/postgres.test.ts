@@ -1,91 +1,66 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test, beforeEach, expect, Mock } from 'vitest';
 
-jest.mock('sequelize', () => {
+vi.mock('sequelize', () => {
   return {
-    Sequelize: jest.fn((connStr) => {
+    Sequelize: vi.fn((connStr) => {
       expect(connStr).toEqual('tests-postgres');
       return {
-        authenticate: jest.fn(),
-        sync: jest.fn(({ alter, force }) => {
+        authenticate: vi.fn(),
+        sync: vi.fn(({ alter, force }) => {
           expect(alter).toEqual(true);
           expect(force).toEqual(undefined);
         }),
-        query: jest.fn(),
+        query: vi.fn(),
       };
     }),
   };
 });
 
-jest.unstable_mockModule('../../../../src/@rsaw409/logger.js', () => {
+vi.mock('../../../../src/@rsaw409/logger.js', () => {
   return {
-    __esModule: true,
     default: {
-      error: jest.fn(),
-      info: jest.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
     },
   };
 });
 
-jest.unstable_mockModule(
-  '../../../../src/split-backend/db/models/group.js',
-  () => {
-    return {
-      __esModule: true,
-      default: jest.fn(),
-    };
-  }
-);
-jest.unstable_mockModule(
-  '../../../../src/split-backend/db/models/user.js',
-  () => {
-    return {
-      __esModule: true,
-      default: jest.fn(),
-    };
-  }
-);
-jest.unstable_mockModule(
-  '../../../../src/split-backend/db/models/transaction.js',
-  () => {
-    return {
-      __esModule: true,
-      default: jest.fn(),
-    };
-  }
-);
-jest.unstable_mockModule(
-  '../../../../src/split-backend/db/models/transactionPart.js',
-  () => {
-    return {
-      __esModule: true,
-      default: jest.fn(),
-    };
-  }
-);
+vi.mock('../../../../src/split-backend/db/models/group.js', () => {
+  return {
+    default: vi.fn(),
+  };
+});
 
-const { default: initializeSplitDB } = await import(
-  '../../../../src/split-backend/db/postgres.js'
-);
+vi.mock('../../../../src/split-backend/db/models/user.js', () => {
+  return {
+    default: vi.fn(),
+  };
+});
 
+vi.mock('../../../../src/split-backend/db/models/transaction.js', () => {
+  return {
+    default: vi.fn(),
+  };
+});
+
+vi.mock('../../../../src/split-backend/db/models/transactionPart.js', () => {
+  return {
+    default: vi.fn(),
+  };
+});
+
+const { default: initializeSplitDB } = await import('../../../../src/split-backend/db/postgres.js');
 const { Sequelize } = await import('sequelize');
-
-const { default: createGroupModel } = await import(
-  '../../../../src/split-backend/db/models/group.js'
-);
-const { default: createUserModel } = await import(
-  '../../../../src/split-backend/db/models/group.js'
-);
-const { default: createTransactionModel } = await import(
-  '../../../../src/split-backend/db/models/group.js'
-);
-const { default: createTransactionPartModel } = await import(
-  '../../../../src/split-backend/db/models/group.js'
-);
+const { default: createGroupModel } = await import('../../../../src/split-backend/db/models/group.js');
+const { default: createUserModel } = await import('../../../../src/split-backend/db/models/user.js');
+const { default: createTransactionModel } = await import('../../../../src/split-backend/db/models/transaction.js');
+const { default: createTransactionPartModel } = await import('../../../../src/split-backend/db/models/transactionPart.js');
 
 describe('TEST SplitDB initialization', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
+
   test('Should init initializeSplitDB', async () => {
     const ss = new Sequelize('tests-postgres');
     const schemaName = 'test-schema';
@@ -97,12 +72,9 @@ describe('TEST SplitDB initialization', () => {
   });
 
   test('Should log error in initializeSplitDB', async () => {
-    (
-      createTransactionModel as jest.Mocked<typeof createTransactionModel>
-    ).mockImplementation(() => {
+    (createTransactionModel as Mock).mockImplementation(() => {
       throw new Error('Error in creating model');
     });
-
     const ss = new Sequelize('tests-postgres');
     const schemaName = 'test-schema';
     await initializeSplitDB(ss, schemaName);

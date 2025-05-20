@@ -1,53 +1,50 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test } from 'vitest';
 
-jest.unstable_mockModule('http', () => {
+vi.mock('http', () => {
   return {
-    __esModule: true,
-    createServer: jest.fn(() => {
+    createServer: vi.fn(() => {
       return {
-        on: jest.fn(),
-        listen: jest.fn(),
+        on: vi.fn(),
+        listen: vi.fn(),
       };
     }),
-    Server: jest.fn(),
+    Server: vi.fn(),
   };
 });
 
-jest.unstable_mockModule('express', () => {
+vi.mock('express', () => {
   return {
-    __esModule: true,
-    default: jest.fn(() => {
+    default: vi.fn(() => {
       return {
-        use: jest.fn(),
-        set: jest.fn(),
+        use: vi.fn(),
+        set: vi.fn(),
       };
     }),
   };
 });
 
-jest.unstable_mockModule('../src/portfolio-backend/index.js', () => {
+vi.mock('../src/portfolio-backend/index.js', () => {
   return {
-    __esModule: true,
-    default: jest.fn(),
+    default: vi.fn(),
   };
 });
-jest.unstable_mockModule('../src/tic-toe-backend/index.js', () => {
+
+vi.mock('../src/tic-toe-backend/index.js', () => {
   return {
-    __esModule: true,
-    default: jest.fn(),
+    default: vi.fn(),
   };
 });
-jest.unstable_mockModule('../src/split-backend/index.js', () => {
+
+vi.mock('../src/split-backend/index.js', () => {
   return {
-    __esModule: true,
-    default: jest.fn(),
+    default: vi.fn(),
   };
 });
-jest.unstable_mockModule('../src/postgres.js', () => {
+
+vi.mock('../src/postgres.js', () => {
   return {
-    __esModule: true,
     default: {
-      init: jest.fn(),
+      init: vi.fn(),
     },
   };
 });

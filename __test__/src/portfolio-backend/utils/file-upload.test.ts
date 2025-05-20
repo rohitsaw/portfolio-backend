@@ -1,38 +1,32 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test, beforeEach, expect } from 'vitest';
 
-jest.unstable_mockModule('file-type', () => {
+vi.mock('file-type', () => {
   return {
-    fileTypeFromBuffer: jest.fn(),
+    fileTypeFromBuffer: vi.fn(),
   };
 });
 
-jest.unstable_mockModule('../../../../src/@rsaw409/logger.js', () => {
+vi.mock('../../../../src/@rsaw409/logger.js', () => {
   return {
-    __esModule: true,
     default: {
-      error: jest.fn(),
-      info: jest.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
     },
   };
 });
 
-
-const { fileValidation } = await import(
-  '../../../../src/portfolio-backend/utils/file-validation'
-);
-
+const { fileValidation } = await import('../../../../src/portfolio-backend/utils/file-validation');
 const { fileTypeFromBuffer } = await import('file-type');
 
 describe('TEST filevalidation', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   test('Should return if no file found in req', async () => {
     let req = {};
     let res = {};
-    let next = jest.fn();
-
+    let next = vi.fn();
     await fileValidation(req, res, next);
     expect(next).toHaveBeenCalled();
   });
@@ -44,17 +38,15 @@ describe('TEST filevalidation', () => {
       },
     };
     let res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
     };
-    let next = jest.fn();
-
+    let next = vi.fn();
     (fileTypeFromBuffer as any).mockImplementation(() => {
       return {
         mime: 'application/pdf',
       };
     });
-
     await fileValidation(req, res, next);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.send).toHaveBeenCalledWith({ message: expect.any(String) });
@@ -67,17 +59,15 @@ describe('TEST filevalidation', () => {
       },
     };
     let res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
     };
-    let next = jest.fn();
-
+    let next = vi.fn();
     (fileTypeFromBuffer as any).mockImplementation(() => {
       return {
         mime: 'image/png',
       };
     });
-
     await fileValidation(req, res, next);
     expect(next).toHaveBeenCalled();
   });

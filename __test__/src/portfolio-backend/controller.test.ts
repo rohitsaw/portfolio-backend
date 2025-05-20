@@ -1,83 +1,82 @@
-import { jest } from '@jest/globals';
+import { vi, expect, describe, test, beforeEach, Mock } from 'vitest';
 import { Request, Response } from 'express';
 
-jest.unstable_mockModule('../../../src/@rsaw409/logger.js', () => {
+vi.mock('../../../src/@rsaw409/logger.js', () => {
   return {
-    __esModule: true,
     default: {
-      error: jest.fn(),
-      info: jest.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
     },
   };
 });
 
-jest.unstable_mockModule(
+vi.mock(
   '../../../src/portfolio-backend/db/queries/project.js',
   () => {
     return {
-      getAllProjects: jest.fn(),
-      addProjects: jest.fn(),
-      deleteProjects: jest.fn(),
+      getAllProjects: vi.fn(),
+      addProjects: vi.fn(),
+      deleteProjects: vi.fn(),
     };
   }
 );
 
-jest.unstable_mockModule(
+vi.mock(
   '../../../src/portfolio-backend/db/queries/education.js',
   () => {
     return {
-      getAllEducations: jest.fn(),
-      addEducations: jest.fn(),
-      deleteEducations: jest.fn(),
+      getAllEducations: vi.fn(),
+      addEducations: vi.fn(),
+      deleteEducations: vi.fn(),
     };
   }
 );
-jest.unstable_mockModule(
+vi.mock(
   '../../../src/portfolio-backend/db/queries/certificate.js',
   () => {
     return {
-      getAllCertificates: jest.fn(),
-      addCertificates: jest.fn(),
-      deleteCertificates: jest.fn(),
+      getAllCertificates: vi.fn(),
+      addCertificates: vi.fn(),
+      deleteCertificates: vi.fn(),
     };
   }
 );
-jest.unstable_mockModule(
+vi.mock(
   '../../../src/portfolio-backend/db/queries/skill.js',
   () => {
     return {
-      addSkills: jest.fn(),
-      getAllSkills: jest.fn(),
-      deleteSkills: jest.fn(),
+      addSkills: vi.fn(),
+      getAllSkills: vi.fn(),
+      deleteSkills: vi.fn(),
     };
   }
 );
-jest.unstable_mockModule(
+vi.mock(
   '../../../src/portfolio-backend/db/queries/user.js',
   () => {
     return {
-      getuser: jest.fn(),
-      addOrUpdateUser: jest.fn(),
-      getUserIdFromEmail: jest.fn(),
+      getuser: vi.fn(),
+      addOrUpdateUser: vi.fn(),
+      getUserIdFromEmail: vi.fn(),
     };
   }
 );
-jest.unstable_mockModule(
+vi.mock(
   '../../../src/portfolio-backend/db/queries/work-experience.js',
   () => {
     return {
-      getAllExperiences: jest.fn(),
-      addExperiences: jest.fn(),
-      deleteExperiences: jest.fn(),
+      getAllExperiences: vi.fn(),
+      addExperiences: vi.fn(),
+      deleteExperiences: vi.fn(),
     };
   }
 );
 
-jest.unstable_mockModule('../../../src/@rsaw409/supabase.js', () => {
+vi.mock('../../../src/@rsaw409/supabase.js', () => {
   return {
     default: {
-      uploadFileToSupabse: jest.fn(),
-      deleteFileFromSupabase: jest.fn(),
+      uploadFileToSupabse: vi.fn(),
+      deleteFileFromSupabase: vi.fn(),
     },
   };
 });
@@ -143,15 +142,15 @@ const {
 
 describe('TESTING portfolio-backend controllers', () => {
   let res = {
-    status: jest.fn().mockReturnThis(),
-    send: jest.fn(),
+    status: vi.fn().mockReturnThis(),
+    send: vi.fn(),
   } as any as Response;
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
     res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
     } as any as Response;
   });
 
@@ -351,15 +350,15 @@ describe('TESTING portfolio-backend controllers', () => {
 
 describe('TESTING portfolio-backend controller errors', () => {
   let res = {
-    status: jest.fn().mockReturnThis(),
-    send: jest.fn(),
+    status: vi.fn().mockReturnThis(),
+    send: vi.fn(),
   } as any as Response;
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
     res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
     } as any as Response;
   });
 
@@ -368,7 +367,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (getAllCertificatesFromDb as unknown as jest.Mock).mockImplementation(
+    (getAllCertificatesFromDb as Mock).mockImplementation(
       () => {
         throw new Error();
       }
@@ -385,7 +384,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (getAllProjectsFromDb as unknown as jest.Mock).mockImplementation(() => {
+    (getAllProjectsFromDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     getAllProjects(req, res);
@@ -400,7 +399,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (getAllEducationsFromDb as unknown as jest.Mock).mockImplementation(() => {
+    (getAllEducationsFromDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     getAllEducations(req, res);
@@ -415,7 +414,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (getAllExperiencesFromDb as unknown as jest.Mock).mockImplementation(() => {
+    (getAllExperiencesFromDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     getAllExperiences(req, res);
@@ -430,7 +429,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (getAllSkillsFromDb as unknown as jest.Mock).mockImplementation(() => {
+    (getAllSkillsFromDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     getAllSkills(req, res);
@@ -445,7 +444,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (getuserFromDb as unknown as jest.Mock).mockImplementation(() => {
+    (getuserFromDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     getuser(req, res);
@@ -460,7 +459,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (addProjectsInDb as unknown as jest.Mock).mockImplementation(() => {
+    (addProjectsInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     addProjects(req, res);
@@ -475,7 +474,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (deleteProjectsInDb as unknown as jest.Mock).mockImplementation(() => {
+    (deleteProjectsInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     deleteProjects(req, res);
@@ -490,7 +489,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (addSkillsInDb as unknown as jest.Mock).mockImplementation(() => {
+    (addSkillsInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     addSkills(req, res);
@@ -505,7 +504,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (deleteSkillsInDb as unknown as jest.Mock).mockImplementation(() => {
+    (deleteSkillsInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     deleteSkills(req, res);
@@ -519,7 +518,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (addCertificatesInDb as unknown as jest.Mock).mockImplementation(() => {
+    (addCertificatesInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     addCertificates(req, res);
@@ -533,7 +532,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (deleteCertificatesInDb as unknown as jest.Mock).mockImplementation(() => {
+    (deleteCertificatesInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     deleteCertificates(req, res);
@@ -547,7 +546,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (addEducationsInDb as unknown as jest.Mock).mockImplementation(() => {
+    (addEducationsInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     addEducations(req, res);
@@ -561,7 +560,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (deleteEducationsInDb as unknown as jest.Mock).mockImplementation(() => {
+    (deleteEducationsInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     deleteEducations(req, res);
@@ -575,7 +574,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (addExperiencesInDb as unknown as jest.Mock).mockImplementation(() => {
+    (addExperiencesInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     addExperiences(req, res);
@@ -589,7 +588,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (deleteExperiencesInDb as unknown as jest.Mock).mockImplementation(() => {
+    (deleteExperiencesInDb as Mock).mockImplementation(() => {
       throw new Error();
     });
     deleteExperiences(req, res);
@@ -603,7 +602,7 @@ describe('TESTING portfolio-backend controller errors', () => {
       query: {},
       body: {},
     } as any as Request;
-    (addOrUpdateUserInDB as unknown as jest.Mock).mockImplementation(() => {
+    (addOrUpdateUserInDB as Mock).mockImplementation(() => {
       throw new Error();
     });
     addOrUpdateUser(req, res);

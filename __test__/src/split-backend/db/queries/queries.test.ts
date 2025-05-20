@@ -1,6 +1,6 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test, expect } from 'vitest';
 
-jest.mock('sequelize', () => {
+vi.mock('sequelize', () => {
   return {
     QueryTypes: {
       SELECT: 'SELECT',
@@ -8,42 +8,40 @@ jest.mock('sequelize', () => {
   };
 });
 
-jest.unstable_mockModule('../../../../../src/@rsaw409/logger.js', () => {
+vi.mock('../../../../../src/@rsaw409/logger.js', () => {
   return {
-    __esModule: true,
     default: {
-      error: jest.fn(),
-      info: jest.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
     },
   };
 });
 
-jest.unstable_mockModule('../../../../../src/postgres.js', () => {
+vi.mock('../../../../../src/postgres.js', () => {
   return {
-    __esModule: true,
     default: {
-      getSequelize: jest.fn(() => {
+      getSequelize: vi.fn(() => {
         return {
-          transaction: jest.fn((fn: Function) => {
+          transaction: vi.fn((fn: Function) => {
             fn();
           }),
           models: {
             Group: {
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('name');
               }),
-              findOne: jest.fn((p) => {
+              findOne: vi.fn((p) => {
                 expect(p).toHaveProperty('where');
               }),
             },
             User: {
-              findAll: jest.fn((p) => {
+              findAll: vi.fn((p) => {
                 expect(p).toHaveProperty(
                   'where',
                   expect.objectContaining({ group_id: expect.any(Number) })
                 );
               }),
-              findOne: jest.fn((p) => {
+              findOne: vi.fn((p) => {
                 expect(p).toHaveProperty(
                   'where',
                   expect.objectContaining({
@@ -53,13 +51,13 @@ jest.unstable_mockModule('../../../../../src/postgres.js', () => {
                 );
                 return false;
               }),
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('name', expect.any(String));
                 expect(p).toHaveProperty('group_id', expect.any(Number));
               }),
             },
             Transaction: {
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('by', expect.any(Number));
                 expect(p).toHaveProperty('title', expect.any(String));
                 expect(p).toHaveProperty('amount', expect.any(Number));
@@ -71,17 +69,17 @@ jest.unstable_mockModule('../../../../../src/postgres.js', () => {
               }),
             },
             TransactionPart: {
-              create: jest.fn((p) => {
+              create: vi.fn((p) => {
                 expect(p).toHaveProperty('user_id');
                 expect(p).toHaveProperty('amount');
                 expect(p).toHaveProperty('transaction_id');
               }),
-              bulkCreate: jest.fn((p) => {
+              bulkCreate: vi.fn((p) => {
                 expect(p).toEqual(expect.any(Array));
               }),
             },
           },
-          query: jest.fn((sql, options) => {
+          query: vi.fn((sql, options) => {
             expect(typeof sql).toEqual('string');
           }),
         };
@@ -95,20 +93,19 @@ jest.unstable_mockModule('../../../../../src/postgres.js', () => {
 const { getGroup, createGroup, getOverviewDataInGroup } = await import(
   '../../../../../src/split-backend/db/queries/group.js'
 );
-
 const { getAllUsersInGroup, createUser } = await import(
   '../../../../../src/split-backend/db/queries/user.js'
 );
-
-const { saveTransaction, savePayment, getAllTransactionInGroup, savePayments } =
-  await import('../../../../../src/split-backend/db/queries/transaction.js');
+const { saveTransaction, savePayment, getAllTransactionInGroup, savePayments } = await import(
+  '../../../../../src/split-backend/db/queries/transaction.js'
+);
 
 describe('TEST split-backend queries', () => {
   test('TEST GET Group ', async () => {
     await getGroup({ group_id: 12 });
   });
 
-  test('TEST  Create Group ', async () => {
+  test('TEST Create Group ', async () => {
     await createGroup({ name: 'test' });
   });
 

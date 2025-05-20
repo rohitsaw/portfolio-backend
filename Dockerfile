@@ -13,8 +13,11 @@ RUN npm pkg delete scripts.prepare
 # Install dependencies (include HUSKY=0 to disable Husky hooks)
 RUN HUSKY=0 npm install
 
-# Copy the rest of the application code
-COPY . .
+# Copy specific application files and directories
+COPY ./src /app/src
+COPY ./public /app/public
+COPY ./package.json /app/package.json
+COPY ./tsconfig.json /app/tsconfig.json
 
 # Build the app (if you have a build step)
 RUN npm run build

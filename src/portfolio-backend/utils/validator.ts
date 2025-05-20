@@ -24,7 +24,8 @@ const validateUserEmailInQuery = [
     .exists()
     .withMessage('User Email is required')
     .isEmail()
-    .withMessage('User Email must be a valid email'),
+    .withMessage('User Email must be a valid email')
+    .normalizeEmail(),
   errorHandler,
 ];
 

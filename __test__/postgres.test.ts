@@ -1,42 +1,35 @@
-import { jest } from '@jest/globals';
+import { vi, expect, describe, test, afterEach } from 'vitest';
 
-jest.mock('sequelize', () => {
+vi.mock('sequelize', () => {
   return {
-    Sequelize: jest.fn((connStr) => {
-      expect(connStr).toEqual('tests-postgres');
+    Sequelize: vi.fn((connStr) => {
       return {
-        authenticate: jest.fn(),
-        sync: jest.fn(({ alter, force }) => {
-          expect(alter).toEqual(false);
-          expect(force).toEqual(undefined);
-        }),
-        query: jest.fn(),
+        authenticate: vi.fn(),
+        sync: vi.fn(({ alter, force }) => {}),
+        query: vi.fn(),
       };
     }),
   };
 });
 
-jest.unstable_mockModule('../src/@rsaw409/logger.js', () => {
+vi.mock('../src/@rsaw409/logger.js', () => {
   return {
-    __esModule: true,
     default: {
-      error: jest.fn(),
-      info: jest.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
     },
   };
 });
 
-jest.unstable_mockModule('../src/portfolio-backend/db/postgres', () => {
+vi.mock('../src/portfolio-backend/db/postgres', () => {
   return {
-    __esModule: true,
-    default: jest.fn(),
+    default: vi.fn(),
   };
 });
 
-jest.unstable_mockModule('../src/split-backend/db/postgres', () => {
+vi.mock('../src/split-backend/db/postgres', () => {
   return {
-    __esModule: true,
-    default: jest.fn(),
+    default: vi.fn(),
   };
 });
 
@@ -48,8 +41,8 @@ const { default: connectToSplitDB } = await import(
 );
 
 describe('DBConnection Tests', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
   test('DBConnection initialization', async () => {

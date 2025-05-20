@@ -1,10 +1,9 @@
-import { jest } from '@jest/globals';
-
+import { vi, describe, test, beforeEach, expect } from 'vitest';
 import crypto from '../../../src/@rsaw409/crypto.js';
 
 describe('CRYPTO TESTS', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     process.env.ENCRYPTION_KEY = 'tests';
   });
 

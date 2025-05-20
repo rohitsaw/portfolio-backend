@@ -1,20 +1,19 @@
-import { jest } from '@jest/globals';
+import { vi, describe, test } from 'vitest';
 
-jest.unstable_mockModule('@supabase/supabase-js', () => {
+vi.mock('@supabase/supabase-js', () => {
   return {
-    __esModule: true,
-    createClient: jest.fn(() => {
+    createClient: vi.fn(() => {
       return {
         storage: {
-          from: jest.fn(() => {
+          from: vi.fn(() => {
             return {
-              upload: jest.fn(),
-              list: jest.fn(() => {
+              upload: vi.fn(),
+              list: vi.fn(() => {
                 return {
                   data: [],
                 };
               }),
-              remove: jest.fn(),
+              remove: vi.fn(),
             };
           }),
         },
@@ -23,9 +22,9 @@ jest.unstable_mockModule('@supabase/supabase-js', () => {
   };
 });
 
-jest.unstable_mockModule('base64-arraybuffer', () => {
+vi.mock('base64-arraybuffer', () => {
   return {
-    decode: jest.fn(),
+    decode: vi.fn(),
   };
 });
 
@@ -35,7 +34,7 @@ describe('TESTS supabase funtions', () => {
   test('uploadFileToSupabse', async () => {
     const file = {
       buffer: {
-        toString: jest.fn(),
+        toString: vi.fn(),
       },
     } as unknown as Express.Multer.File;
     await supabase.uploadFileToSupabse('dummy/url', file);
