@@ -15,7 +15,6 @@ RUN HUSKY=0 npm install
 
 # Copy specific application files and directories
 COPY ./src /app/src
-COPY ./public /app/public
 COPY ./package.json /app/package.json
 COPY ./tsconfig.json /app/tsconfig.json
 
