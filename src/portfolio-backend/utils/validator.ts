@@ -86,7 +86,7 @@ const validateExperienceInBody = [
   body('company_name').exists().notEmpty(),
   body('designation').exists().notEmpty(),
   body('start_date').exists().notEmpty(),
-  body('end_date').exists().notEmpty(),
+  body('end_date').exists(),
   errorHandler,
 ];
 
